@@ -1,5 +1,5 @@
 # PING
-  El 29 de Noviembre de 1972 salió al mercado el videojuego "Pong", diseñado por Allan Alcorn y distribuido por Atari. Considerado por muchos el primer videojuego de la historia, el Pong,ha llegado hasta nuestros días con exáctamente el mismo diseño que tuvo cuando fue concebido. Con "Ping" pretendemos reconceptualizar este clásico de la industria para adaptarlo a la actualidad sin perder la esencia del mismo.
+ * El 29 de Noviembre de 1972 salió al mercado el videojuego "Pong", diseñado por Allan Alcorn y distribuido por Atari. Considerado por muchos el primer videojuego de la historia, el Pong,ha llegado hasta nuestros días con exáctamente el mismo diseño que tuvo cuando fue concebido. Con "Ping" pretendemos reconceptualizar este clásico de la industria para adaptarlo a la actualidad sin perder la esencia del mismo.*
 # Introduccion
 
 1. **Concepto del juego**  
