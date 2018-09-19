@@ -34,19 +34,21 @@ Interacción con el entorno
 Interacción con la interfaz
 Interacción del entorno con el jugador
 # Interfaz
-Diagrama de flujo de pantallas
-Menú principal
-Menú de pausa
-Menú de guardado/cargar partida
-Interfaz de usuario durante partida
-Interfaz de fin de partida
-Creditos
-Arte
+  Aqui se explican las distintas pantallas que aparecen en "Ping", explicando cada elemento que aparece en la GUI.
+1. Diagrama de flujo de pantallas
+2. Menú principal
+3. Menú de pausa
+4. Menú de guardado/cargar partida
+5. Interfaz de usuario durante partida
+6. Interfaz de fin de partida
+7. Creditos
+
+# Arte
 Estilo
 Concepts
 2D
 3D
-Sonido
+# Sonido
 Música
 FX
 Diálogos
