@@ -1,20 +1,27 @@
 # PING
 
-# Descripción del juego
+29 de noviembre de 1972 sale el pong, uno de los primeros videojuegos que marco un hito para toda una generación. 
+
+# Introduccion
+
+1. Concepto del juego
+  
+2. Características principales
+    
+3. Género
+4. Publico dirigido
+    Ping esta dirigido a todas las generaciones. Creando nostalgia en los mas mayores pero llamando la atencion de las nuevas               generaciones.
+5. Alcance
+    
+  
 
 
-# Concepto del juego
-  El puto pong
-# Características principales
-# Género
-Publico dirigido
-Alcance
-Mecánicas de juego
-Jugabilidad
-Flujo de juego
-Diagrama de flujo
-Introducción al juego
-Jugando
+# Mecánicas de juego
+1. Jugabilidad
+2. Flujo de juego
+  2.1 Diagrama de flujo
+  2.1 Introducción al juego
+  2.2 Jugando
 Fin de partida
 Personajes
 Protagonista
@@ -26,7 +33,7 @@ Interacción con el personaje
 Interacción con el entorno
 Interacción con la interfaz
 Interacción del entorno con el jugador
-Interfaz
+# Interfaz
 Diagrama de flujo de pantallas
 Menú principal
 Menú de pausa
