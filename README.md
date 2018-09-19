@@ -1,2 +1,4 @@
-# Ping
-l
+# PING
+
+# Descripción del juego
+
