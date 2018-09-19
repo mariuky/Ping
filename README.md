@@ -1,18 +1,15 @@
 # PING
-
-29 de noviembre de 1972 sale el pong, uno de los primeros videojuegos que marco un hito para toda una generación. 
-
+  El 29 de Noviembre de 1972 salió al mercado el videojuego "Pong", diseñado por Allan Alcorn y distribuido por Atari. Considerado por muchos el primer videojuego de la historia, el Pong,ha llegado hasta nuestros días con exáctamente el mismo diseño que tuvo cuando fue concebido. Con "Ping" pretendemos reconceptualizar este clásico de la industria para adaptarlo a la actualidad sin perder la esencia del mismo.
 # Introduccion
 
-1. Concepto del juego
-  
-2. Características principales
-    
-3. Género
-4. Publico dirigido
-    Ping esta dirigido a todas las generaciones. Creando nostalgia en los mas mayores pero llamando la atencion de las nuevas               generaciones.
-5. Alcance
-    
+1. **Concepto del juego**
+  El juego se sustenta sobre las mismas bases que el Pong, dos jugadores compiten por sobrepasar el límite lateral del oponente golpeando la pelota con sus palas, las cuales se sitúan en los extremos limítrofes del campo de juego con un rango de movimiento vertical. El juego se va complicando conforme avanza la partida debido a la velocidad en incremento de la pelota así como a los handicaps que se pueden atribuir al oponente para dificultarle el control mediante efectos como controles invertidos, pala rotatoria o tamaño reducido de la misma entre otros. 
+
+2. **Género**
+Arcade para 2 jugadores
+
+3. **Publico objetivo**
+   Ping está dirigido a todos los jugadores que busquen redescubrir uno de los juegos más emblemáticos de la historia con un toque de  modernización con el que ampliar los horizontes jugables del Pong.
   
 
 
@@ -44,11 +41,9 @@ Interacción del entorno con el jugador
 7. Creditos
 
 # Arte
-Estilo
-Concepts
-2D
-3D
+El estilo artístico evoca a los clásicos arcade como Arkanoid. Sobrio y bidimensional pero con una identidad
+definida dando la información necesaria a los jugadores sin llegar a enturbiar el entorno de juego. 
+
 # Sonido
-Música
-FX
-Diálogos
+Tanto música como efectos de sonido pertenecen al género chiptune, característico de las consolas de la década de los 90, en concordancia con el nostálgico estilo visual.
+
