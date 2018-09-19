@@ -2,10 +2,11 @@
 
 # Descripción del juego
 
-Introducción
-Concepto del juego
-Características principales
-Género
+
+# Concepto del juego
+  El puto pong
+# Características principales
+# Género
 Publico dirigido
 Alcance
 Mecánicas de juego
