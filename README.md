@@ -28,19 +28,19 @@ Los jugadores tendrán forma de rectángulo al igual que en el Pong, y contarán
   * Jugando  
        Para iniciar una partida, el jugador tendrá que pulsar el botón Jugar, acto seguido el juego esperará a que ambos jugadores estén      listos. Cuando ámbos jugadores estén preparados, el juego dará comienzo.  
      La partida comenzará tras un breve tiempo en el que ámbos jugadores podrán prepararse, después podrán jugar con normalidad.  
-     La bola comenzará a moverse en una dirección aleatoria y podrá rebotar solo en las paredes superior e inferior, ya que en las            laterales, al colisionar, se sumarán puntos al jugador correspondiente. Tras esta colisión, la bola se trasladará al centro del          campo y acto seguido comenzará a moverse en una dirección aleatoria.  
+     La bola comenzará a moverse en una dirección aleatoria y podrá rebotar solo en las paredes superior e inferior, ya que en las            laterales, al colisionar, se sumarán puntos al jugador correspondiente. Tras colisionar con las paredes laterales, la bola se            trasladará al centro del campo y acto seguido comenzará a moverse en una dirección aleatoria.  
   * Fin de partida  
-       La partida finalizará cuando un jugador logre vencer al otro, lo cual se dará después de que alguien logre alcanzar una                puntuación determinada. La música parará y aparecerá unos botón para volver al menú principal.  
+       La partida finalizará cuando un jugador logre vencer al otro, lo cual se dará después de que alguien logre alcanzar una                puntuación determinada. La música parará y aparecerán unos botones para volver al menú principal y para volver a jugar.  
 
 3. **Control de jugador**  
   El movimiento de los personajes, al igual que el juego original, está limitado a moverse hacia arriba o hacia abajo. Para ello se utilizarán dos teclas (en principio W, S) las cuales servirán para mover al jugador arriba y abajo respectivamente.  
 
 4. **Interacción entre elementos**  
   Las colisiones se producirán de la siguiente manera:  
-Jugador-Bola: La bola se moverá según la posición en la que ha colisionado con el jugador.  
-Jugador-PowerUp: Al colisionar, el powerup desaparece y su efecto se verá reflejado en el jugador.  
-Jugador-Escenario: El jugador no puede atravesar las paredes superior e inferior, así que al colisionar con ellas se para.  
-Bola-Escenario: La bola, al colisionar con las paredes superior e inferior, rebotará. Al hacerlo con las paredes laterales               desaparecerá y aparecerá en el centro del campo.  
+ * Jugador-Bola: La bola se moverá según la posición en la que ha colisionado con el jugador.  
+ * Jugador-PowerUp: Al colisionar, el powerup desaparece y su efecto se verá reflejado en el jugador.  
+ * Jugador-Escenario: El jugador no puede atravesar las paredes superior e inferior, así que al colisionar con ellas se frenará.  
+ * Bola-Escenario: La bola, al colisionar con las paredes superior e inferior, rebotará. Al hacerlo con las paredes laterales               desaparecerá y aparecerá en el centro del campo.  
 
 
 
