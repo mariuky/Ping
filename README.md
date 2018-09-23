@@ -48,32 +48,58 @@ Bola-Escenario: La bola, al colisionar con las paredes superior e inferior, rebo
   Aqui se explican las distintas pantallas que aparecen en "Ping", explicando cada elemento que aparece en la GUI. Se agregan los bocetos de las diferentes pantallas. Estos estan abiertos a cambios si se considera necesario.
 1. **Diagrama de flujo de pantallas**
 
-   Aqui se muestran las pantallas y transiciones de de "Ping".
+      Aqui se muestran las pantallas y transiciones de de "Ping".
 ![diagrama](https://user-images.githubusercontent.com/43405647/45929656-1af21c00-bf55-11e8-8300-f0f32e789c5b.png)
 
 2. **Menú principal**
 
    Boceto del menú principal:
    ![menu](https://user-images.githubusercontent.com/43405647/45929865-e338a380-bf57-11e8-903b-911c6ef1d29a.png)
+   En esta pantalla se encuentran los siguientes elementos:
+    * Boton de jugar, al pulsarlo lleva al menú de jugador.
+    * Botón de créditos, al pulsarlo lleva a la pantalla de créditos
+    * Botón de salir, al pulsarlo te lleva al sistema operativo.
   
 3. **Menú del nombre del jugador**
 
    Boceto del menú del jugador:
    ![jugador](https://user-images.githubusercontent.com/43405647/45929876-fb102780-bf57-11e8-9c6f-0929157dcd1e.png)
-
+   En esta pantalla se encuentran los siguientes elementos:
+    * Espacio para texto para introducir el nombre del jugador
+    * Color, para elegir el color de la raqueta del jugador.
+    * Botón de jugar, al pulsarlo te lleva la pantalla de juego.
+    * Botón de volver, al pulsarlo te lleva la pantalla del menú principal.
+    
 4. **Interfaz de usuario durante partida**
 
    Boceto del la interfaz durante el juego:
+   ![pong](https://user-images.githubusercontent.com/43405647/45929981-4b3bb980-bf59-11e8-9fac-06adec54a390.png)
+   En esta pantalla se encuentran los siguientes elementos:
+    1. Nombre del jugador 1.
+    2. Nombre del jugador 2.
+    3. Power-ups del jugador 1.
+    4. Power-ups del jugador 2.
+    5. Puntuación.
+    6. Raqueta del jugador 1.
+    7. Raqueta del jugador 2.
+    8. Power-up.
+    9. Pelota.
+
 
 5. **Interfaz de fin de partida**
 
    Boceto de la pantalla de fin de partida:
    ![fin](https://user-images.githubusercontent.com/43405647/45929886-2135c780-bf58-11e8-85eb-e22c3f12d175.png)
-
+   En esta pantalla se encuentran los siguientes elementos:
+    * Botón de volver a jugar, al pulsarlo te lleva la pantalla de juego.
+    * Botón de menú principal, al pulsarlo te lleva la pantalla del menú principal.
 6. **Creditos**
 
    Boceto de la pantalla de creditos:
    ![creditos](https://user-images.githubusercontent.com/43405647/45929882-1418d880-bf58-11e8-98d8-f328adcee8d2.png)
+   En esta pantalla se encuentran los siguientes elementos:
+    * Panel, con los nombres del los desarrolladores.
+    * Botón de vovler, al pulsarlo te lleva la pantalla del menú principal.
 
 
 # Arte  
