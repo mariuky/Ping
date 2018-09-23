@@ -45,14 +45,31 @@ Bola-Escenario: La bola, al colisionar con las paredes superior e inferior, rebo
 
 
 # Interfaz
-  Aqui se explican las distintas pantallas que aparecen en "Ping", explicando cada elemento que aparece en la GUI.
-1. Diagrama de flujo de pantallas
-2. Menú principal
-3. Menú de pausa
-4. Menú de guardado/cargar partida
-5. Interfaz de usuario durante partida
-6. Interfaz de fin de partida
-7. Creditos
+  Aqui se explican las distintas pantallas que aparecen en "Ping", explicando cada elemento que aparece en la GUI. Se agregan los bocetos de las diferentes pantallas. Estos estan abiertos a cambios si se considera necesario.
+1. **Diagrama de flujo de pantallas**
+
+  Aqui se muestran las pantallas y transiciones de de "Ping".
+![diagrama](https://user-images.githubusercontent.com/43405647/45929656-1af21c00-bf55-11e8-8300-f0f32e789c5b.png)
+
+2. **Menú principal**
+
+   Boceto del menú principal:
+  
+3. **Menú del nombre del jugador**
+
+   Boceto del menú del jugador:
+
+4. **Interfaz de usuario durante partida**
+
+   Boceto del la interfaz durante el juego:
+
+5. **Interfaz de fin de partida**
+
+   Boceto de la pantalla de fin de partida:
+
+6. **Creditos**
+
+   Boceto de la pantalla de creditos:
 
 # Arte  
 El estilo artístico evoca a los clásicos arcade como Arkanoid. Sobrio y bidimensional pero con una identidad
