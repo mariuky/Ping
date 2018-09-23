@@ -45,10 +45,10 @@ Bola-Escenario: La bola, al colisionar con las paredes superior e inferior, rebo
 
 
 # Interfaz
-  Aqui se explican las distintas pantallas que aparecen en "Ping", explicando cada elemento que aparece en la GUI. Se agregan los bocetos de las diferentes pantallas. Estos estan abiertos a cambios si se considera necesario.
+  Aquí se explican las distintas pantallas que aparecen en "Ping", explicando cada elemento que aparece en la GUI. Se agregan los bocetos de las diferentes pantallas. Estos estan abiertos a cambios si se considera necesario.
 1. **Diagrama de flujo de pantallas**
 
-      Aqui se muestran las pantallas y transiciones de de "Ping".
+      Aquí se muestran las pantallas y transiciones de "Ping".
 ![diagrama](https://user-images.githubusercontent.com/43405647/45929656-1af21c00-bf55-11e8-8300-f0f32e789c5b.png)
 
 2. **Menú principal**
@@ -56,8 +56,8 @@ Bola-Escenario: La bola, al colisionar con las paredes superior e inferior, rebo
    Boceto del menú principal:
    ![menu](https://user-images.githubusercontent.com/43405647/45929865-e338a380-bf57-11e8-903b-911c6ef1d29a.png)
    En esta pantalla se encuentran los siguientes elementos:
-    * Boton de jugar, al pulsarlo lleva al menú de jugador.
-    * Botón de créditos, al pulsarlo lleva a la pantalla de créditos
+    * Botón de jugar, al pulsarlo te lleva al menú de jugador.
+    * Botón de créditos, al pulsarlo te lleva a la pantalla de créditos
     * Botón de salir, al pulsarlo te lleva al sistema operativo.
   
 3. **Menú del nombre del jugador**
@@ -65,7 +65,7 @@ Bola-Escenario: La bola, al colisionar con las paredes superior e inferior, rebo
    Boceto del menú del jugador:
    ![jugador](https://user-images.githubusercontent.com/43405647/45929876-fb102780-bf57-11e8-9c6f-0929157dcd1e.png)
    En esta pantalla se encuentran los siguientes elementos:
-    * Espacio para texto para introducir el nombre del jugador
+    * Espacio para texto, para introducir el nombre del jugador
     * Color, para elegir el color de la raqueta del jugador.
     * Botón de jugar, al pulsarlo te lleva la pantalla de juego.
     * Botón de volver, al pulsarlo te lleva la pantalla del menú principal.
