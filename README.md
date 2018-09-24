@@ -44,7 +44,7 @@ Los jugadores tendrán forma de rectángulo al igual que en el Pong, y contarán
 5. **Power Ups!**  
 Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectados físicamente por el impacto de la bola y cuentan con un tiempo X que al llegar a 0 hace efectivo el power up para el jugador que haya conseguido acercarlo más al límite del oponente (si acaba en el campo derecho quien recibirá la ventaja será el jugador izquierdo).Todos los Power Ups duran un tiempo limitado.  
 
-Tipos de Power Ups:
+   Tipos de Power Ups:
 
  **Positivos**
  * Aumento del tamaño de la barra.
