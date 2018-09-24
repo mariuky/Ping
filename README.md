@@ -109,3 +109,8 @@ definida dando la información necesaria a los jugadores sin llegar a enturbiar 
 # Sonido  
 Tanto música como efectos de sonido pertenecen al género chiptune, característico de las consolas de la década de los 90, en concordancia con el nostálgico estilo visual.
 
+#Autoría
+Mario Peña Jiménez m.penaj.2018@alumnos.urjc.es
+Rafael Sauceda Velasco  r.sauceda.2016@alumnos.urjc.es
+Jaime Bárzano Enrique j.barzano.2016@alumnos.urjc.es
+
