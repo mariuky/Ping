@@ -46,16 +46,16 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
 
    Tipos de Power Ups:
 
- **Positivos**
- * Aumento del tamaño de la barra.
- * "Disparo congelante": Tras una cuenta atrás de 5 segundos se dispara un proyectil desde el centro de la raqueta que si impacta al     jugador rival deja su raqueta inmovil durante 1 segundo.
-
- **Negativos**
- * Controles invertidos
- * Velocidad de barra menor
- * Barra giratoria.
- * Visión reducida de la seccion del campo del rival.
- * Obstáculos en el campo de juego.
+   **Positivos**
+   * Aumento del tamaño de la barra.
+   * "Disparo congelante": Tras una cuenta atrás de 5 segundos se dispara un proyectil desde el centro de la raqueta que si impacta al      jugador rival deja su raqueta inmovil durante 1 segundo.
+  
+   **Negativos**
+   * Controles invertidos
+   * Velocidad de barra menor
+   * Barra giratoria.
+   * Visión reducida de la seccion del campo del rival.
+   * Obstáculos en el campo de juego.
 
 
 
