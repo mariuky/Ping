@@ -41,16 +41,16 @@ Los jugadores tendrán forma de rectángulo al igual que en el Pong, y contarán
  * Jugador-PowerUp: Al colisionar, el powerup desaparece y su efecto se verá reflejado en el jugador.  
  * Jugador-Escenario: El jugador no puede atravesar las paredes superior e inferior, así que al colisionar con ellas se frenará.  
  * Bola-Escenario: La bola, al colisionar con las paredes superior e inferior, rebotará. Al hacerlo con las paredes laterales               desaparecerá y aparecerá en el centro del campo.  
-5. **Power Ups!**
-Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectados físicamente por el impacto de la bola y cuentan con un tiempo X que al llegar a 0 hace efectivo el power up para el jugador que haya conseguido acercarlo más al límite del oponente (si acaba en el campo derecho quien recibirá la ventaja será el jugador izquierdo).Todos los Power Ups duran un tiempo limitado. 
+5. **Power Ups!**  
+Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectados físicamente por el impacto de la bola y cuentan con un tiempo X que al llegar a 0 hace efectivo el power up para el jugador que haya conseguido acercarlo más al límite del oponente (si acaba en el campo derecho quien recibirá la ventaja será el jugador izquierdo).Todos los Power Ups duran un tiempo limitado.  
 
 Tipos de Power Ups:
 
-Positivos:
+**Positivos**
 * Aumento del tamaño de la barra.
 * "Disparo congelante": Tras una cuenta atrás de 5 segundos se dispara un proyectil desde el centro de la raqueta que si impacta al jugador rival deja su raqueta inmovil durante 1 segundo.
 
-Negativos:
+**Negativos**
 * Controles invertidos
 * Velocidad de barra menor
 * Barra giratoria.
