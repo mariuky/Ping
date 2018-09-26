@@ -41,7 +41,7 @@ Los jugadores tendrán forma de rectángulo al igual que en el Pong, y contarán
  * Jugador-PowerUp: Al colisionar, el powerup desaparece y su efecto se verá reflejado en el jugador.  
  * Jugador-Escenario: El jugador no puede atravesar las paredes superior e inferior, así que al colisionar con ellas se frenará.  
  * Bola-Escenario: La bola, al colisionar con las paredes superior e inferior, rebotará. Al hacerlo con las paredes laterales               desaparecerá y aparecerá en el centro del campo.  
-5. **Power Ups!**  
+5. **Power Ups**  
 Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectados físicamente por el impacto de la bola y cuentan con un tiempo X que al llegar a 0 hace efectivo el power up para el jugador que haya conseguido acercarlo más al límite del oponente (si acaba en el campo derecho quien recibirá la ventaja será el jugador izquierdo).Todos los Power Ups duran un tiempo limitado.  
 
    Tipos de Power Ups:
@@ -55,8 +55,13 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
    * Velocidad de barra menor
    * Barra giratoria.
    * Visión reducida de la seccion del campo del rival.
-   * Obstáculos en el campo de juego.
-
+   * Obstáculos en el campo de juego.  
+6. **Matchmaking**  
+   Respecto al algoritmo de matchmaking de nuestro juego vamos a incluir las siguientes características:
+ * Se implementará que los jugadores de la partida sean preferiblemente del misma zona, con el fin de que no haya problemas de conexión    que entorpezcan las partidas.
+ * Se implementará un sistema que calcule la habilidad del jugador. Para ello se tendrá en cuenta las partidas ganadas del jugador las      cuales se guardarán en un fichero externo.  
+ 
+   En base a esas dos cosas se crearán las partidas de Ping.
 
 
 # Interfaz
@@ -116,6 +121,9 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
     * Panel, con los nombres del los desarrolladores.
     * Botón de vovler, al pulsarlo te lleva la pantalla del menú principal.
 
+6. **Sistema de comunicación**
+
+   Hemos decidido que no incluiremos chat, ya que en un juego tan frenético como Ping, los jugadores no tendrían tiempo para chatear        entre sí durante la partida, lo cual le restaría importancia a esta función. Sin embargo vamos a incluir un sistema de comunicación      por emoticonos predefinidos, los cuales son más dinámicos y visuales. Los emoticonos aparecerán entre la puntuación y el nombre del      jugador, y cada jugador los podrá activar, en principio, mediante el teclado.
 
 # Arte  
 El estilo artístico evoca a los clásicos arcade como Arkanoid. Sobrio y bidimensional pero con una identidad
