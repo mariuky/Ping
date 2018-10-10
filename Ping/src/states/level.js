@@ -19,6 +19,7 @@ Ping.levelState.prototype = {
     },
 
     update: function() {
+<<<<<<< HEAD
 
     }
 }
@@ -31,6 +32,9 @@ Ping.GameManager = function(game) {
         this.x;
         this.y;
         this.dir;
+=======
+    	
+>>>>>>> b9a57135a45ba120069587da47c15cf81a1429a3
     }
     player.prototype.update = function(){
         if (this.dir = up)
