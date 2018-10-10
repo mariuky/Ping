@@ -1,8 +1,8 @@
-CatCatcher.preloadState = function(game) {
+Ping.preloadState = function(game) {
 
 }
 
-CatCatcher.preloadState.prototype = {
+Ping.preloadState.prototype = {
 
     preload: function() {
         game.load.image('bg', 'assets/images/bg.png');

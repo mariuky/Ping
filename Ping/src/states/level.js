@@ -1,8 +1,10 @@
-CatCatcher.levelState = function(game) {
+Ping.levelState = function(game) {
 
 }
 
-CatCatcher.levelState.prototype = {
+Ping.levelState.prototype = {
+
+
 
     preload: function() {
         
@@ -17,26 +19,65 @@ CatCatcher.levelState.prototype = {
     },
 
     update: function() {
-    	cursors = game.input.keyboard.createCursorKeys();
-		//  Reset the players velocity (movement)
-    	catcher.body.velocity.y = 0;
 
-    	//  Allow the player to jump if they are touching the ground.
-    	if (cursors.up.isDown)
-    	{
-        	catcher.body.velocity.y = -350;
-    	}
-    	if (cursors.down.isDown)
-    	{
-        	catcher.body.velocity.y = 350;
-    	}
-    	if (cursors.right.isDown)
-    	{
-        	catcher.body.velocity.x = 350;
-    	}
-    	if (cursors.left.isDown)
-    	{
-        	catcher.body.velocity.x = -350;
-    	}
     }
+}
+Ping.GameManager = function(game) {
+    this.numplayers = 0;
+    function player(_id,_sprite){
+        
+        this.id = _id;
+        this.sprite = _sprite;
+        this.x;
+        this.y;
+        this.dir;
+    }
+    player.prototype.update = function(){
+        if (this.dir = up)
+            this.sprite.body.velocity.y = 500;
+        if (this.dir = down)
+            this.sprite.body.velocity.y = -500;
+        if (this.dir = none)
+            this.sprite.body.velocity.y = 0;
+    }
+    player.prototype.move = function(_dir){
+        this.dir = _dir;
+    }
+
+
+}
+Ping.GameManager.prototype = {
+    
+    
+    preload: function() {
+        
+    },
+
+
+    create: function() {
+       
+    },
+
+   update: function() {
+        
+    },
+    handleEvents: function (){
+
+        if (this.numplayers >= 1){
+            if(game.input.keyboard.isDown('S'))
+            this.player1.move(down);
+            else if(game.input.keyboard.isDown('W'))
+            this.player1.move(up);
+            else this.player1.move(none);
+      }
+        if (this.numplayers = 2){
+         if(game.input.keyboard.isDown('DOWN'))
+            this.player2.move(down);
+            else if(game.input.keyboard.isDown('UP'))
+            this.player2.move(up);
+            else this.player2.move(none);
+
+     }
+
+   }
 }

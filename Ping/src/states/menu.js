@@ -1,8 +1,8 @@
-CatCatcher.menuState = function(game) {
+Ping.menuState = function(game) {
 
 }
 
-CatCatcher.menuState.prototype = {
+Ping.menuState.prototype = {
 
     preload: function() {
         

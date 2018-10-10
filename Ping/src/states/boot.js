@@ -1,10 +1,10 @@
-var CatCatcher = {}
+var Ping = {}
 
-CatCatcher.bootState = function(game) {
+Ping.bootState = function(game) {
 
 }
 
-CatCatcher.bootState.prototype = {
+Ping.bootState.prototype = {
 
     preload: function() {
         
