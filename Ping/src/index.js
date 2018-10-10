@@ -5,5 +5,6 @@ game.state.add('preloadState', CatCatcher.preloadState)
 game.state.add('menuState', CatCatcher.menuState)
 game.state.add('levelState', CatCatcher.levelState)
 game.state.add('endingState', CatCatcher.endingState)
+game.state.add('creditsState', CatCatcher.creditsState)
   
 game.state.start('bootState')
