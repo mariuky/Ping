@@ -24,30 +24,9 @@ Ping.levelState.prototype = {
     }
 }
 Ping.GameManager = function(game) {
-    var numplayers = 0;
-    
-    function player(_id,_sprite){
-        
-        var id = _id;
-        var sprite = _sprite;
-        var x;
-        var y;
-        var dir;
-    }
-
-    player.prototype.update = function(){
-        if (this.dir = up)
-            this.sprite.body.velocity.y = 500;
-        if (this.dir = down)
-            this.sprite.body.velocity.y = -500;
-        if (this.dir = none)
-            this.sprite.body.velocity.y = 0;
-    }
-    player.prototype.move = function(_dir){
-        this.dir = _dir;
-    }
-
-
+    var numplayers;
+    var players[];
+  
 }
 Ping.GameManager.prototype = {
     
@@ -57,32 +36,27 @@ Ping.GameManager.prototype = {
     },
 
 
-    create: function(_numplayers, _player) {
-       this.numplayers = _numplayers;
-       if (this.numplayers = 1)
-        var player1 = new player;
+    create: function() {
+       this.numplayers = 0;
+
     },
+    addPlayer: function(_player) {
+        this.players[numplayers] = _player;
+        this.numplayers++;    
+
+    },
+
 
    update: function() {
-        
+                var i;
+    for (i = 0; i < this.numplayers; i++) 
+        this.players[i].update();
     },
+    
     handleEvents: function (){
-
-        if (this.numplayers >= 1){
-            if(game.input.keyboard.isDown('S'))
-            this.player1.move(down);
-            else if(game.input.keyboard.isDown('W'))
-            this.player1.move(up);
-            else this.player1.move(none);
-      }
-        if (this.numplayers = 2){
-         if(game.input.keyboard.isDown('DOWN'))
-            this.player2.move(down);
-            else if(game.input.keyboard.isDown('UP'))
-            this.player2.move(up);
-            else this.player2.move(none);
-
-     }
+        var i;
+    for (i = 0; i < this.numplayers; i++) 
+        this.players[i].handleEvents();
 
    }
 }
