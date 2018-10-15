@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-Ping.menuState = function(game) {
 
-=======
-CatCatcher.menuState = function(game) {
->>>>>>> b9a57135a45ba120069587da47c15cf81a1429a3
+Ping.menuState = function(game) {
 }
 
 Ping.menuState.prototype = {

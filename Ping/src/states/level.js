@@ -19,23 +19,22 @@ Ping.levelState.prototype = {
     },
 
     update: function() {
-<<<<<<< HEAD
+
 
     }
 }
 Ping.GameManager = function(game) {
-    this.numplayers = 0;
+    var numplayers = 0;
+    
     function player(_id,_sprite){
         
-        this.id = _id;
-        this.sprite = _sprite;
-        this.x;
-        this.y;
-        this.dir;
-=======
-    	
->>>>>>> b9a57135a45ba120069587da47c15cf81a1429a3
+        var id = _id;
+        var sprite = _sprite;
+        var x;
+        var y;
+        var dir;
     }
+
     player.prototype.update = function(){
         if (this.dir = up)
             this.sprite.body.velocity.y = 500;
@@ -58,8 +57,10 @@ Ping.GameManager.prototype = {
     },
 
 
-    create: function() {
-       
+    create: function(_numplayers, _player) {
+       this.numplayers = _numplayers;
+       if (this.numplayers = 1)
+        var player1 = new player;
     },
 
    update: function() {

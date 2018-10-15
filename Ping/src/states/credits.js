@@ -1,7 +1,7 @@
-CatCatcher.creditsState = function(game) {
+Ping.creditsState = function(game) {
 }
 
-CatCatcher.creditsState.prototype = {
+Ping.creditsState.prototype = {
 
     preload: function() {
         
