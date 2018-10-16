@@ -1,3 +1,4 @@
+
 var Ping = {}
 
 Ping.bootState = function(game) {

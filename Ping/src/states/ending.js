@@ -1,3 +1,4 @@
+
 Ping.endingState = function(game) {
 
 }

@@ -1,23 +1,19 @@
-Ping.player = function(game){
-   
-        var id;
-        var mysprite;
-        var dir;
-}
 
-Ping.player.prototype =  {
+function player(game,sprite,_id){
 
-preload: function() {
+   	Phaser.Sprite.call(this,game,_id*game.world.width,game.world.centerY,sprite,0);
+    game.phisycs.arcade.enable(this);
+    
+    var id = _id;
+    var dir;
+    var upKey;
+    var downKey;
+    var leftKey;
+    var rightKey;
+    this.body.enable = true;
+    this.body.gravity.x = 0;
+    this.body.gravity.y = 0;
 
-    game.load.image('catcher', 'assets/images/catcher.png');
-
-},
-
- create: function(_id,_sprite){
-    this.id = _id;
-    //el sprite se crearia en el menu de eleccion de color de personaje
-    this.mysprite = game.add.sprite(game.world.centerX, game.world.centerY, 'catcher');
-    //this.sprite = _sprite;
     if (this.id = 1){
     upKey = game.input.keyboard.addKey(Phaser.KeyCode.W);
     downKey = game.input.keyboard.addKey(Phaser.KeyCode.S);
@@ -29,20 +25,13 @@ preload: function() {
     downKey = game.input.keyboard.addKey(Phaser.KeyCode.DOWN);
     leftKey = game.input.keyboard.addKey(Phaser.KeyCode.LEFT);
     rightKey = game.input.keyboard.addKey(Phaser.KeyCode.RIGHT);
-                    }
-},
+					}
+}
+player.prototype = Object.create(Phaser.Sprite.prototype);
+player.constructor = player;
 
- update: function(){
+player.prototype.handleEvents = function(){
 
-        if (this.dir = UP)
-            this.sprite.body.velocity.y = 500;
-        if (this.dir = DOWN)
-            this.sprite.body.velocity.y = -500;
-        if (this.dir = NONE)
-            this.sprite.body.velocity.y = 0;
-
-},
-    handleEvents: function(){
     this.dir = NONE;
     if(upKey.isDown)
           this.dir = UP;
@@ -55,7 +44,18 @@ preload: function() {
     
      if(rightKey.isDown)
           this.dir = RIGHT;
-    
-    }
+
+      this.move();
+}
+
+player.prototype.move = function () {
+
+        if (this.dir = UP)
+            this.sprite.body.velocity.y = 500;
+        if (this.dir = DOWN)
+            this.sprite.body.velocity.y = -500;
+        if (this.dir = NONE)
+            this.sprite.body.velocity.y = 0;
 
 }
+module.exports = player;
