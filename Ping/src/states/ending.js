@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> f34ff71924374386c4340166c635b65a79e64ec6
 Ping.endingState = function(game) {
 
 }
