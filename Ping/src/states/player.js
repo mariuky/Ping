@@ -1,4 +1,11 @@
+Ping.player = function(game){
+   
+        var id;
+        var mysprite;
+        var dir;
+}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 
@@ -13,20 +20,21 @@ function create() {
     var paddle = game.add.sprite(game.world.centerX, game.world.centerY, 'catcher');
 =======
 function player(game,sprite,_id){
+=======
+Ping.player.prototype =  {
+>>>>>>> parent of f34ff71... Creado Player en levelstate hasta que podamos introducirlo desde otro js. Actualmente fallla el array de jugadores ya que no está definido
 
-   	Phaser.Sprite.call(this,game,_id*game.world.width,game.world.centerY,sprite,0);
-    game.phisycs.arcade.enable(this);
-    
-    var id = _id;
-    var dir;
-    var upKey;
-    var downKey;
-    var leftKey;
-    var rightKey;
-    this.body.enable = true;
-    this.body.gravity.x = 0;
-    this.body.gravity.y = 0;
+preload: function() {
 
+    game.load.image('catcher', 'assets/images/catcher.png');
+
+},
+
+ create: function(_id,_sprite){
+    this.id = _id;
+    //el sprite se crearia en el menu de eleccion de color de personaje
+    this.mysprite = game.add.sprite(game.world.centerX, game.world.centerY, 'catcher');
+    //this.sprite = _sprite;
     if (this.id = 1){
 >>>>>>> f34ff71924374386c4340166c635b65a79e64ec6
     upKey = game.input.keyboard.addKey(Phaser.KeyCode.W);
@@ -65,13 +73,20 @@ function update() {
     downKey = game.input.keyboard.addKey(Phaser.KeyCode.DOWN);
     leftKey = game.input.keyboard.addKey(Phaser.KeyCode.LEFT);
     rightKey = game.input.keyboard.addKey(Phaser.KeyCode.RIGHT);
-					}
-}
-player.prototype = Object.create(Phaser.Sprite.prototype);
-player.constructor = player;
+                    }
+},
 
-player.prototype.handleEvents = function(){
+ update: function(){
 
+        if (this.dir = UP)
+            this.sprite.body.velocity.y = 500;
+        if (this.dir = DOWN)
+            this.sprite.body.velocity.y = -500;
+        if (this.dir = NONE)
+            this.sprite.body.velocity.y = 0;
+
+},
+    handleEvents: function(){
     this.dir = NONE;
     if(upKey.isDown)
           this.dir = UP;
@@ -84,7 +99,10 @@ player.prototype.handleEvents = function(){
     
      if(rightKey.isDown)
           this.dir = RIGHT;
+    
+    }
 
+<<<<<<< HEAD
       this.move();
 }
 
@@ -100,3 +118,6 @@ player.prototype.move = function () {
 }
 module.exports = player;
 >>>>>>> f34ff71924374386c4340166c635b65a79e64ec6
+=======
+}
+>>>>>>> parent of f34ff71... Creado Player en levelstate hasta que podamos introducirlo desde otro js. Actualmente fallla el array de jugadores ya que no está definido

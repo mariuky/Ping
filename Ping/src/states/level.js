@@ -1,13 +1,15 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 Ping.levelState = function(game) {
 =======
 >>>>>>> f34ff71924374386c4340166c635b65a79e64ec6
 
 
 
+=======
+>>>>>>> parent of f34ff71... Creado Player en levelstate hasta que podamos introducirlo desde otro js. Actualmente fallla el array de jugadores ya que no está definido
 Ping.levelState = function(game) {
-	var gm;
-	var pj;
+
 }
 
 <<<<<<< HEAD
@@ -78,6 +80,7 @@ Ping.GameManager.prototype = {
 
 
     create: function() {
+<<<<<<< HEAD
        
     },
 
@@ -109,95 +112,58 @@ Ping.GameManager.prototype = {
 		gm.addPlayer(pj);
     	//game.add.sprite(0,0,'bg');
     	//game.add.sprite(32,32,'cat');
+=======
+
+    	game.add.sprite(0,0,'bg');
+    	game.add.sprite(16,16,'catcher');
+    	game.add.sprite(32,32,'cat');
+>>>>>>> parent of f34ff71... Creado Player en levelstate hasta que podamos introducirlo desde otro js. Actualmente fallla el array de jugadores ya que no está definido
 		
     },
 
     update: function() {
-    	gm.update();
+
 
     }
 }
-
-gameManager = function(game, _numplayers) {
-    var numplayers = _numplayers;
-    var myplayers = new Array();
-    myplayers = [];
+Ping.GameManager = function(game) {
+    var numplayers;
+    var players[];
+  
 }
-gameManager.constructor = gameManager;
-
-gameManager.prototype = {
+Ping.GameManager.prototype = {
     
-    addPlayer: function(_player) {
-        this.myplayers.push(_player);
-   
+    
+    preload: function() {
+        
+    },
+
+
+    create: function() {
+       this.numplayers = 0;
 
     },
+    addPlayer: function(_player) {
+        this.players[numplayers] = _player;
+        this.numplayers++;    
+
+    },
+
 
    update: function() {
                 var i;
     for (i = 0; i < this.numplayers; i++) 
-        this.myplayers[i].handleEvents();
-    }    
-
-}
-
-function player(game,sprite,_id){
-
-   	Phaser.Sprite.call(this,game,_id*game.world.width,game.world.centerY,sprite,0);
-    game.physics.enable(this,Phaser.Physics.ARCADE);
+        this.players[i].update();
+    },
     
-    var id = _id;
-    var dir;
-    var upKey;
-    var downKey;
-    var leftKey;
-    var rightKey;
-    this.body.enable = true;
-    this.body.gravity.x = 0;
-    this.body.gravity.y = 0;
+    handleEvents: function (){
+        var i;
+    for (i = 0; i < this.numplayers; i++) 
+        this.players[i].handleEvents();
 
-    if (this.id = 1){
-    upKey = game.input.keyboard.addKey(Phaser.KeyCode.W);
-    downKey = game.input.keyboard.addKey(Phaser.KeyCode.S);
-    leftKey = game.input.keyboard.addKey(Phaser.KeyCode.A);
-    rightKey = game.input.keyboard.addKey(Phaser.KeyCode.D);
-                    }
-    if (this.id = 2){
-    upKey = game.input.keyboard.addKey(Phaser.KeyCode.UP);
-    downKey = game.input.keyboard.addKey(Phaser.KeyCode.DOWN);
-    leftKey = game.input.keyboard.addKey(Phaser.KeyCode.LEFT);
-    rightKey = game.input.keyboard.addKey(Phaser.KeyCode.RIGHT);
-					}
-}
-player.prototype = Object.create(Phaser.Sprite.prototype);
-player.constructor = player;
-
-player.prototype.handleEvents = function(){
-
-    this.dir = NONE;
-    if(upKey.isDown)
-          this.dir = UP;
-    
-     if(downKey.isDown)
-          this.dir = DOWN;
-    
-    if(leftKey.isDown)
-          this.dir = LEFT;
-    
-     if(rightKey.isDown)
-          this.dir = RIGHT;
-
-      this.move();
-}
-
-player.prototype.move = function () {
-
-        if (this.dir = UP)
-            this.sprite.body.velocity.y = 500;
-        if (this.dir = DOWN)
-            this.sprite.body.velocity.y = -500;
-        if (this.dir = NONE)
-            this.sprite.body.velocity.y = 0;
-
+<<<<<<< HEAD
 >>>>>>> f34ff71924374386c4340166c635b65a79e64ec6
+=======
+   }
+>>>>>>> parent of f34ff71... Creado Player en levelstate hasta que podamos introducirlo desde otro js. Actualmente fallla el array de jugadores ya que no está definido
 }
