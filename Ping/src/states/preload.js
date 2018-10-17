@@ -1,13 +1,14 @@
-CatCatcher.preloadState = function(game) {
+Ping.preloadState = function(game) {
 
 }
 
-CatCatcher.preloadState.prototype = {
+Ping.preloadState.prototype = {
 
     preload: function() {
         game.load.image('bg', 'assets/images/bg.png');
     	game.load.image('cat', 'assets/images/cat.png');
-    	game.load.image('catcher', 'assets/images/catcher.png');
+        game.load.image('catcher', 'assets/images/catcher.png');
+        game.load.image('pelota', 'assets/images/pelota.png');
     },
 
     create: function() {

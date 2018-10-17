@@ -1,8 +1,8 @@
-CatCatcher.endingState = function(game) {
+Ping.endingState = function(game) {
 
 }
 
-CatCatcher.endingState.prototype = {
+Ping.endingState.prototype = {
 
     preload: function() {
         
