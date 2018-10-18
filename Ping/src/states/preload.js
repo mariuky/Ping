@@ -9,7 +9,15 @@ Ping.preloadState.prototype = {
     	game.load.image('cat', 'assets/images/cat.png');
         game.load.image('catcher', 'assets/images/catcher.png');
         game.load.image('pelota', 'assets/images/pelota.png');
-        game.load.image('raqueta', 'assets/images/raqueta.png');
+        game.load.image('porteria', 'assets/images/porteria.png');
+        game.load.spritesheet('jugar', 'assets/images/jugar_spritesheet.png', 300, 71);
+        game.load.spritesheet('creditos', 'assets/images/creditos_spritesheet.png', 300, 71);
+        game.load.spritesheet('salir', 'assets/images/salir_spritesheet.png', 200, 71);
+        game.load.spritesheet('volver', 'assets/images/volver_spritesheet.png', 300, 71);
+        game.load.spritesheet('blue', 'assets/images/button_blue.png', 70, 70);
+        game.load.spritesheet('yellow', 'assets/images/button_yellow.png', 70, 70);
+        game.load.spritesheet('red', 'assets/images/button_red.png', 70, 70);
+        game.load.spritesheet('green', 'assets/images/button_green.png', 70, 70);
     },
 
     create: function() {
