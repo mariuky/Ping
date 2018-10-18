@@ -8,14 +8,15 @@
     //prototipo bola
     function ball (){
     	//ball.mySprite es el sprite de phaser, como siempre es el mismo lo determinamos desde aqui y añadimos las caracteristicas fisicas
-		this.mySprite = game.add.sprite(game.world.centerX - game.world.centerX*0.5,game.world.centerY, 'cat');
-		game.physics.enable(this.mySprite,Phaser.Physics.ARCADE);
+		this.mySprite = game.add.sprite(game.world.centerX - game.world.centerX*0.5,game.world.centerY, 'pelota');
+        this.mySprite.scale.setTo(0.8, 0.8);
+        game.physics.enable(this.mySprite,Phaser.Physics.ARCADE);
         
         this.mySprite.body.setCircle(25);
-        this.mySprite.body.velocity.setTo(200, 100);
+        this.mySprite.body.velocity.setTo(250, 150);
         this.mySprite.body.collideWorldBounds = true;
         this.mySprite.body.bounce.setTo(1, 1);
-				    }
+	}
 
 	//prototipo jugador
     function pj (_id,_sprite){
@@ -25,12 +26,14 @@
     	this.id = _id;
     //determinamos el input
 	if (this.id == 0){
-	this.mySprite = game.add.sprite(game.world.centerX - game.world.centerX*0.8,game.world.centerY, _sprite);
+	this.mySprite = game.add.sprite(game.world.centerX - game.world.centerX*0.86, game.world.centerY*0.71, _sprite);
+    this.mySprite.scale.setTo(0.5, 0.7);
     this.upKey = game.input.keyboard.addKey(Phaser.KeyCode.W);
     this.downKey = game.input.keyboard.addKey(Phaser.KeyCode.S);
                         }
     if (this.id == 1){
-    this.mySprite = game.add.sprite(game.world.centerX + game.world.centerX*0.8,game.world.centerY, _sprite);
+    this.mySprite = game.add.sprite(game.world.centerX + game.world.centerX*0.8, game.world.centerY*0.71, _sprite);
+    this.mySprite.scale.setTo(0.5, 0.7);
     this.upKey = game.input.keyboard.addKey(Phaser.KeyCode.UP);
     this.downKey = game.input.keyboard.addKey(Phaser.KeyCode.DOWN);
     				}
@@ -38,6 +41,7 @@
     //establecemos las propiedades fisicas
     game.physics.enable(this.mySprite,Phaser.Physics.ARCADE);
     this.mySprite.enableBody = true;
+    this.mySprite.body.immovable = true;
     this.mySprite.body.collideWorldBounds = true;
     }
     //funcion del jugador que nos determina si se ha pulsado un boton de movimiento y en funcion de eso cambia la direccion
@@ -98,12 +102,12 @@ Ping.levelState.prototype = {
     
     create: function() {
     	//añadimos a los arrays de jugador y bola sus correspondientes elementos
-        pjs.push(new pj(0,'catcher'));
-        pjs.push(new pj(1,'catcher'));
+        pjs.push(new pj(0,'raqueta'));
+        pjs.push(new pj(1,'raqueta'));
         addBall();
         console.log(balls.length);
 
-        game.stage.backgroundColor = "#000000";
+        game.stage.backgroundColor = "#e39243";
         
     },
 
