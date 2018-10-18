@@ -1,26 +1,12 @@
-
+    var pj1;
+    var pj2;
+    var ball;
 Ping.levelState = function(game) {
+    
 	var gm;
-	var pj;
-
-}
-ball = function(game){
-
-    Phaser.Sprite.call(this,game,game.world.width,game.world.centerY,'pelota',0);
-    this.scale.setTo(0.8, 0.8); //escala el sprite pelota (por debajo de 1, si no se ve borrosa)
-    //Fisicas pelota:
-    game.physics.enable(this,Phaser.Physics.ARCADE);
-    this.body.setCircle(25);
-    this.body.velocity.setTo(200, 100);
-    this.body.collideWorldBounds = true; //para que colisione con el mundo
-    this.body.bounce.setTo(1, 1); //rozamiento al colisionar, (1, 1) es sin rozamiento
-
 
 
 }
-ball.prototype = Object.create(Phaser.Sprite.prototype);
-
-ball.constructor = ball;
 
 Ping.levelState.prototype = {
 
@@ -30,41 +16,122 @@ Ping.levelState.prototype = {
     },
     
     create: function() {
-        gm = new gameManager(game,1);           
+       /* gm = new gameManager(game,1);           
         pj = new player(game,'catcher',0);
-        gm.addPlayer(pj);
+        console.log(pj);
+        gm.addPlayer(pj);*/
+        //game.physics.startSystem(Phaser.Physics.ARCADE);
+
+            this.up1Key = game.input.keyboard.addKey(Phaser.Keyboard.W);
+            this.down1Key = game.input.keyboard.addKey(Phaser.Keyboard.S);
+            this.up2Key = game.input.keyboard.addKey(Phaser.Keyboard.UP);
+            this.down2Key = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+
+        pj1 = game.add.sprite(game.world.centerX - game.world.centerX*0.8,game.world.centerY, 'catcher');
+        console.log(pj1);
+        pj2 = game.add.sprite(game.world.centerX + game.world.centerX*0.8,game.world.centerY, 'catcher');
+        ball = game.add.sprite(game.world.centerX - game.world.centerX*0.5,game.world.centerY, 'cat');
+        game.physics.enable(ball,Phaser.Physics.ARCADE);
+        game.physics.enable(pj1,Phaser.Physics.ARCADE);
+        game.physics.enable(pj2,Phaser.Physics.ARCADE);
+
+        ball.body.setCircle(25);
+        ball.body.velocity.setTo(200, 100);
+        ball.body.collideWorldBounds = true; //para que colisione con el mundo
+        pj1.enableBody = true;
+        pj2.enableBody = true;
+        pj1.body.collideWorldBounds = true;
+        pj2.body.collideWorldBounds = true;
+
+        ball.body.bounce.setTo(1, 1); //rozamiento al colisionar, (1, 1) es sin rozamiento
+
+        //gm.addPelota();
         //game.add.sprite(0,0,'bg');
         //game.add.sprite(32,32,'cat');
-        game.stage.backgroundColor = "#ffff00";
+        game.stage.backgroundColor = "#000000";
         
     },
 
     update: function() {
+
+    game.physics.arcade.collide(pj1,ball);
+    game.physics.arcade.collide(pj2,ball);
+    
+
+
         
-    }
+
+        pj1.body.velocity.x = 0;
+        pj1.body.velocity.y = 0;
+         if (this.up1Key.isDown)
+            pj1.body.velocity.y = -200;
+         if (this.down1Key.isDown)
+            pj1.body.velocity.y = 200;
+
+        pj2.body.velocity.y = 0;
+        pj2.body.velocity.x = 0;
+         if (this.up2Key.isDown)
+            pj2.body.velocity.y = -200;
+         if (this.down2Key.isDown)
+            pj2.body.velocity.y = 200;
+
+       }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+
+ball = function(game){
+
+    Phaser.Sprite.call(this,game,game.world.centerX,game.world.centerY,'pelota',0);
+    this.scale.setTo(0.8, 0.8); //escala el sprite pelota (por debajo de 1, si no se ve borrosa)
+    //Fisicas pelota:
+    game.physics.enable(this,Phaser.Physics.ARCADE);
+    this.body.setCircle(25);
+    this.body.velocity.setTo(200, 100);
+    this.body.collideWorldBounds = true; //para que colisione con el mundo
+    this.body.bounce.setTo(1, 1); //rozamiento al colisionar, (1, 1) es sin rozamiento
+}
+
+ball.prototype = Object.create(Phaser.Sprite.prototype);
+
+ball.constructor = ball;
+
 
 gameManager = function(game, _numplayers) {
     var myGame = game;
     var numplayers = _numplayers;
-    var myplayers = new Array();
-    myplayers = [];
+    var myplayers = [];
     var pelota;
 }
+
 gameManager.constructor = gameManager;
 
 gameManager.prototype = {
     
     addPlayer: function(_player) {
+
         this.myplayers.push(_player);
    
 
     },
     addPelota: function(){
-        pelota = new ball(myGame)
+        pelota = new ball(this.myGame)
 
-    }
+    },
    update: function() {
                 var i;
     for (i = 0; i < this.numplayers; i++) 
@@ -132,4 +199,4 @@ player.prototype.move = function () {
             this.sprite.body.velocity.y = -500;
         if (this.dir = NONE)
             this.sprite.body.velocity.y = 0;
-    }
+    }*/
