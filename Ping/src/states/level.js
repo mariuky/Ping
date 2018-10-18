@@ -1,10 +1,91 @@
-    var pj1;
-    var pj2;
-    var ball;
-Ping.levelState = function(game) {
-    
-	var gm;
+    //array de jugadores
+    var pjs = [];
+    var powerUps = [];
+    var lastTouchId;
+    //array de pelotas
+    var balls = [];
 
+    //prototipo bola
+    function ball (){
+    	//ball.mySprite es el sprite de phaser, como siempre es el mismo lo determinamos desde aqui y añadimos las caracteristicas fisicas
+		this.mySprite = game.add.sprite(game.world.centerX - game.world.centerX*0.5,game.world.centerY, 'cat');
+		game.physics.enable(this.mySprite,Phaser.Physics.ARCADE);
+        
+        this.mySprite.body.setCircle(25);
+        this.mySprite.body.velocity.setTo(200, 100);
+        this.mySprite.body.collideWorldBounds = true;
+        this.mySprite.body.bounce.setTo(1, 1);
+				    }
+
+	//prototipo jugador
+    function pj (_id,_sprite){
+    
+    //el jugador tiene una direccion y un id gracias al cual se determina que input tiene
+    	this.dir = "NONE";
+    	this.id = _id;
+    //determinamos el input
+	if (this.id == 0){
+	this.mySprite = game.add.sprite(game.world.centerX - game.world.centerX*0.8,game.world.centerY, _sprite);
+    this.upKey = game.input.keyboard.addKey(Phaser.KeyCode.W);
+    this.downKey = game.input.keyboard.addKey(Phaser.KeyCode.S);
+                        }
+    if (this.id == 1){
+    this.mySprite = game.add.sprite(game.world.centerX + game.world.centerX*0.8,game.world.centerY, _sprite);
+    this.upKey = game.input.keyboard.addKey(Phaser.KeyCode.UP);
+    this.downKey = game.input.keyboard.addKey(Phaser.KeyCode.DOWN);
+    				}
+
+    //establecemos las propiedades fisicas
+    game.physics.enable(this.mySprite,Phaser.Physics.ARCADE);
+    this.mySprite.enableBody = true;
+    this.mySprite.body.collideWorldBounds = true;
+    }
+    //funcion del jugador que nos determina si se ha pulsado un boton de movimiento y en funcion de eso cambia la direccion
+	pj.prototype.handleEvents = function(){
+
+    this.dir = "NONE";
+
+    if(this.upKey.isDown)
+          this.dir = "UP";
+    if(this.downKey.isDown)
+          this.dir = "DOWN";
+    
+    this.move();
+	}
+	//funcion del jugador que aplica la direccion actual para mover al mismo
+	pj.prototype.move = function () {
+
+        if (this.dir == "UP")
+            this.mySprite.body.velocity.y = -500;  
+        if (this.dir == "DOWN")
+            this.mySprite.body.velocity.y = 500;
+        if (this.dir == "NONE")
+            this.mySprite.body.velocity.y = 0;
+        this.mySprite.body.velocity.x = 0;
+    }
+
+//funcion para añadir una bola al campo de juego
+addBall = function(){
+	balls.push(new ball());
+}
+//revisamos las colisiones
+reviewCollisions = function(){
+	//primero revisamos la colision de la bola con el jugador para poder revisar quien ha sido el ultimo en tocar la bola
+	//En caso de conseguir un powerUp se revisa el quien ha sido el ultimo jugador en tocar la pelota (el que lo consigue)
+    for(var i = 0; i<balls.length;i++){
+    if (game.physics.arcade.collide(pjs[0].mySprite,balls[i].mySprite));
+    lastTouchId = 0;
+    if(game.physics.arcade.collide(pjs[1].mySprite,balls[i].mySprite));
+    lastTouchId = 1;
+    for(var e = 0; e<powerUps.length;e++){
+    game.physics.arcade.collide(balls[i].mySprite,powerUps[i].mySprite);
+    game.physics.arcade.collide(balls[i].mySprite,powerUps[i].mySprite);
+    	}
+	}
+}
+
+
+Ping.levelState = function(game) {
 
 }
 
@@ -16,67 +97,25 @@ Ping.levelState.prototype = {
     },
     
     create: function() {
-       /* gm = new gameManager(game,1);           
-        pj = new player(game,'catcher',0);
-        console.log(pj);
-        gm.addPlayer(pj);*/
-        //game.physics.startSystem(Phaser.Physics.ARCADE);
+    	//añadimos a los arrays de jugador y bola sus correspondientes elementos
+        pjs.push(new pj(0,'catcher'));
+        pjs.push(new pj(1,'catcher'));
+        addBall();
+        console.log(balls.length);
 
-            this.up1Key = game.input.keyboard.addKey(Phaser.Keyboard.W);
-            this.down1Key = game.input.keyboard.addKey(Phaser.Keyboard.S);
-            this.up2Key = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-            this.down2Key = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-
-        pj1 = game.add.sprite(game.world.centerX - game.world.centerX*0.8,game.world.centerY, 'catcher');
-        console.log(pj1);
-        pj2 = game.add.sprite(game.world.centerX + game.world.centerX*0.8,game.world.centerY, 'catcher');
-        ball = game.add.sprite(game.world.centerX - game.world.centerX*0.5,game.world.centerY, 'cat');
-        game.physics.enable(ball,Phaser.Physics.ARCADE);
-        game.physics.enable(pj1,Phaser.Physics.ARCADE);
-        game.physics.enable(pj2,Phaser.Physics.ARCADE);
-
-        ball.body.setCircle(25);
-        ball.body.velocity.setTo(200, 100);
-        ball.body.collideWorldBounds = true; //para que colisione con el mundo
-        pj1.enableBody = true;
-        pj2.enableBody = true;
-        pj1.body.collideWorldBounds = true;
-        pj2.body.collideWorldBounds = true;
-
-        ball.body.bounce.setTo(1, 1); //rozamiento al colisionar, (1, 1) es sin rozamiento
-
-        //gm.addPelota();
-        //game.add.sprite(0,0,'bg');
-        //game.add.sprite(32,32,'cat');
         game.stage.backgroundColor = "#000000";
         
     },
 
     update: function() {
+    //revisamos las colisiones
+    reviewCollisions();
 
-    game.physics.arcade.collide(pj1,ball);
-    game.physics.arcade.collide(pj2,ball);
+    //llamamos al update de nuestros jugadores
+    pjs[0].handleEvents();
+    pjs[1].handleEvents();
     
-
-
-        
-
-        pj1.body.velocity.x = 0;
-        pj1.body.velocity.y = 0;
-         if (this.up1Key.isDown)
-            pj1.body.velocity.y = -200;
-         if (this.down1Key.isDown)
-            pj1.body.velocity.y = 200;
-
-        pj2.body.velocity.y = 0;
-        pj2.body.velocity.x = 0;
-         if (this.up2Key.isDown)
-            pj2.body.velocity.y = -200;
-         if (this.down2Key.isDown)
-            pj2.body.velocity.y = 200;
-
-       }
-    
+    }
 }
 
 
