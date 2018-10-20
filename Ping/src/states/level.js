@@ -10,8 +10,8 @@ var balls = [];
 var porterias = [];
 
 //Puntucion
-var puntos_pj1 = "0";
-var puntos_pj2 = "0";
+//var puntos_pj1 = "0";
+//var puntos_pj2 = "0";
 //tipo de letra
 var style = { font: "30px Arial", fill: "#ff0044", align: "center" };
 
@@ -31,7 +31,28 @@ function porteria (_id){
     //Invisible
     this.mySprite.visible = false;
 }
+function powerUp(id){
+    	this.pjAfected = lastTouchId;
+    	this.id = _id;
+    	if (id == 0)
+    	this.mySprite = game.add.sprite(game.world.centerX ,game.world.centerY, 'cat');
+    	if (id == 0)
+    	this.pTime = 1000;
+    }
+powerUp.prototype.activate = function(){
+    	this.pjAfected = lastTouchId;
+    	if (this.id == 0)
+    		pjs[pjAfected].mySprite.scale.setTo(1,1.5);
+    	SetTimeout(this.deActivate(lastTouchId),pTime);
+    }
+powerUp.prototype.deActivate = function(){
+    	if (this.id == 0)
+    		pjs[pjAfected].mySprite.scale.setTo(1,1);
+    }
 
+function destroyPowerUp(){
+	powerUps.pop();
+}
 //prototipo bola
 function ball (){
     	
@@ -52,18 +73,18 @@ function pj (_id,_sprite){
     //el jugador tiene una direccion y un id gracias al cual se determina que input tiene
     this.dir = "NONE";
     this.id = _id;
-    
+    this.points = 0;
     //determinamos el input
 	if (this.id == 0){
 	    this.mySprite = game.add.sprite(game.world.centerX - game.world.centerX*0.86, game.world.centerY*0.71, _sprite);
-        this.mySprite.scale.setTo(0.5, 0.7);
+        this.mySprite.scale.setTo(0.5, 0.5);
         this.upKey = game.input.keyboard.addKey(Phaser.KeyCode.W);
         this.downKey = game.input.keyboard.addKey(Phaser.KeyCode.S);
     }
     
     if (this.id == 1){
         this.mySprite = game.add.sprite(game.world.centerX + game.world.centerX*0.8, game.world.centerY*0.71, _sprite);
-        this.mySprite.scale.setTo(0.5, 0.7);
+        this.mySprite.scale.setTo(0.5, 0.5);
         this.upKey = game.input.keyboard.addKey(Phaser.KeyCode.UP);
         this.downKey = game.input.keyboard.addKey(Phaser.KeyCode.DOWN);
     }
@@ -114,15 +135,15 @@ reviewCollisions = function(){
         if(game.physics.arcade.collide(pjs[1].mySprite,balls[i].mySprite));
             lastTouchId = 1;
         for(var e = 0; e<powerUps.length;e++){
-            game.physics.arcade.collide(balls[i].mySprite,powerUps[e].mySprite);
-            game.physics.arcade.collide(balls[i].mySprite,powerUps[e].mySprite);
+            game.physics.arcade.collide(balls[i].mySprite,powerUps[e].mySprite, powerUps[e].activate());
+            game.physics.arcade.collide(balls[i].mySprite,powerUps[e].mySprite, powerUps[e].activate());
         }
         if(game.physics.arcade.collide(balls[i].mySprite, porterias[0].mySprite)){
-            puntos_pj2++;
+            pjs[1].points ++;
             reset();
         }
         if(game.physics.arcade.collide(balls[i].mySprite, porterias[1].mySprite)){
-            puntos_pj1++;
+            pjs[0].points ++;
             reset();
         }
     }
@@ -167,9 +188,10 @@ Ping.levelState.prototype = {
         porterias.push(new porteria(0));
         porterias.push(new porteria(1));
         game.stage.backgroundColor = "#e39243";
+        powerUps.push(new powerUp(0));
         //Se crea el texto de las puntuaciones
-        pj1_puntos = game.add.text(10, 10, puntos_pj1, style);
-        pj2_puntos = game.add.text(750, 10, puntos_pj2, style);
+        pj1_puntos = game.add.text(10, 10, pjs[0].points, style);
+        pj2_puntos = game.add.text(750, 10, pjs[1].points, style);
     },
 
     update: function() {
@@ -179,8 +201,8 @@ Ping.levelState.prototype = {
         //Se destruye el texto anterior y se crea uno nuevo
         pj1_puntos.destroy();
         pj2_puntos.destroy();
-        pj1_puntos = game.add.text(10, 10, puntos_pj1, style);
-        pj2_puntos = game.add.text(750, 10, puntos_pj2, style);
+        pj1_puntos = game.add.text(10, 10, pjs[0].points, style);
+        pj2_puntos = game.add.text(750, 10, pjs[1].points, style);
         //llamamos al update de nuestros jugadores
         pjs[0].handleEvents();
         pjs[1].handleEvents();
