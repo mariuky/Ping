@@ -10,8 +10,8 @@ var balls = [];
 var porterias = [];
 
 //Puntucion
-//var puntos_pj1 = "0";
-//var puntos_pj2 = "0";
+var puntos_pj1 = "0";
+var puntos_pj2 = "0";
 //tipo de letra
 var style = { font: "30px Arial", fill: "#ff0044", align: "center" };
 
@@ -31,23 +31,30 @@ function porteria (_id){
     //Invisible
     this.mySprite.visible = false;
 }
-function powerUp(id){
+function powerUp(_id){
     	this.pjAfected = lastTouchId;
+        //Para saber si hay algun power up activo
+        this.active = false;
     	this.id = _id;
-    	if (id == 0)
-    	this.mySprite = game.add.sprite(game.world.centerX ,game.world.centerY, 'cat');
-    	if (id == 0)
-    	this.pTime = 1000;
+    	if (this.id == 0)
+    	   this.mySprite = game.add.sprite(game.rnd.integerInRange(100, 700) ,game.rnd.integerInRange(100, 500), 'cat');
+    	if (this.id == 0)
+    	   this.pTime = 1000;
+        game.physics.enable(this.mySprite,Phaser.Physics.ARCADE);
+        
     }
 powerUp.prototype.activate = function(){
+        this.active=true;
     	this.pjAfected = lastTouchId;
     	if (this.id == 0)
-    		pjs[pjAfected].mySprite.scale.setTo(1,1.5);
-    	SetTimeout(this.deActivate(lastTouchId),pTime);
+    		pjs[this.pjAfected].mySprite.scale.setTo(0.5,1);
+        //desactivar a los 15 segundos
+    	game.time.events.add(Phaser.Timer.SECOND * 15, this.deActivate, this);
     }
 powerUp.prototype.deActivate = function(){
+        this.active=false;
     	if (this.id == 0)
-    		pjs[pjAfected].mySprite.scale.setTo(1,1);
+    		pjs[this.pjAfected].mySprite.scale.setTo(0.5,0.5);
     }
 
 function destroyPowerUp(){
@@ -57,7 +64,7 @@ function destroyPowerUp(){
 function ball (){
     	
     //ball.mySprite es el sprite de phaser, como siempre es el mismo lo determinamos desde aqui y añadimos las caracteristicas fisicas
-	this.mySprite = game.add.sprite(game.world.centerX - game.world.centerX*0.5,game.world.centerY, 'pelota');
+	this.mySprite = game.add.sprite(game.world.centerX,game.world.centerY, 'pelota');
     this.mySprite.scale.setTo(0.8, 0.8);
     game.physics.enable(this.mySprite,Phaser.Physics.ARCADE);
     
@@ -135,8 +142,10 @@ reviewCollisions = function(){
         if(game.physics.arcade.collide(pjs[1].mySprite,balls[i].mySprite));
             lastTouchId = 1;
         for(var e = 0; e<powerUps.length;e++){
-            game.physics.arcade.collide(balls[i].mySprite,powerUps[e].mySprite, powerUps[e].activate());
-            game.physics.arcade.collide(balls[i].mySprite,powerUps[e].mySprite, powerUps[e].activate());
+            if(game.physics.arcade.overlap(balls[i].mySprite,powerUps[e].mySprite)){
+                powerUps[e].activate();
+                powerUps[e].mySprite.destroy();
+            }
         }
         if(game.physics.arcade.collide(balls[i].mySprite, porterias[0].mySprite)){
             pjs[1].points ++;
@@ -149,6 +158,13 @@ reviewCollisions = function(){
     }
 }
 
+//Spawnear power-ups
+spawnTimer = function(){
+    game.time.events.add(Phaser.Timer.SECOND * game.rnd.integerInRange(3, 10), spawnPowerUp, this);
+    }
+spawnPowerUp = function(){
+    powerUps.push(new powerUp(0));
+}
 //Resetea el juego. Lleva la bola al centro y la para
 function reset() {
     for(var i = 0; i<balls.length;i++){
@@ -156,6 +172,12 @@ function reset() {
         balls[i].mySprite.position.setTo(game.world.centerX, game.world.centerY)   
         //En tres segundos va a la funcion go
         game.time.events.add(Phaser.Timer.SECOND * 3, go, this);
+    }
+    //Destruir los powerUps que hay en pantalla y desactivar los activos
+    for(var e = 0; e<powerUps.length;e++){
+        powerUps[e].mySprite.destroy();
+        if(powerUps[e].active)
+            powerUps[e].deActivate();
     }
 }
 //Se pone de nuevo en movimiento la bola
@@ -184,6 +206,7 @@ Ping.levelState.prototype = {
         pjs.push(new pj(0,'raqueta'));
         pjs.push(new pj(1,'raqueta'));
         addBall();
+
         //añadimos las porterias
         porterias.push(new porteria(0));
         porterias.push(new porteria(1));
@@ -192,11 +215,14 @@ Ping.levelState.prototype = {
         //Se crea el texto de las puntuaciones
         pj1_puntos = game.add.text(10, 10, pjs[0].points, style);
         pj2_puntos = game.add.text(750, 10, pjs[1].points, style);
+        //Loop que crea cada cierto tiempo un power up
+        game.time.events.loop(Phaser.Timer.SECOND * game.rnd.integerInRange(10, 30), spawnPowerUp, this);
     },
 
     update: function() {
         //revisamos las colisiones
         reviewCollisions();
+        
 
         //Se destruye el texto anterior y se crea uno nuevo
         pj1_puntos.destroy();
