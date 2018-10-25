@@ -25,9 +25,10 @@ var velocidady = 0;
 
 //prototipo porteria
 function porteria (_id){
+    this.escudo=false;
     //Porteria del jugador 1 o 2
     if(_id == 0){
-        this.mySprite = game.add.sprite(20,0, 'porteria');
+        this.mySprite = game.add.sprite(0,0, 'porteria');
     }else if(_id == 1){
         this.mySprite = game.add.sprite(730,0, 'porteria');
     }
@@ -41,56 +42,82 @@ function powerUp(_id){
     	this.pjAfected = lastTouchId;
         //Para saber si hay algun power up activo
         this.active = false;
-    	this.id = _id;
+        this.id = _id;
     	if (this.id == 0)
     	   this.mySprite = game.add.sprite(game.rnd.integerInRange(100, 700) ,game.rnd.integerInRange(100, 500), 'cat');
         if(this.id == 1)
            this.mySprite = game.add.sprite(game.rnd.integerInRange(100, 700) ,game.rnd.integerInRange(100, 500), 'cat');
         if(this.id == 2)
            this.mySprite = game.add.sprite(game.rnd.integerInRange(100, 700) ,game.rnd.integerInRange(100, 500), 'cat');
+       if(this.id == 3)
+           this.mySprite = game.add.sprite(game.rnd.integerInRange(100, 700) ,game.rnd.integerInRange(100, 500), 'cat');
+       if(this.id == 4)
+           this.mySprite = game.add.sprite(game.rnd.integerInRange(100, 700) ,game.rnd.integerInRange(100, 500), 'cat');
+       if(this.id == 5)
+           this.mySprite = game.add.sprite(game.rnd.integerInRange(100, 700) ,game.rnd.integerInRange(100, 500), 'cat');
         game.physics.enable(this.mySprite,Phaser.Physics.ARCADE);
         
     }
 powerUp.prototype.activate = function(){
-        this.active=true;
-    	this.pjAfected = lastTouchId;
-    	if (this.id == 0)
-    		pjs[this.pjAfected].mySprite.scale.setTo(0.5,1);
-        if (this.id == 1){
-            if(lastTouchId == 0)
-                this.pjAfected=1;
-            if(lastTouchId == 1)
-                this.pjAfected = 0;
-            pjs[this.pjAfected].mySprite.scale.setTo(0.5,0.25);
-        }
-        if (this.id == 2){
-            addBall();
-            velocidadx = balls[cualBola].mySprite.body.velocity.x;
-            velocidady = balls[cualBola].mySprite.body.velocity.y;
-            balls[balls.length-1].mySprite.body.velocity.setTo(velocidadx, velocidady);
-        }
+    this.active=true;
+    this.pjAfected = lastTouchId;
+    if (this.id == 0){
+    	pjs[this.pjAfected].mySprite.scale.setTo(0.5,1);
         //desactivar a los 15 segundos
-    	game.time.events.add(Phaser.Timer.SECOND * 15, this.deActivate, this);
+        game.time.events.add(Phaser.Timer.SECOND * 15, this.deActivate, this);
     }
-powerUp.prototype.deActivate = function(){
-    	if ((this.id == 0) || (this.id == 1)){
-    		pjs[this.pjAfected].mySprite.scale.setTo(0.5,0.5);
-            this.active=false;
+    if (this.id == 1){
+        if(lastTouchId == 0)
+            this.pjAfected=1;
+        if(lastTouchId == 1)
+            this.pjAfected = 0;
+        pjs[this.pjAfected].mySprite.scale.setTo(0.5,0.25);
+        //desactivar a los 15 segundos
+        game.time.events.add(Phaser.Timer.SECOND * 15, this.deActivate, this);
+    }
+    if (this.id == 2){
+        addBall();
+        velocidadx = balls[cualBola].mySprite.body.velocity.x;
+        velocidady = balls[cualBola].mySprite.body.velocity.y;
+        balls[balls.length-1].mySprite.body.velocity.setTo(velocidadx, velocidady);
+    }
+    if (this.id == 3){
+        if(balls[cualBola].fastball==false){
+            balls[cualBola].fastball=true;
+            balls[cualBola].mySprite.body.velocity.x *= 2;
+            balls[cualBola].mySprite.body.velocity.y *= 2;    
         }
-
-
+    }
+    if (this.id == 4){
+        balls[cualBola].mySprite.body.velocity.y = -balls[cualBola].mySprite.body.velocity.y; 
+    }
+    if (this.id == 5){
+        porterias[this.pjAfected].escudo = true;
+        porterias[this.pjAfected].mySprite.visible = true;
+        game.time.events.add(Phaser.Timer.SECOND * 40, this.deActivate, this); 
+    }
+}
+powerUp.prototype.deActivate = function(){
+    if ((this.id == 0) || (this.id == 1)){
+    	pjs[this.pjAfected].mySprite.scale.setTo(0.5,0.5);
+        this.active=false;
+    }
+    if(this.id == 5){
+        porterias[this.pjAfected].escudo=false;
+        porterias[this.pjAfected].mySprite.visible=false; 
+    }
 }
 
 //prototipo bola
 function ball (){
-    	
+    this.fastball = false;
+        	
     //ball.mySprite es el sprite de phaser, como siempre es el mismo lo determinamos desde aqui y añadimos las caracteristicas fisicas
 	this.mySprite = game.add.sprite(game.world.centerX,game.world.centerY, 'pelota');
     this.mySprite.scale.setTo(0.5, 0.5);
     game.physics.enable(this.mySprite,Phaser.Physics.ARCADE);
     
     this.mySprite.body.setCircle(25);
-    this.mySprite.body.velocity.setTo(250, game.rnd.integerInRange(-150, 150));
     this.mySprite.body.collideWorldBounds = true;
     this.mySprite.body.bounce.setTo(1, 1);
 }
@@ -161,19 +188,39 @@ reviewCollisions = function(){
        
         if (game.physics.arcade.collide(pjs[0].mySprite, balls[i].mySprite)){
             lastTouchId = 0;
+            if(balls[i].fastball==true){
+                balls[i].fastball=false;
+                balls[i].mySprite.body.velocity.x /= 2;
+                balls[i].mySprite.body.velocity.y /= 2;
+            }
         }
         if(game.physics.arcade.collide(pjs[1].mySprite, balls[i].mySprite)){
             lastTouchId = 1;
+            if(balls[i].fastball==true){
+                balls[i].fastball=false;
+                balls[i].mySprite.body.velocity.x /= 2;
+                balls[i].mySprite.body.velocity.y /= 2;
+            }
         }
         if(game.physics.arcade.collide(porterias[0].mySprite, balls[i].mySprite)){
-            pjs[1].points ++;
-            reset();
-            break;
+            if(porterias[0].escudo==true){
+                porterias[0].escudo=false;
+                porterias[0].mySprite.visible=false;
+            }else{
+                pjs[1].points ++;
+                reset();
+                break;
+            }
         }
         if(game.physics.arcade.collide(porterias[1].mySprite, balls[i].mySprite)){
-            pjs[0].points ++;
-            reset();
-            break;
+            if(porterias[1].escudo==true){
+                porterias[1].escudo=false;
+                porterias[1].mySprite.visible=false;
+            }else{
+                pjs[0].points ++;
+                reset();
+                break;
+            }
         }
         for(var e = 0; e<powerUps.length;e++){
             if(game.physics.arcade.overlap(balls[i].mySprite,powerUps[e].mySprite)){
@@ -189,7 +236,7 @@ reviewCollisions = function(){
 
 //Spawnear power-ups
 spawnPowerUp = function(){
-    powerUps.push(new powerUp(game.rnd.integerInRange(0, 2)));
+    powerUps.push(new powerUp(game.rnd.integerInRange(0, 5)));
 }
 //Resetea el juego. Lleva la bola al centro y la para
 function reset() {
@@ -212,6 +259,10 @@ function reset() {
         powerUps[e-1].mySprite.destroy();
         powerUps.pop();
     }
+    porterias[0].escudo=false;
+    porterias[1].escudo=false;
+    porterias[0].mySprite.visible=false;
+    porterias[1].mySprite.visible=false;
     //Se destruye el texto anterior y se crea uno nuevo
     pj1_puntos.destroy();
     pj2_puntos.destroy();
@@ -220,7 +271,7 @@ function reset() {
 }
 //Se pone de nuevo en movimiento la bola
 function go(){
-    balls[0].mySprite.body.velocity.setTo(250, game.rnd.integerInRange(-150, 150))
+    balls[0].mySprite.body.velocity.setTo(350, game.rnd.integerInRange(-150, 150))
 }
 
 
@@ -250,9 +301,9 @@ Ping.levelState.prototype = {
         //Se crea el texto de las puntuaciones
         pj1_puntos = game.add.text(10, 10, pjs[0].points, style);
         pj2_puntos = game.add.text(750, 10, pjs[1].points, style);
-        go();
+        game.time.events.add(Phaser.Timer.SECOND * 3, go, this);
         //Loop que crea cada cierto tiempo un power up
-        game.time.events.loop(Phaser.Timer.SECOND * game.rnd.integerInRange(15, 30), spawnPowerUp, this);
+        game.time.events.loop(Phaser.Timer.SECOND * game.rnd.integerInRange(10, 20), spawnPowerUp, this);
     },
 
     update: function() {
