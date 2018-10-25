@@ -115,6 +115,7 @@ function ball (){
     //ball.mySprite es el sprite de phaser, como siempre es el mismo lo determinamos desde aqui y añadimos las caracteristicas fisicas
 	this.mySprite = game.add.sprite(game.world.centerX,game.world.centerY, 'pelota');
     this.mySprite.scale.setTo(0.5, 0.5);
+    this.mySprite.anchor.set(0.5);
     game.physics.enable(this.mySprite,Phaser.Physics.ARCADE);
     
     this.mySprite.body.setCircle(25);
@@ -131,15 +132,17 @@ function pj (_id,_sprite){
     this.points = 0;
     //determinamos el input
 	if (this.id == 0){
-	    this.mySprite = game.add.sprite(game.world.centerX - game.world.centerX*0.86, game.world.centerY*0.71, _sprite);
+	    this.mySprite = game.add.sprite(game.world.centerX - game.world.centerX*0.83, game.world.centerY, _sprite);
         this.mySprite.scale.setTo(0.5, 0.5);
+        this.mySprite.anchor.setTo(0.5, 0.5);
         this.upKey = game.input.keyboard.addKey(Phaser.KeyCode.W);
         this.downKey = game.input.keyboard.addKey(Phaser.KeyCode.S);
     }
     
     if (this.id == 1){
-        this.mySprite = game.add.sprite(game.world.centerX + game.world.centerX*0.8, game.world.centerY*0.71, _sprite);
+        this.mySprite = game.add.sprite(game.world.centerX + game.world.centerX*0.83, game.world.centerY, _sprite);
         this.mySprite.scale.setTo(0.5, 0.5);
+        this.mySprite.anchor.setTo(0.5, 0.5);
         this.upKey = game.input.keyboard.addKey(Phaser.KeyCode.UP);
         this.downKey = game.input.keyboard.addKey(Phaser.KeyCode.DOWN);
     }
@@ -179,15 +182,34 @@ addBall = function(){
 	balls.push(new ball());
 }
 
+//función para hacer que la cámara se agite
+function shake(){
+    game.camera.shake(0.02, 400); //game.camera.shake(INTENSIDAD, TIEMPO);
+}
+
 //revisamos las colisiones
 reviewCollisions = function(){
-	//primero revisamos la colision de la bola con el jugador para poder revisar quien ha sido el ultimo en tocar la bola
+    var diff = 0; //diferencia en la coordenada "y" entre objetos que colisionan
+    //primero revisamos la colision de la bola con el jugador y calculamos el rebote de la bola,
+    //también revisamos quien ha sido el ultimo en tocar la bola
 	//En caso de conseguir un powerUp se revisa el quien ha sido el ultimo jugador en tocar la pelota (el que lo consigue)
     //Tambien revisamos cuando la bola toca la porteria para añadir puntos y resetear el juego
     for(var i = 0; i<balls.length; i++){
        
         if (game.physics.arcade.collide(pjs[0].mySprite, balls[i].mySprite)){
+
+            if((pjs[0].mySprite.body.y + 62.5) < (balls[i].mySprite.body.y + 20)){
+                diff = (balls[i].mySprite.body.y + 20) - (pjs[0].mySprite.body.y + 62.5); //diferencia de distancia en y calculada entre la pelota y el jugador
+                balls[i].mySprite.body.velocity.y = (10 * diff);
+            }
+
+            else if((pjs[0].mySprite.body.y + 62.5) > (balls[i].mySprite.body.y + 20)){
+                diff = (pjs[0].mySprite.body.y + 62.5) - (balls[i].mySprite.body.y + 20); //diferencia de distancia en y calculada entre el jugador y la pelota
+                balls[i].mySprite.body.velocity.y = (-10 * diff);
+            }
+
             lastTouchId = 0;
+
             if(balls[i].fastball==true){
                 balls[i].fastball=false;
                 balls[i].mySprite.body.velocity.x /= 2;
@@ -195,7 +217,19 @@ reviewCollisions = function(){
             }
         }
         if(game.physics.arcade.collide(pjs[1].mySprite, balls[i].mySprite)){
+
+            if((pjs[1].mySprite.body.y + 62.5) < (balls[i].mySprite.body.y + 12.5)){
+                diff = (balls[i].mySprite.body.y + 12.5) - (pjs[1].mySprite.body.y + 62.5); //diferencia de distancia en y calculada entre la pelota y el jugador
+                balls[i].mySprite.body.velocity.y = (10 * diff);
+            }
+
+            else if((pjs[1].mySprite.body.y + 62.5) > (balls[i].mySprite.body.y + 12.5)){
+                diff = (pjs[1].mySprite.body.y + 62.5) - (balls[i].mySprite.body.y + 12.5); //diferencia de distancia en y calculada entre el jugador y la pelota
+                balls[i].mySprite.body.velocity.y = (-10 * diff);
+            }
+
             lastTouchId = 1;
+
             if(balls[i].fastball==true){
                 balls[i].fastball=false;
                 balls[i].mySprite.body.velocity.x /= 2;
@@ -208,6 +242,7 @@ reviewCollisions = function(){
                 porterias[0].mySprite.visible=false;
             }else{
                 pjs[1].points ++;
+                shake();
                 reset();
                 break;
             }
@@ -218,6 +253,7 @@ reviewCollisions = function(){
                 porterias[1].mySprite.visible=false;
             }else{
                 pjs[0].points ++;
+                shake();
                 reset();
                 break;
             }
