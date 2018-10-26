@@ -14,7 +14,7 @@ var porterias = [];
 var puntos_pj1 = "0";
 var puntos_pj2 = "0";
 //tipo de letra
-var style = { font: "30px Arial", fill: "#ff0044", align: "center" };
+var style = { font: "30px Arial", fill: "#ffffff", align: "center" };
 //Que bola ha tocado el power up
 var cualBola = 0;
 var velocidadx = 0;
@@ -150,7 +150,9 @@ function ball (){
     game.physics.enable(this.mySprite,Phaser.Physics.ARCADE);
     
     this.mySprite.body.setCircle(25);
-    this.mySprite.body.velocity.setTo(this.velo, game.rnd.integerInRange(-150, 150));
+
+    //La siguiente linea da un error: al dirigirse la bola al segundo jugador la primera vez, impacta en el aire
+    //this.mySprite.body.velocity.setTo(this.velo, game.rnd.integerInRange(-150, 150));
 
     this.mySprite.body.collideWorldBounds = true;
     this.mySprite.body.bounce.setTo(1, 1);
@@ -231,7 +233,7 @@ upgradeVel = function(){
 
 //función para hacer que la cámara se agite
 function shake(){
-    game.camera.shake(0.02, 400); //game.camera.shake(INTENSIDAD, TIEMPO);
+    game.camera.shake(0.02, 200); //game.camera.shake(INTENSIDAD, TIEMPO);
 }
 
 //revisamos las colisiones
@@ -391,7 +393,7 @@ Ping.levelState.prototype = {
         //añadimos las porterias
         porterias.push(new porteria(0));
         porterias.push(new porteria(1));
-        game.stage.backgroundColor = "#e39243";
+        game.stage.backgroundColor = "#000000";
         //Se crea el texto de las puntuaciones
         pj1_puntos = game.add.text(10, 10, pjs[0].points, style);
         pj2_puntos = game.add.text(750, 10, pjs[1].points, style);

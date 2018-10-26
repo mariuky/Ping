@@ -10,20 +10,32 @@ Ping.customizeState.prototype = {
     },
 
     create: function() {
-    	var text = "customizar";
-    	var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
-    	var t = game.add.text(game.world.centerX -150, 250, text, style);
-        var button = game.add.button(game.world.centerX - 95, 400, 'jugar', this.levelOnClick, this, 1, 0, 0);
+    	var text = "Color";
+    	var style = { font: "50px Arial", fill: "#ffffff", align: "center" };
+    	var color_texto = game.add.text(340, 225, text, style);
+        var jugar_boton = game.add.button(515, 500, 'jugar', this.levelOnClick, this, 1, 0, 0);
+        var volver_boton = game.add.button(115, 500, 'volver', this.menuOnClick, this, 1, 0, 0);
         //Dependiendo en cual clickes asi sera tu raqueta
-        var button = game.add.button(400 ,game.world.centerY, 'blue' , this.blue, this, 2, 1, 0);
-        var button = game.add.button(500, game.world.centerY, 'red' , this.red, this, 2, 1, 0);
-        var button = game.add.button(600, game.world.centerY, 'yellow' , this.yellow, this, 2, 1, 0);
-        var button = game.add.button(700, game.world.centerY, 'green' , this.green, this, 2, 1, 0);
-    	
+        var button = game.add.button(215 ,game.world.centerY, 'blue' , this.blue, this, 2, 1, 0);
+        var button = game.add.button(315, game.world.centerY, 'red' , this.red, this, 2, 1, 0);
+        var button = game.add.button(415, game.world.centerY, 'yellow' , this.yellow, this, 2, 1, 0);
+        var button = game.add.button(515, game.world.centerY, 'green' , this.green, this, 2, 1, 0);
+
+        palas = game.add.sprite(game.world.centerX - game.world.centerX*0.83, game.world.centerY, 'raqueta');
+        palas2 = game.add.sprite(game.world.centerX + game.world.centerX*0.83, game.world.centerY, 'raqueta');
+        palas.scale.setTo(0.5, 0.5);
+        palas.anchor.setTo(0.5, 0.5);
+        palas2.scale.setTo(0.5, 0.5);
+        palas2.anchor.setTo(0.5, 0.5);
     },
 
     update: function() {
 
+    },
+    menuOnClick: function() {
+
+        game.state.start('menuState')
+ 
     },
     levelOnClick: function() {
 
