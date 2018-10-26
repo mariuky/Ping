@@ -2,6 +2,7 @@
 var pjs = [];
 var powerUps = [];
 var lastTouchId;
+var upgradeTimer;
     
 //array de pelotas
 var balls = [];
@@ -18,8 +19,10 @@ var style = { font: "30px Arial", fill: "#ff0044", align: "center" };
 var cualBola = 0;
 var velocidadx = 0;
 var velocidady = 0;
-
-
+var music;
+var loop1;
+var loop2;
+var sounds;
 
 
 
@@ -54,20 +57,24 @@ function powerUp(_id){
 powerUp.prototype.activate = function(){
         this.active=true;
     	this.pjAfected = lastTouchId;
-    	if (this.id == 0)
-    		pjs[this.pjAfected].mySprite.scale.setTo(0.5,1);
+    	if (this.id == 0){
+    	pjs[this.pjAfected].mySprite.scale.setTo(0.5,1);
+    	loop1.play();
+    	}
         if (this.id == 1){
             if(lastTouchId == 0)
                 this.pjAfected=1;
             if(lastTouchId == 1)
                 this.pjAfected = 0;
             pjs[this.pjAfected].mySprite.scale.setTo(0.5,0.25);
+            loop1.play();
         }
         if (this.id == 2){
             addBall();
             velocidadx = balls[cualBola].mySprite.body.velocity.x;
             velocidady = balls[cualBola].mySprite.body.velocity.y;
             balls[balls.length-1].mySprite.body.velocity.setTo(velocidadx, velocidady);
+   			loop2.play();
         }
         //desactivar a los 15 segundos
     	game.time.events.add(Phaser.Timer.SECOND * 15, this.deActivate, this);
@@ -83,6 +90,7 @@ powerUp.prototype.deActivate = function(){
 
 //prototipo bola
 function ball (){
+	this.velo = 250;
     	
     //ball.mySprite es el sprite de phaser, como siempre es el mismo lo determinamos desde aqui y añadimos las caracteristicas fisicas
 	this.mySprite = game.add.sprite(game.world.centerX,game.world.centerY, 'pelota');
@@ -90,7 +98,7 @@ function ball (){
     game.physics.enable(this.mySprite,Phaser.Physics.ARCADE);
     
     this.mySprite.body.setCircle(25);
-    this.mySprite.body.velocity.setTo(250, game.rnd.integerInRange(-150, 150));
+    this.mySprite.body.velocity.setTo(this.velo, game.rnd.integerInRange(-150, 150));
     this.mySprite.body.collideWorldBounds = true;
     this.mySprite.body.bounce.setTo(1, 1);
 }
@@ -102,6 +110,7 @@ function pj (_id,_sprite){
     this.dir = "NONE";
     this.id = _id;
     this.points = 0;
+    this.velo=500;
     //determinamos el input
 	if (this.id == 0){
 	    this.mySprite = game.add.sprite(game.world.centerX - game.world.centerX*0.86, game.world.centerY*0.71, _sprite);
@@ -139,9 +148,9 @@ pj.prototype.handleEvents = function(){
 pj.prototype.move = function () {
 
     if (this.dir == "UP")
-        this.mySprite.body.velocity.y = -500;  
+        this.mySprite.body.velocity.y = -this.velo;  
     if (this.dir == "DOWN")
-        this.mySprite.body.velocity.y = 500;
+        this.mySprite.body.velocity.y = this.velo;
     if (this.dir == "NONE")
         this.mySprite.body.velocity.y = 0;
     this.mySprite.body.velocity.x = 0;
@@ -150,6 +159,19 @@ pj.prototype.move = function () {
 //funcion para añadir una bola al campo de juego
 addBall = function(){
 	balls.push(new ball());
+}
+//función para aumentar la velocidad
+upgradeVel = function(){
+	//aumentamos la velocidad de la bola
+	for (var i = 0; i<balls.length;i++){
+			balls[i].mySprite.body.velocity.setTo(balls[i].mySprite.body.velocity.x * 1.2,balls[i].mySprite.body.velocity.y);
+			}
+	
+	//aumentamos la velocidad de movimiento del jugador
+	for (var l = 0; l<pjs.length;l++)
+		pjs[l].velo += 20;
+	//reseteamos el bool controlador del timer
+	upgradeTimer = true;
 }
 
 //revisamos las colisiones
@@ -238,6 +260,17 @@ Ping.levelState.prototype = {
     },
     
     create: function() {
+    	//añadimos y configuramos el sonido
+    	//la musica se mantiene de fondo y los loops 1 y 2 se introducen cuando se activa un power up y desaparecen un poco antes de que lo pierdas
+    	//de manera que quedas avisado de cuando vas a perderlo
+    	music = game.add.audio('music',1,true);
+    	loop2 = game.add.audio('loop2',1,false);
+    	loop1 = game.add.audio('loop1',1,false);
+
+    	music.play();
+
+    	//bool que nos ayuda a ir incrementando la dificultad del juego mediante un timer
+ 		upgradeTimer = true;
     	//añadimos a los arrays de jugador y bola sus correspondientes elementos
         pjs.push(new pj(0,'raqueta'));
         pjs.push(new pj(1,'raqueta'));
@@ -258,8 +291,10 @@ Ping.levelState.prototype = {
     update: function() {
         //revisamos las colisiones
         reviewCollisions();
-        
-
+        if (upgradeTimer == true){
+        game.time.events.add(Phaser.Timer.SECOND * 5, upgradeVel, this)
+        upgradeTimer = false;
+    	}
         
         //llamamos al update de nuestros jugadores
         pjs[0].handleEvents();

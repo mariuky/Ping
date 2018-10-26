@@ -18,6 +18,9 @@ Ping.preloadState.prototype = {
         game.load.spritesheet('yellow', 'assets/images/button_yellow.png', 70, 70);
         game.load.spritesheet('red', 'assets/images/button_red.png', 70, 70);
         game.load.spritesheet('green', 'assets/images/button_green.png', 70, 70);
+        game.load.audio('music','assets/sounds/pingmusic.mp3');
+    	game.load.audio('loop1','assets/sounds/loop1.mp3');
+    	game.load.audio('loop2','assets/sounds/loop2.mp3');
     },
 
     create: function() {
