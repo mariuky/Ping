@@ -20,8 +20,7 @@ var cualBola = 0;
 var velocidadx = 0;
 var velocidady = 0;
 var music;
-var loop1;
-var loop2;
+
 var sounds;
 
 
@@ -67,7 +66,7 @@ powerUp.prototype.activate = function(){
     	this.pjAfected = lastTouchId;
     	if (this.id == 0){
     	pjs[this.pjAfected].mySprite.scale.setTo(0.5,1);
-    	loop1.play();
+    	
     	}
         if (this.id == 1){
             if(lastTouchId == 0)
@@ -75,14 +74,14 @@ powerUp.prototype.activate = function(){
             if(lastTouchId == 1)
                 this.pjAfected = 0;
             pjs[this.pjAfected].mySprite.scale.setTo(0.5,0.25);
-            loop1.play();
+
         }
         if (this.id == 2){
             addBall();
             velocidadx = balls[cualBola].mySprite.body.velocity.x;
             velocidady = balls[cualBola].mySprite.body.velocity.y;
             balls[balls.length-1].mySprite.body.velocity.setTo(velocidadx, velocidady);
-   			loop2.play();
+
         }
 
     this.active=true;
@@ -139,8 +138,6 @@ powerUp.prototype.deActivate = function(){
 function ball (){
 
 	this.velo = 250;
-    	
-
     this.fastball = false;
         	
     //ball.mySprite es el sprite de phaser, como siempre es el mismo lo determinamos desde aqui y añadimos las caracteristicas fisicas
@@ -156,6 +153,14 @@ function ball (){
 
     this.mySprite.body.collideWorldBounds = true;
     this.mySprite.body.bounce.setTo(1, 1);
+
+    this.particleEmitter = game.add.emitter(this.mySprite.body.x,this.mySprite.body.y, 100);
+    this.particleEmitter.makeParticles('pelota');
+    this.particleEmitter.setAlpha(0.6,0,150);
+    this.particleEmitter.setSize(1, 1);
+    this.particleEmitter.setScale(0.5, 0.5,0.5, 0.5);
+    this.particleEmitter.setXSpeed(0,0);
+    this.particleEmitter.setYSpeed(0,0);
 }
 
 	//prototipo jugador
@@ -216,7 +221,18 @@ pj.prototype.move = function () {
 //funcion para añadir una bola al campo de juego
 addBall = function(){
 	balls.push(new ball());
+	balls[balls.length -1].particleEmitter.start(false,100,10);
 }
+//Funcion para mover el emisor de particulas
+updateParticles = function(){
+	for (var i = 0; i<balls.length;i++){
+		balls[i].particleEmitter.x = balls[i].mySprite.body.x + (balls[i].mySprite.body.width / 2);
+		balls[i].particleEmitter.y = balls[i].mySprite.body.y + (balls[i].mySprite.body.height / 2);
+	}
+
+
+}
+
 //función para aumentar la velocidad
 upgradeVel = function(){
 	//aumentamos la velocidad de la bola
@@ -375,11 +391,8 @@ Ping.levelState.prototype = {
     
     create: function() {
     	//añadimos y configuramos el sonido
-    	//la musica se mantiene de fondo y los loops 1 y 2 se introducen cuando se activa un power up y desaparecen un poco antes de que lo pierdas
-    	//de manera que quedas avisado de cuando vas a perderlo
+    	
     	music = game.add.audio('music',1,true);
-    	loop2 = game.add.audio('loop2',1,false);
-    	loop1 = game.add.audio('loop1',1,false);
 
     	music.play();
 
@@ -409,7 +422,7 @@ Ping.levelState.prototype = {
         game.time.events.add(Phaser.Timer.SECOND * 5, upgradeVel, this)
         upgradeTimer = false;
     	}
-        
+        updateParticles();
         //llamamos al update de nuestros jugadores
         pjs[0].handleEvents();
         pjs[1].handleEvents();
