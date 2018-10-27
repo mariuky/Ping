@@ -6,6 +6,10 @@ Ping.preloadState.prototype = {
 
     preload: function() {
         game.load.image('raqueta', 'assets/images/raqueta.png');
+        game.load.image('raquetaBlue', 'assets/images/raqueta_azul.png');
+        game.load.image('raquetaYellow', 'assets/images/raqueta_amarilla.png');
+        game.load.image('raquetaRed', 'assets/images/raqueta_roja.png');
+        game.load.image('raquetaGreen', 'assets/images/raqueta_verde.png');
         game.load.image('bg', 'assets/images/bg.png');
     	game.load.image('cat', 'assets/images/cat.png');
         game.load.image('catcher', 'assets/images/catcher.png');

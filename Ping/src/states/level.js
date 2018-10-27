@@ -385,7 +385,7 @@ Ping.levelState.prototype = {
 
     
     preload: function() {
-        //Dependiendo de que color hallamos elegido asi sera nuestra raqueta. Por defecto es negra.
+        //Dependiendo de que color hallamos elegido asi sera nuestra raqueta. Por defecto es blanca.
         game.load.image('raqueta', color);
     },
     
