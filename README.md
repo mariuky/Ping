@@ -3,7 +3,7 @@
 # Introduccion
 
 1. **Concepto del juego**  
-  El juego se sustenta sobre las mismas bases que el Pong, dos jugadores compiten por sobrepasar el límite lateral del oponente golpeando la pelota con sus palas, las cuales se sitúan en los extremos limítrofes del campo de juego con un rango de movimiento vertical. El juego se va complicando conforme avanza la partida debido a la velocidad en incremento de la pelota así como a los handicaps que se pueden atribuir al oponente para dificultarle el control mediante efectos como controles invertidos, pala rotatoria o tamaño reducido de la misma entre otros. 
+  El juego se sustenta sobre las mismas bases que el Pong, dos jugadores compiten por sobrepasar el límite lateral del oponente golpeando la pelota con sus palas, las cuales se sitúan en los extremos limítrofes del campo de juego con un rango de movimiento vertical. El juego se va complicando conforme avanza la partida debido a la velocidad en incremento de la pelota así como a los handicaps que se pueden atribuir al oponente para dificultarle el control mediante efectos como cambios de tamaño de las palas, aparición de otra bola o utilización de escudos que te den otra oportunidad extra. 
 
 2. **Género**  
   Arcade para 2 jugadores
@@ -16,13 +16,13 @@
 # Mecánicas de juego
 
 1. **Jugabilidad**  
-  Respecto a la jugabilidad del juego, nos basaremos en el juego original. Los dos jugadores podrán moverse hacia arriba y hacia abajo con el fin de golpear a la bola para que pase al campo enemigo. El jugador que consiga que la bola atraviese la pared lateral donde se encuentre su oponente, recibirá una puntuación. Quien alcance una puntuación concreta ganará la partida.  
+  Respecto a la jugabilidad del juego, nos basaremos en el juego original. Los dos jugadores podrán moverse hacia arriba y hacia abajo con el fin de golpear a la bola para que pase al campo enemigo. El jugador que consiga que la bola atraviese la pared lateral donde se encuentre su oponente, recibirá un punto. Quien alcance una puntuación de 10 puntos ganará la partida.  
 Los jugadores tendrán forma de rectángulo al igual que en el Pong, y contarán con varios power-ups, los cuales aparecerán en el campo. Los jugadores podrán cogerlos para facilitar la partida a su favor. En resumen, la jugabilidad sería similar a la del juego base pero añadiendo una serie de novedades que queremos que lo haga más atractivo y divertido. En principio el juego contará con una sola pantalla y será 1 jugador contra 1 jugador.  
 
 2. **Flujo de juego**  
   * Introducción al juego  
-       Lo primero que se verá nada más abrir el juego será un menú en el que habrá varios botones:  
-     Si el jugador pulsa "Jugar", el juego empezará a gestionar la partida para su inicio.  
+       Lo primero que se verá al abrir el juego será un menú en el que habrá varios botones:  
+     Si el jugador pulsa "Jugar", le llevará a una pantalla de personalización donde podrá elegir el color de la pala, en esta pantalla      habrá dos botones, uno para volver al menú y otro para empezar la partida.  
      Si el jugador pulsa "Créditos", el juego mostrará los nombres completos de las personas encargadas de su desarrollo. Habrá un botón      para volver al menú principal.  
      Si el jugador pulsa "Salir", la ventana en la que está el juego se cerrará.  
   * Jugando  
@@ -30,7 +30,7 @@ Los jugadores tendrán forma de rectángulo al igual que en el Pong, y contarán
      La partida comenzará tras un breve tiempo en el que ámbos jugadores podrán prepararse, después podrán jugar con normalidad.  
      La bola comenzará a moverse en una dirección aleatoria y podrá rebotar solo en las paredes superior e inferior, ya que en las            laterales, al colisionar, se sumarán puntos al jugador correspondiente. Tras colisionar con las paredes laterales, la bola se            trasladará al centro del campo y acto seguido comenzará a moverse en una dirección aleatoria.  
   * Fin de partida  
-       La partida finalizará cuando un jugador logre vencer al otro, lo cual se dará después de que alguien logre alcanzar una                puntuación determinada. La música parará y aparecerán unos botones para volver al menú principal y para volver a jugar.  
+       La partida finalizará cuando un jugador logre vencer al otro, lo cual se dará después de que alguien logre alcanzar 10 puntos. La        música parará y aparecerá una pantalla en la que se indica qué jugador ha ganado, solo habrá un botón para salir del juego de            momento.  
 
 3. **Control de jugador**  
   El movimiento de los personajes, al igual que el juego original, está limitado a moverse hacia arriba o hacia abajo. Para ello se utilizarán dos teclas (en principio W, S) las cuales servirán para mover al jugador arriba y abajo respectivamente.  
@@ -46,16 +46,13 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
 
    Tipos de Power Ups:
 
-   **Positivos**
    * Aumento del tamaño de la barra.
-   * "Disparo congelante": Tras una cuenta atrás de 5 segundos se dispara un proyectil desde el centro de la raqueta que si impacta al      jugador rival deja su raqueta inmovil durante 1 segundo.
+   * Escudo: aparece un escudo detrás del jugador que lo haya cogido y hace que este tenga una oportunidad más, ya que al chocar la bola    con el escudo rebotará una vez como si fuera una pared cualquiera.
+   * "Doble bola": El jugador que lo active hará que aparezca otra bola extra, que el jugador contrario tendrá que parar al igual que la    original.
+   * Disminución del tamaño de la barra para el jugador contrario.
+   * Aumento de la velocidad de la(s) bola(s).
+   * Cambio de dirección vertical de la(s) bola(s).
   
-   **Negativos**
-   * Controles invertidos
-   * Velocidad de barra menor
-   * Barra giratoria.
-   * Visión reducida de la seccion del campo del rival.
-   * Obstáculos en el campo de juego.  
 6. **Matchmaking**  
    Respecto al algoritmo de matchmaking de nuestro juego vamos a incluir las siguientes características:
  * Se implementará que los jugadores de la partida sean preferiblemente del misma zona, con el fin de que no haya problemas de conexión    que entorpezcan las partidas.
@@ -69,57 +66,51 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
 1. **Diagrama de flujo de pantallas**
 
       Aquí se muestran las pantallas y transiciones de "Ping".
-![diagrama](https://user-images.githubusercontent.com/43405647/45929656-1af21c00-bf55-11e8-8300-f0f32e789c5b.png)
+![diagrama_fase2](https://user-images.githubusercontent.com/43405665/47620693-57cda780-daed-11e8-9cef-e1a509ef86d7.png)
 
 2. **Menú principal**
 
-   Boceto del menú principal:
-   ![menu](https://user-images.githubusercontent.com/43405647/45929865-e338a380-bf57-11e8-903b-911c6ef1d29a.png)
+   Pantalla del menú principal:
+   ![menuprincipal](https://user-images.githubusercontent.com/43405665/47620337-471b3280-dae9-11e8-89fe-f144e86b78e1.png)
    En esta pantalla se encuentran los siguientes elementos:
-    * Botón de jugar, al pulsarlo te lleva al menú de jugador.
+    * Botón de jugar, al pulsarlo te lleva al menú de personalización.
     * Botón de créditos, al pulsarlo te lleva a la pantalla de créditos
     * Botón de salir, al pulsarlo te lleva al sistema operativo.
   
-3. **Menú del nombre del jugador**
+3. **Menú de personalización**
 
-   Boceto del menú del jugador:
-   ![jugador](https://user-images.githubusercontent.com/43405647/45929876-fb102780-bf57-11e8-9c6f-0929157dcd1e.png)
+   Pantalla de personalización:
+   ![personalizacion](https://user-images.githubusercontent.com/43405665/47620410-0c65ca00-daea-11e8-8b06-4aceca4c86f2.png)
    En esta pantalla se encuentran los siguientes elementos:
-    * Espacio para texto, para introducir el nombre del jugador
     * Color, para elegir el color de la raqueta del jugador.
     * Botón de jugar, al pulsarlo te lleva la pantalla de juego.
     * Botón de volver, al pulsarlo te lleva la pantalla del menú principal.
     
 4. **Interfaz de usuario durante partida**
 
-   Boceto del la interfaz durante el juego:
-   ![pong](https://user-images.githubusercontent.com/43405647/45929981-4b3bb980-bf59-11e8-9fac-06adec54a390.png)
+   Interfaz durante el juego:
+   ![juego](https://user-images.githubusercontent.com/43405665/47620522-41bee780-daeb-11e8-83f7-152dfb1fb74b.png)
    En esta pantalla se encuentran los siguientes elementos:
-    1. Nombre del jugador 1.
-    2. Nombre del jugador 2.
-    3. Power-ups del jugador 1.
-    4. Power-ups del jugador 2.
-    5. Puntuación.
-    6. Raqueta del jugador 1.
-    7. Raqueta del jugador 2.
-    8. Power-up.
-    9. Pelota.
+    1. Raqueta del jugador 1.
+    2. Raqueta del jugador 2.
+    3. Power-ups.
+    4. Puntuación.
+    5. Pelota.
 
 
 5. **Interfaz de fin de partida**
 
-   Boceto de la pantalla de fin de partida:
-   ![fin](https://user-images.githubusercontent.com/43405647/45929886-2135c780-bf58-11e8-85eb-e22c3f12d175.png)
+   Pantalla de fin de partida:
+   ![finpartida](https://user-images.githubusercontent.com/43405665/47620456-a0379600-daea-11e8-8148-934a5eee559b.png)
    En esta pantalla se encuentran los siguientes elementos:
-    * Botón de volver a jugar, al pulsarlo te lleva la pantalla de juego.
-    * Botón de menú principal, al pulsarlo te lleva la pantalla del menú principal.
+    * Botón de salir, al pulsarlo te sales del juego.
 6. **Creditos**
 
-   Boceto de la pantalla de creditos:
-   ![creditos](https://user-images.githubusercontent.com/43405647/45929882-1418d880-bf58-11e8-98d8-f328adcee8d2.png)
+   Pantalla de creditos:
+   ![creditos](https://user-images.githubusercontent.com/43405665/47620375-b6912200-dae9-11e8-8f4f-569004abe762.png)
    En esta pantalla se encuentran los siguientes elementos:
     * Panel, con los nombres del los desarrolladores.
-    * Botón de vovler, al pulsarlo te lleva la pantalla del menú principal.
+    * Botón de volver, al pulsarlo te lleva la pantalla del menú principal.
 
 6. **Sistema de comunicación**
 
@@ -136,6 +127,3 @@ Tanto música como efectos de sonido pertenecen al género chiptune, caracterís
 Mario Peña Jiménez m.penaj.2018@alumnos.urjc.es  
 Rafael Sauceda Velasco  r.sauceda.2016@alumnos.urjc.es  
 Jaime Bárzano Enrique j.barzano.2016@alumnos.urjc.es
-
-# Enlaces
-https://trello.com/b/gk4HphEi
