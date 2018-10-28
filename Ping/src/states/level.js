@@ -1,8 +1,12 @@
 //array de jugadores
 var pjs = [];
+//array de power ups
 var powerUps = [];
+
 var lastTouchId;
 var upgradeTimer;
+var halfSpritePlayer = 62.5; //mitad de lo que mide en y el sprite del jugador
+var halfSpriteBall = 12.5; //mitad de lo que mide en y el sprite de la bola
     
 //array de pelotas
 var balls = [];
@@ -23,6 +27,7 @@ var music;
 
 var sounds;
 
+var winner;
 
 
 //prototipo porteria
@@ -87,7 +92,8 @@ powerUp.prototype.activate = function(){
     this.active=true;
     this.pjAfected = lastTouchId;
     if (this.id == 0){
-    	pjs[this.pjAfected].mySprite.scale.setTo(0.5,1);
+        pjs[this.pjAfected].mySprite.scale.setTo(0.5,1); //dobla tamaño en y del jugador que lo coge
+        halfSpritePlayer = 125; //para las colisiones
 
         //desactivar a los 15 segundos
         game.time.events.add(Phaser.Timer.SECOND * 15, this.deActivate, this);
@@ -97,7 +103,8 @@ powerUp.prototype.activate = function(){
             this.pjAfected=1;
         if(lastTouchId == 1)
             this.pjAfected = 0;
-        pjs[this.pjAfected].mySprite.scale.setTo(0.5,0.25);
+        pjs[this.pjAfected].mySprite.scale.setTo(0.5,0.25); //disminuye a la mitad al jugador contrario al que lo coge
+        halfSpritePlayer = 31.25; //para las colisiones
         //desactivar a los 15 segundos
         game.time.events.add(Phaser.Timer.SECOND * 15, this.deActivate, this);
     }
@@ -125,7 +132,8 @@ powerUp.prototype.activate = function(){
 }
 powerUp.prototype.deActivate = function(){
     if ((this.id == 0) || (this.id == 1)){
-    	pjs[this.pjAfected].mySprite.scale.setTo(0.5,0.5);
+        pjs[this.pjAfected].mySprite.scale.setTo(0.5,0.5);
+        halfSpritePlayer = 62.5; //para las colisiones
         this.active=false;
     }
     if(this.id == 5){
@@ -263,13 +271,13 @@ reviewCollisions = function(){
        
         if (game.physics.arcade.collide(pjs[0].mySprite, balls[i].mySprite)){
 
-            if((pjs[0].mySprite.body.y + 62.5) < (balls[i].mySprite.body.y + 20)){
-                diff = (balls[i].mySprite.body.y + 20) - (pjs[0].mySprite.body.y + 62.5); //diferencia de distancia en y calculada entre la pelota y el jugador
+            if((pjs[0].mySprite.body.y + halfSpritePlayer) < (balls[i].mySprite.body.y + halfSpriteBall)){
+                diff = (balls[i].mySprite.body.y + halfSpriteBall) - (pjs[0].mySprite.body.y + halfSpritePlayer); //diferencia de distancia en y calculada entre la pelota y el jugador
                 balls[i].mySprite.body.velocity.y = (10 * diff);
             }
 
-            else if((pjs[0].mySprite.body.y + 62.5) > (balls[i].mySprite.body.y + 20)){
-                diff = (pjs[0].mySprite.body.y + 62.5) - (balls[i].mySprite.body.y + 20); //diferencia de distancia en y calculada entre el jugador y la pelota
+            else if((pjs[0].mySprite.body.y + halfSpritePlayer) > (balls[i].mySprite.body.y + halfSpriteBall)){
+                diff = (pjs[0].mySprite.body.y + halfSpritePlayer) - (balls[i].mySprite.body.y + halfSpriteBall); //diferencia de distancia en y calculada entre el jugador y la pelota
                 balls[i].mySprite.body.velocity.y = (-10 * diff);
             }
 
@@ -283,13 +291,13 @@ reviewCollisions = function(){
         }
         if(game.physics.arcade.collide(pjs[1].mySprite, balls[i].mySprite)){
 
-            if((pjs[1].mySprite.body.y + 62.5) < (balls[i].mySprite.body.y + 12.5)){
-                diff = (balls[i].mySprite.body.y + 12.5) - (pjs[1].mySprite.body.y + 62.5); //diferencia de distancia en y calculada entre la pelota y el jugador
+            if((pjs[1].mySprite.body.y + halfSpritePlayer) < (balls[i].mySprite.body.y + halfSpriteBall)){
+                diff = (balls[i].mySprite.body.y + halfSpriteBall) - (pjs[1].mySprite.body.y + halfSpritePlayer); //diferencia de distancia en y calculada entre la pelota y el jugador
                 balls[i].mySprite.body.velocity.y = (10 * diff);
             }
 
-            else if((pjs[1].mySprite.body.y + 62.5) > (balls[i].mySprite.body.y + 12.5)){
-                diff = (pjs[1].mySprite.body.y + 62.5) - (balls[i].mySprite.body.y + 12.5); //diferencia de distancia en y calculada entre el jugador y la pelota
+            else if((pjs[1].mySprite.body.y + halfSpritePlayer) > (balls[i].mySprite.body.y + halfSpriteBall)){
+                diff = (pjs[1].mySprite.body.y + halfSpritePlayer) - (balls[i].mySprite.body.y + halfSpriteBall); //diferencia de distancia en y calculada entre el jugador y la pelota
                 balls[i].mySprite.body.velocity.y = (-10 * diff);
             }
 
@@ -367,8 +375,23 @@ function reset() {
     //Se destruye el texto anterior y se crea uno nuevo
     pj1_puntos.destroy();
     pj2_puntos.destroy();
-    pj1_puntos = game.add.text(10, 10, pjs[0].points, style);
-    pj2_puntos = game.add.text(750, 10, pjs[1].points, style);
+    pj1_puntos = game.add.text(35, 20, pjs[0].points, style);
+    pj2_puntos = game.add.text(750, 20, pjs[1].points, style);
+}
+
+function comprobarGanador(){
+    if((pjs[0].points == 10) || (pjs[1].points == 10)){ //Si alguno llega a 10 puntos se acaba el juego
+        music.pause();
+        if(pjs[0].points == 10){
+            game.add.text(140, 280, 'GANA EL JUGADOR 1', {font: '50px Arial', fill: '#ffffff'});
+            winner = 1;
+        }
+        else if(pjs[1].points == 10){
+            game.add.text(140, 280, 'GANA EL JUGADOR 2', {font: '50px Arial', fill: '#ffffff'});
+            winner = 2;
+        }
+        game.state.start('endingState');
+    }
 }
 //Se pone de nuevo en movimiento la bola
 function go(){
@@ -382,15 +405,13 @@ Ping.levelState = function(game) {
 }
 
 Ping.levelState.prototype = {
-
-    
     preload: function() {
         //Dependiendo de que color hallamos elegido asi sera nuestra raqueta. Por defecto es blanca.
         game.load.image('raqueta', color);
     },
     
     create: function() {
-    	//añadimos y configuramos el sonido
+        //añadimos y configuramos el sonido
     	
     	music = game.add.audio('music',1,true);
 
@@ -408,14 +429,15 @@ Ping.levelState.prototype = {
         porterias.push(new porteria(1));
         game.stage.backgroundColor = "#000000";
         //Se crea el texto de las puntuaciones
-        pj1_puntos = game.add.text(10, 10, pjs[0].points, style);
-        pj2_puntos = game.add.text(750, 10, pjs[1].points, style);
+        pj1_puntos = game.add.text(35, 20, pjs[0].points, style);
+        pj2_puntos = game.add.text(750, 20, pjs[1].points, style);
         game.time.events.add(Phaser.Timer.SECOND * 3, go, this);
         //Loop que crea cada cierto tiempo un power up
         game.time.events.loop(Phaser.Timer.SECOND * game.rnd.integerInRange(10, 20), spawnPowerUp, this);
     },
 
     update: function() {
+        comprobarGanador();
         //revisamos las colisiones
         reviewCollisions();
         if (upgradeTimer == true){
