@@ -1,6 +1,6 @@
 # PING
  *El 29 de Noviembre de 1972 salió al mercado el videojuego "Pong", diseñado por Allan Alcorn y distribuido por Atari. Considerado por muchos el primer videojuego de la historia, el Pong,ha llegado hasta nuestros días con exáctamente el mismo diseño que tuvo cuando fue concebido. Con "Ping" pretendemos reconceptualizar este clásico de la industria para adaptarlo a la actualidad sin perder la esencia del mismo.*
-# Introduccion
+# Introducción
 
 1. **Concepto del juego**  
   El juego se sustenta sobre las mismas bases que el Pong, dos jugadores compiten por sobrepasar el límite lateral del oponente golpeando la pelota con sus palas, las cuales se sitúan en los extremos limítrofes del campo de juego con un rango de movimiento vertical. El juego se va complicando conforme avanza la partida debido a la velocidad en incremento de la pelota así como a los handicaps que se pueden atribuir al oponente para dificultarle el control mediante efectos como cambios de tamaño de las palas, aparición de otra bola o utilización de escudos que te den otra oportunidad extra. 
@@ -90,11 +90,11 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
 
    Interfaz durante el juego:
    ![juego](https://user-images.githubusercontent.com/43405665/47620522-41bee780-daeb-11e8-83f7-152dfb1fb74b.png)
-   En esta pantalla se encuentran los siguientes elementos:
+   Durante el desarrollo de la partida se podrán encontrar los siguientes elementos en pantalla:
     1. Raqueta del jugador 1.
     2. Raqueta del jugador 2.
     3. Power-ups.
-    4. Puntuación.
+    4. Puntuación (extremos superiores de la pantalla).
     5. Pelota.
 
 
@@ -109,7 +109,7 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
    Pantalla de creditos:
    ![creditos](https://user-images.githubusercontent.com/43405665/47620375-b6912200-dae9-11e8-8f4f-569004abe762.png)
    En esta pantalla se encuentran los siguientes elementos:
-    * Panel, con los nombres del los desarrolladores.
+    * Panel, con los nombres de los desarrolladores.
     * Botón de volver, al pulsarlo te lleva la pantalla del menú principal.
 
 6. **Sistema de comunicación**
@@ -121,7 +121,7 @@ El estilo artístico evoca a los clásicos arcade como Arkanoid. Sobrio y bidime
 definida dando la información necesaria a los jugadores sin llegar a enturbiar el entorno de juego. 
 
 # Sonido  
-Tanto música como efectos de sonido pertenecen al género chiptune, característico de las consolas de la década de los 90, en concordancia con el nostálgico estilo visual.
+La música pertenece al género chiptune, característico de las consolas de la década de los 90, en concordancia con el nostálgico estilo visual. Se ha incluido un tema original que se reproducirá al empezar la partida y parará cuando haya ganado algún jugador.
 
 # Autoría
 Mario Peña Jiménez m.penaj.2018@alumnos.urjc.es  
