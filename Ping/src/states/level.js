@@ -35,9 +35,9 @@ function porteria (_id){
     this.escudo=false;
     //Porteria del jugador 1 o 2
     if(_id == 0){
-        this.mySprite = game.add.sprite(0,0, 'porteria');
+        this.mySprite = game.add.sprite(-10,0, 'porteria');
     }else if(_id == 1){
-        this.mySprite = game.add.sprite(730,0, 'porteria');
+        this.mySprite = game.add.sprite(740,0, 'porteria');
     }
     game.physics.enable(this.mySprite,Phaser.Physics.ARCADE);
     this.mySprite.enableBody = true;
@@ -268,7 +268,28 @@ reviewCollisions = function(){
 	//En caso de conseguir un powerUp se revisa el quien ha sido el ultimo jugador en tocar la pelota (el que lo consigue)
     //Tambien revisamos cuando la bola toca la porteria para añadir puntos y resetear el juego
     for(var i = 0; i<balls.length; i++){
-       
+       if(game.physics.arcade.collide(porterias[0].mySprite, balls[i].mySprite)){
+            if(porterias[0].escudo==true){
+                porterias[0].escudo=false;
+                porterias[0].mySprite.visible=false;
+            }else{
+                pjs[1].points ++;
+                shake();
+                reset();
+                break;
+            }
+        }
+        if(game.physics.arcade.collide(porterias[1].mySprite, balls[i].mySprite)){
+            if(porterias[1].escudo==true){
+                porterias[1].escudo=false;
+                porterias[1].mySprite.visible=false;
+            }else{
+                pjs[0].points ++;
+                shake();
+                reset();
+                break;
+            }
+        }
         if (game.physics.arcade.collide(pjs[0].mySprite, balls[i].mySprite)){
 
             if((pjs[0].mySprite.body.y + halfSpritePlayer) < (balls[i].mySprite.body.y + halfSpriteBall)){
@@ -309,28 +330,7 @@ reviewCollisions = function(){
                 balls[i].mySprite.body.velocity.y /= 2;
             }
         }
-        if(game.physics.arcade.collide(porterias[0].mySprite, balls[i].mySprite)){
-            if(porterias[0].escudo==true){
-                porterias[0].escudo=false;
-                porterias[0].mySprite.visible=false;
-            }else{
-                pjs[1].points ++;
-                shake();
-                reset();
-                break;
-            }
-        }
-        if(game.physics.arcade.collide(porterias[1].mySprite, balls[i].mySprite)){
-            if(porterias[1].escudo==true){
-                porterias[1].escudo=false;
-                porterias[1].mySprite.visible=false;
-            }else{
-                pjs[0].points ++;
-                shake();
-                reset();
-                break;
-            }
-        }
+        
         for(var e = 0; e<powerUps.length;e++){
             if(game.physics.arcade.overlap(balls[i].mySprite,powerUps[e].mySprite)){
                 powerUps[e].activate();
@@ -352,6 +352,7 @@ function reset() {
     cualBola=0;
     for(var a = balls.length; a>1;a--){
         balls.length;
+        balls[a-1].particleEmitter.destroy();
         balls[a-1].mySprite.destroy();
         balls.pop();
         balls.length;
@@ -433,7 +434,7 @@ Ping.levelState.prototype = {
         pj2_puntos = game.add.text(750, 20, pjs[1].points, style);
         game.time.events.add(Phaser.Timer.SECOND * 3, go, this);
         //Loop que crea cada cierto tiempo un power up
-        game.time.events.loop(Phaser.Timer.SECOND * game.rnd.integerInRange(10, 20), spawnPowerUp, this);
+        game.time.events.loop(Phaser.Timer.SECOND * game.rnd.integerInRange(3, 5), spawnPowerUp, this);
     },
 
     update: function() {
