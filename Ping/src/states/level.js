@@ -5,8 +5,8 @@ var powerUps = [];
 
 var lastTouchId;
 var upgradeTimer;
-var halfSpritePlayer = 62.5; //mitad de lo que mide en y el sprite del jugador
-var halfSpriteBall = 12.5; //mitad de lo que mide en y el sprite de la bola
+//var halfSpritePlayer = 62.5; //mitad de lo que mide en y el sprite del jugador
+//var halfSpriteBall = 12.5; //mitad de lo que mide en y el sprite de la bola
     
 //array de pelotas
 var balls = [];
@@ -67,7 +67,7 @@ function powerUp(_id){
     }
 powerUp.prototype.activate = function(){
 
-        this.active=true;
+        /*this.active=true;
     	this.pjAfected = lastTouchId;
     	if (this.id == 0){
     	pjs[this.pjAfected].mySprite.scale.setTo(0.5,1);
@@ -87,53 +87,54 @@ powerUp.prototype.activate = function(){
             velocidady = balls[cualBola].mySprite.body.velocity.y;
             balls[balls.length-1].mySprite.body.velocity.setTo(velocidadx, velocidady);
 
-        }
+        }*/
 
     this.active=true;
     this.pjAfected = lastTouchId;
-    if (this.id == 0){
-        pjs[this.pjAfected].mySprite.scale.setTo(0.5,1); //dobla tamaño en y del jugador que lo coge
-        halfSpritePlayer = 125; //para las colisiones
+    if (this.id == 0){ //Power up 0: dobla tamaño en y del jugador que lo coge
+        pjs[this.pjAfected].mySprite.scale.setTo(0.5,1); 
+        pjs[this.pjAfected].halfSpritePlayer = 125; //para las colisiones
 
         //desactivar a los 15 segundos
         game.time.events.add(Phaser.Timer.SECOND * 15, this.deActivate, this);
     }
-    if (this.id == 1){
+    if (this.id == 1){ //Power up 1: disminuye a la mitad al jugador contrario al que lo coge
         if(lastTouchId == 0)
             this.pjAfected=1;
         if(lastTouchId == 1)
             this.pjAfected = 0;
-        pjs[this.pjAfected].mySprite.scale.setTo(0.5,0.25); //disminuye a la mitad al jugador contrario al que lo coge
-        halfSpritePlayer = 31.25; //para las colisiones
+        pjs[this.pjAfected].mySprite.scale.setTo(0.5,0.25); 
+        pjs[this.pjAfected].halfSpritePlayer = 31.25; //para las colisiones
         //desactivar a los 15 segundos
         game.time.events.add(Phaser.Timer.SECOND * 15, this.deActivate, this);
     }
-    if (this.id == 2){
+    if (this.id == 2){ //Power up 2: añade una segunda bola
         addBall();
         velocidadx = balls[cualBola].mySprite.body.velocity.x;
         velocidady = balls[cualBola].mySprite.body.velocity.y;
         balls[balls.length-1].mySprite.body.velocity.setTo(velocidadx, velocidady);
     }
-    if (this.id == 3){
+    if (this.id == 3){ //Power up 3: la bola va más rápido
         if(balls[cualBola].fastball==false){
             balls[cualBola].fastball=true;
             balls[cualBola].mySprite.body.velocity.x *= 2;
             balls[cualBola].mySprite.body.velocity.y *= 2;    
         }
     }
-    if (this.id == 4){
+    if (this.id == 4){ //Power up 4: La bola cambia su dirección vertical
         balls[cualBola].mySprite.body.velocity.y = -balls[cualBola].mySprite.body.velocity.y; 
     }
-    if (this.id == 5){
+    if (this.id == 5){ //Power up 5: Añade un escudo en la portería del jugador que lo coge. Le da una oportunidad extra
         porterias[this.pjAfected].escudo = true;
         porterias[this.pjAfected].mySprite.visible = true;
         game.time.events.add(Phaser.Timer.SECOND * 40, this.deActivate, this); 
     }
 }
+//Desactiva los Power ups activos actualmente
 powerUp.prototype.deActivate = function(){
     if ((this.id == 0) || (this.id == 1)){
         pjs[this.pjAfected].mySprite.scale.setTo(0.5,0.5);
-        halfSpritePlayer = 62.5; //para las colisiones
+        pjs[this.pjAfected].halfSpritePlayer = 62.5; //para las colisiones
         this.active=false;
     }
     if(this.id == 5){
@@ -147,6 +148,7 @@ function ball (){
 
 	this.velo = 250;
     this.fastball = false;
+    this.halfSpriteBall = 12.5; //mitad de lo que mide en y el sprite de la bola
         	
     //ball.mySprite es el sprite de phaser, como siempre es el mismo lo determinamos desde aqui y añadimos las caracteristicas fisicas
 	this.mySprite = game.add.sprite(game.world.centerX,game.world.centerY, 'pelota');
@@ -179,6 +181,7 @@ function pj (_id,_sprite){
     this.id = _id;
     this.points = 0;
     this.velo=500;
+    this.halfSpritePlayer = 62.5;//mitad de lo que mide en y el sprite del jugador
     //determinamos el input
 	if (this.id == 0){
 	    this.mySprite = game.add.sprite(game.world.centerX - game.world.centerX*0.83, game.world.centerY, _sprite);
@@ -292,13 +295,13 @@ reviewCollisions = function(){
         }
         if (game.physics.arcade.collide(pjs[0].mySprite, balls[i].mySprite)){
 
-            if((pjs[0].mySprite.body.y + halfSpritePlayer) < (balls[i].mySprite.body.y + halfSpriteBall)){
-                diff = (balls[i].mySprite.body.y + halfSpriteBall) - (pjs[0].mySprite.body.y + halfSpritePlayer); //diferencia de distancia en y calculada entre la pelota y el jugador
+            if((pjs[0].mySprite.body.y + pjs[0].halfSpritePlayer) < (balls[i].mySprite.body.y + balls[i].halfSpriteBall)){
+                diff = (balls[i].mySprite.body.y + balls[i].halfSpriteBall) - (pjs[0].mySprite.body.y + pjs[0].halfSpritePlayer); //diferencia de distancia en y calculada entre la pelota y el jugador
                 balls[i].mySprite.body.velocity.y = (10 * diff);
             }
 
-            else if((pjs[0].mySprite.body.y + halfSpritePlayer) > (balls[i].mySprite.body.y + halfSpriteBall)){
-                diff = (pjs[0].mySprite.body.y + halfSpritePlayer) - (balls[i].mySprite.body.y + halfSpriteBall); //diferencia de distancia en y calculada entre el jugador y la pelota
+            else if((pjs[0].mySprite.body.y + pjs[0].halfSpritePlayer) > (balls[i].mySprite.body.y + balls[i].halfSpriteBall)){
+                diff = (pjs[0].mySprite.body.y + pjs[0].halfSpritePlayer) - (balls[i].mySprite.body.y + balls[i].halfSpriteBall); //diferencia de distancia en y calculada entre el jugador y la pelota
                 balls[i].mySprite.body.velocity.y = (-10 * diff);
             }
 
@@ -312,13 +315,13 @@ reviewCollisions = function(){
         }
         if(game.physics.arcade.collide(pjs[1].mySprite, balls[i].mySprite)){
 
-            if((pjs[1].mySprite.body.y + halfSpritePlayer) < (balls[i].mySprite.body.y + halfSpriteBall)){
-                diff = (balls[i].mySprite.body.y + halfSpriteBall) - (pjs[1].mySprite.body.y + halfSpritePlayer); //diferencia de distancia en y calculada entre la pelota y el jugador
+            if((pjs[1].mySprite.body.y + pjs[1].halfSpritePlayer) < (balls[i].mySprite.body.y + balls[i].halfSpriteBall)){
+                diff = (balls[i].mySprite.body.y + balls[i].halfSpriteBall) - (pjs[1].mySprite.body.y + pjs[1].halfSpritePlayer); //diferencia de distancia en y calculada entre la pelota y el jugador
                 balls[i].mySprite.body.velocity.y = (10 * diff);
             }
 
-            else if((pjs[1].mySprite.body.y + halfSpritePlayer) > (balls[i].mySprite.body.y + halfSpriteBall)){
-                diff = (pjs[1].mySprite.body.y + halfSpritePlayer) - (balls[i].mySprite.body.y + halfSpriteBall); //diferencia de distancia en y calculada entre el jugador y la pelota
+            else if((pjs[1].mySprite.body.y + pjs[1].halfSpritePlayer) > (balls[i].mySprite.body.y + balls[i].halfSpriteBall)){
+                diff = (pjs[1].mySprite.body.y + pjs[1].halfSpritePlayer) - (balls[i].mySprite.body.y + balls[i].halfSpriteBall); //diferencia de distancia en y calculada entre el jugador y la pelota
                 balls[i].mySprite.body.velocity.y = (-10 * diff);
             }
 
@@ -452,125 +455,3 @@ Ping.levelState.prototype = {
     
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-
-
-ball = function(game){
-
-    Phaser.Sprite.call(this,game,game.world.centerX,game.world.centerY,'pelota',0);
-    this.scale.setTo(0.8, 0.8); //escala el sprite pelota (por debajo de 1, si no se ve borrosa)
-    //Fisicas pelota:
-    game.physics.enable(this,Phaser.Physics.ARCADE);
-    this.body.setCircle(25);
-    this.body.velocity.setTo(200, 100);
-    this.body.collideWorldBounds = true; //para que colisione con el mundo
-    this.body.bounce.setTo(1, 1); //rozamiento al colisionar, (1, 1) es sin rozamiento
-}
-
-ball.prototype = Object.create(Phaser.Sprite.prototype);
-
-ball.constructor = ball;
-
-
-gameManager = function(game, _numplayers) {
-    var myGame = game;
-    var numplayers = _numplayers;
-    var myplayers = [];
-    var pelota;
-}
-
-gameManager.constructor = gameManager;
-
-gameManager.prototype = {
-    
-    addPlayer: function(_player) {
-
-        this.myplayers.push(_player);
-   
-
-    },
-    addPelota: function(){
-        pelota = new ball(this.myGame)
-
-    },
-   update: function() {
-                var i;
-    for (i = 0; i < this.numplayers; i++) 
-        this.myplayers[i].handleEvents();
-    }    
-
-}
-
-player = function(game,sprite,_id){
-
-   	Phaser.Sprite.call(this,game,_id*game.world.width,game.world.centerY,sprite,0);
-    game.physics.enable(this,Phaser.Physics.ARCADE);
-    
-    var id = _id;
-    var dir;
-    var upKey;
-    var downKey;
-    var leftKey;
-    var rightKey;
-    this.body.enable = true;
-    this.body.gravity.x = 0;
-    this.body.gravity.y = 0;
-
-    if (this.id = 0){
-    upKey = game.input.keyboard.addKey(Phaser.KeyCode.W);
-    downKey = game.input.keyboard.addKey(Phaser.KeyCode.S);
-    leftKey = game.input.keyboard.addKey(Phaser.KeyCode.A);
-    rightKey = game.input.keyboard.addKey(Phaser.KeyCode.D);
-                    }
-    if (this.id = 1){
-    upKey = game.input.keyboard.addKey(Phaser.KeyCode.UP);
-    downKey = game.input.keyboard.addKey(Phaser.KeyCode.DOWN);
-    leftKey = game.input.keyboard.addKey(Phaser.KeyCode.LEFT);
-    rightKey = game.input.keyboard.addKey(Phaser.KeyCode.RIGHT);
-					}
-}
-player.prototype = Object.create(Phaser.Sprite.prototype);
-
-player.constructor = player;
-
-player.prototype.handleEvents = function(){
-
-    this.dir = NONE;
-
-    if(upKey.isDown)
-          this.dir = UP;
-    
-     if(downKey.isDown)
-          this.dir = DOWN;
-    
-    if(leftKey.isDown)
-          this.dir = NONE;
-    
-     if(rightKey.isDown)
-          this.dir = NONE;
-
-      this.move();
-}
-
-player.prototype.move = function () {
-
-        if (this.dir = UP)
-            this.sprite.body.velocity.y = 500;
-        if (this.dir = DOWN)
-            this.sprite.body.velocity.y = -500;
-        if (this.dir = NONE)
-            this.sprite.body.velocity.y = 0;
-    }*/
