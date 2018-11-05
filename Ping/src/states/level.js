@@ -8,6 +8,8 @@ var upgradeTimer;
 
 //array de pelotas
 var balls = [];
+//velocidad inicial de la bola
+var velBolaX;
 
 //array de porterias
 var porterias = [];
@@ -377,8 +379,20 @@ function comprobarGanador() {
     }
 }
 //Se pone de nuevo en movimiento la bola
-function go() {
-    balls[0].mySprite.body.velocity.setTo(350, game.rnd.integerInRange(-150, 150))
+function go(){
+    direccAleatoria();
+    balls[0].mySprite.body.velocity.setTo(velBolaX, game.rnd.integerInRange(-150, 150))
+}
+
+//Se calcula aleatoriamente la dirección en x de la velocidad de la bola al principio de cada punto
+function direccAleatoria(){
+    this.direccion = game.rnd.integerInRange(0, 1);
+    if(direccion == 0){
+        velBolaX = -350;
+    }
+    else if(direccion == 1){
+        velBolaX = 350;
+    }
 }
 
 
