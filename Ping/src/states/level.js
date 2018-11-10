@@ -50,18 +50,25 @@ function powerUp(_id) {
     //Para saber si hay algun power up activo
     this.active = false;
     this.id = _id;
-    if (this.id == 0)
-        this.mySprite = game.add.sprite(game.rnd.integerInRange(100, 700), game.rnd.integerInRange(100, 500), 'cat');
-    if (this.id == 1)
-        this.mySprite = game.add.sprite(game.rnd.integerInRange(100, 700), game.rnd.integerInRange(100, 500), 'cat');
-    if (this.id == 2)
-        this.mySprite = game.add.sprite(game.rnd.integerInRange(100, 700), game.rnd.integerInRange(100, 500), 'cat');
-    if (this.id == 3)
-        this.mySprite = game.add.sprite(game.rnd.integerInRange(100, 700), game.rnd.integerInRange(100, 500), 'cat');
-    if (this.id == 4)
-        this.mySprite = game.add.sprite(game.rnd.integerInRange(100, 700), game.rnd.integerInRange(100, 500), 'cat');
-    if (this.id == 5)
-        this.mySprite = game.add.sprite(game.rnd.integerInRange(100, 700), game.rnd.integerInRange(100, 500), 'cat');
+    if (this.id == 0){
+        this.mySprite = game.add.sprite(game.rnd.integerInRange(150, 650), game.rnd.integerInRange(100, 500), 'powerUp0');
+    }
+    else if (this.id == 1){
+        this.mySprite = game.add.sprite(game.rnd.integerInRange(150, 650), game.rnd.integerInRange(100, 500), 'powerUp1');
+    }
+    else if (this.id == 2){
+        this.mySprite = game.add.sprite(game.rnd.integerInRange(150, 650), game.rnd.integerInRange(100, 500), 'powerUp2');
+    }
+    else if (this.id == 3){
+        this.mySprite = game.add.sprite(game.rnd.integerInRange(150, 650), game.rnd.integerInRange(100, 500), 'powerUp3');
+    }
+    else if (this.id == 4){
+        this.mySprite = game.add.sprite(game.rnd.integerInRange(150, 650), game.rnd.integerInRange(100, 500), 'powerUp4');
+    }
+    else if (this.id == 5){
+        this.mySprite = game.add.sprite(game.rnd.integerInRange(150, 650), game.rnd.integerInRange(100, 500), 'powerUp5');
+    }
+    this.mySprite.scale.setTo(0.38, 0.38);
     game.physics.enable(this.mySprite, Phaser.Physics.ARCADE);
 
 }

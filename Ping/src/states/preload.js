@@ -18,6 +18,12 @@ Ping.preloadState.prototype = {
         game.load.image('catcher', 'assets/images/catcher.png');
         game.load.image('pelota', 'assets/images/pelota.png');
         game.load.image('porteria', 'assets/images/porteria.png');
+        game.load.image('powerUp0', 'assets/images/PWUP_barraGrande.png');
+        game.load.image('powerUp1', 'assets/images/PWUP_barraPequeña.png');
+        game.load.image('powerUp2', 'assets/images/PWUP_bolaDoble.png');
+        game.load.image('powerUp3', 'assets/images/PWUP_velocidadBola.png');
+        game.load.image('powerUp4', 'assets/images/PWUP_cambioDireccion.png');
+        game.load.image('powerUp5', 'assets/images/PWUP_escudo.png');
         game.load.spritesheet('jugar', 'assets/images/jugar_spritesheet.png', 300, 71);
         game.load.spritesheet('creditos', 'assets/images/creditos_spritesheet.png', 300, 71);
         game.load.spritesheet('salir', 'assets/images/salir_spritesheet.png', 200, 71);
