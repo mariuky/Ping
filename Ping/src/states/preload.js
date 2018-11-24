@@ -7,7 +7,9 @@ Ping.preloadState.prototype = {
     preload: function() {
         var text = "Loading";
         var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
-        var t = game.add.text(game.world.centerX -150, 250, text, style);
+        var t = game.add.text(50, 500, text, style);
+        game.load.image('fondo', 'assets/images/background.png');
+        game.load.image('titulo', 'assets/images/titulo_menu.png');
         game.load.image('raqueta', 'assets/images/raqueta.png');
         game.load.image('raquetaBlue', 'assets/images/raqueta_azul.png');
         game.load.image('raquetaYellow', 'assets/images/raqueta_amarilla.png');

@@ -415,7 +415,7 @@ Ping.levelState.prototype = {
     },
 
     create: function () {
-
+        background = game.add.tileSprite(0, 0, 800, 600, 'fondo');
         //añadimos y configuramos el sonido
         music = game.add.audio('music', 1, true);
         music.play();
@@ -439,6 +439,7 @@ Ping.levelState.prototype = {
     },
 
     update: function () {
+        background.tilePosition.x += 0.25;
         comprobarGanador();
         reviewCollisions();
         if (upgradeTimer == true) {

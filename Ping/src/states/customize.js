@@ -11,6 +11,7 @@ Ping.customizeState.prototype = {
     },
 
     create: function() {
+        background = game.add.tileSprite(0, 0, 800, 600, 'fondo');
     	var text = "Color";
     	var style = { font: "50px Arial", fill: "#ffffff", align: "center" };
     	var color_texto = game.add.text(340, 225, text, style);
@@ -34,6 +35,7 @@ Ping.customizeState.prototype = {
     },
 
     update: function() {
+        background.tilePosition.y -= 0.75;
         this.drawPlayer();
     },
     menuOnClick: function() {
@@ -43,7 +45,7 @@ Ping.customizeState.prototype = {
     },
     levelOnClick: function() {
 
-        game.state.start('matchingState')
+        game.state.start('levelState')
  
     },
     updateColorBlue: function(){
