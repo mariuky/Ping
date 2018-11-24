@@ -8,6 +8,7 @@ Ping.menuState.prototype = {
     },
 
     create: function() {
+        background = game.add.tileSprite(0, 0, 800, 600, 'fondo');
         var titulo= game.add.text(300, 20, 'Ping', {font: '100px Arial', fill: '#ffffff'});
         //var startLabel=game.add.text(80, game.world.height-80, 'y tal', {font: '25px Arial', fill: '#ffffff'});
         var jugar_boton = game.add.button(325, 180, 'jugar', this.customizeOnClick, this, 1, 0, 0);
@@ -27,7 +28,7 @@ Ping.menuState.prototype = {
     },
     
     update: function() {
-
+        background.tilePosition.x += 1;
     },
     customizeOnClick: function() {
 

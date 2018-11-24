@@ -8,7 +8,7 @@ Ping.creditsState.prototype = {
     },
 
     create: function() {
-        game.stage.backgroundColor = "#000000";
+        background = game.add.tileSprite(0, 0, 800, 600, 'fondo');
     	var titulo= game.add.text(300, 20, 'Ping', {font: '100px Arial', fill: '#ffffff'});
         var nombre1=game.add.text(170, 180, 'Mario Peña Jiménez', {font: '50px Arial', fill: '#ffffff'});
         var nombre2=game.add.text(140, 280, 'Jaime Bárzano Enrique', {font: '50px Arial', fill: '#ffffff'});
@@ -27,7 +27,7 @@ Ping.creditsState.prototype = {
     },
     
     update: function() {
-        
+        background.tilePosition.y += 0.75;
     },
     fullscreen: function() {
         if (game.scale.isFullScreen)
