@@ -9,7 +9,7 @@ Ping.creditsState.prototype = {
 
     create: function() {
         background = game.add.tileSprite(0, 0, 800, 600, 'fondo');
-    	var titulo= game.add.text(300, 20, 'Ping', {font: '100px Arial', fill: '#ffffff'});
+    	var titulo= game.add.sprite(250, 20, 'titulo');
         var nombre1=game.add.text(170, 180, 'Mario Peña Jiménez', {font: '50px Arial', fill: '#ffffff'});
         var nombre2=game.add.text(140, 280, 'Jaime Bárzano Enrique', {font: '50px Arial', fill: '#ffffff'});
         var nombre3=game.add.text(130, 380, 'Rafael Sauceda Velasco', {font: '50px Arial', fill: '#ffffff'});
