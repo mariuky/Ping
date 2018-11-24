@@ -19,7 +19,7 @@ Ping.matchingState.prototype = {
         };
         
         if (Ping.player != undefined) {
-            createPlayer( function(playerId){
+            createPlayer(function(playerId){
             	Ping.player.id = playerId;
             }, Ping.player);
         } 
@@ -37,9 +37,5 @@ Ping.matchingState.prototype = {
         	if(numero_usuarios === 2){ game.state.start('levelState'); }
         });
         
-        /*
-        numberUsers(function(numero_usuarios){
-        	if(numero_usuarios > 3 && CatCatcher.user != undefined) { deleteUser(numero_usuarios); delete CatCatcher.user; }
-        });*/
     }
 }
