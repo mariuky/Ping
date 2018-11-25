@@ -375,11 +375,9 @@ function comprobarGanador() {
     if ((pjs[0].points == 10) || (pjs[1].points == 10)) {
         music.pause();
         if (pjs[0].points == 10) {
-            game.add.text(140, 280, 'GANA EL JUGADOR 1', { font: '50px Arial', fill: '#ffffff' });
             winner = 1;
         }
         else if (pjs[1].points == 10) {
-            game.add.text(140, 280, 'GANA EL JUGADOR 2', { font: '50px Arial', fill: '#ffffff' });
             winner = 2;
         }
         game.state.start('endingState');
