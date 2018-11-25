@@ -71,7 +71,7 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
 2. **Menú principal**
 
    Pantalla del menú principal:
-   ![menuprincipal](https://user-images.githubusercontent.com/43405665/47620337-471b3280-dae9-11e8-89fe-f144e86b78e1.png)
+   ![menuprincipal](https://user-images.githubusercontent.com/43405665/48983421-e0406780-f0ee-11e8-86c9-2488be9c9767.png)
    En esta pantalla se encuentran los siguientes elementos:
     * Botón de jugar, al pulsarlo te lleva al menú de personalización.
     * Botón de créditos, al pulsarlo te lleva a la pantalla de créditos
@@ -80,7 +80,7 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
 3. **Menú de personalización**
 
    Pantalla de personalización:
-   ![personalizacion](https://user-images.githubusercontent.com/43405665/47620410-0c65ca00-daea-11e8-8b06-4aceca4c86f2.png)
+   ![personalizacion](https://user-images.githubusercontent.com/43405665/48983459-72487000-f0ef-11e8-9599-4669342e9b09.png)
    En esta pantalla se encuentran los siguientes elementos:
     * Color, para elegir el color de la raqueta del jugador.
     * Botón de jugar, al pulsarlo te lleva la pantalla de juego.
@@ -89,7 +89,7 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
 4. **Interfaz de usuario durante partida**
 
    Interfaz durante el juego:
-   ![juego](https://user-images.githubusercontent.com/43405665/47620522-41bee780-daeb-11e8-83f7-152dfb1fb74b.png)
+   ![juego](https://user-images.githubusercontent.com/43405665/48983483-da975180-f0ef-11e8-9b10-9b0a828aa30b.png)
    Durante el desarrollo de la partida se podrán encontrar los siguientes elementos en pantalla:
     1. Raqueta del jugador 1.
     2. Raqueta del jugador 2.
@@ -101,13 +101,13 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
 5. **Interfaz de fin de partida**
 
    Pantalla de fin de partida:
-   ![finpartida](https://user-images.githubusercontent.com/43405665/47620456-a0379600-daea-11e8-8148-934a5eee559b.png)
+   ![finpartida](https://user-images.githubusercontent.com/43405665/48983480-c5babe00-f0ef-11e8-836a-62d2250bf8d6.png)
    En esta pantalla se encuentran los siguientes elementos:
     * Botón de salir, al pulsarlo te sales del juego.
 6. **Creditos**
 
    Pantalla de creditos:
-   ![creditos](https://user-images.githubusercontent.com/43405665/47620375-b6912200-dae9-11e8-8f4f-569004abe762.png)
+   ![creditos](https://user-images.githubusercontent.com/43405665/48983469-93a95c00-f0ef-11e8-9096-e3a932aa0928.png)
    En esta pantalla se encuentran los siguientes elementos:
     * Panel, con los nombres de los desarrolladores.
     * Botón de volver, al pulsarlo te lleva la pantalla del menú principal.
