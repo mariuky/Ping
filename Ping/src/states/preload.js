@@ -5,10 +5,19 @@ Ping.preloadState = function(game) {
 Ping.preloadState.prototype = {
 
     preload: function() {
-        var text = "Loading";
-        var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
-        var t = game.add.text(50, 500, text, style);
-        game.load.image('fondo', 'assets/images/background.png');
+        background = game.add.sprite(0, 0, 'fondo');
+        //Se crea la animación de la pantalla de carga 
+        this.loading = this.add.sprite(175, 550, 'loading');
+        this.loading.anchor.set(0.5, 0.5);
+        this.loading.animations.add('loadGame');
+        this.loading.animations.play('loadGame', 3, true);
+        this.load.setPreloadSprite(this.loading);
+        
+        //Se cargan los demás assets
+        game.load.image('textoGanador', 'assets/images/ganador_texto.png');
+        game.load.image('textoGanador2', 'assets/images/ganador_.png');
+        game.load.image('textoColor', 'assets/images/color_texto.png');
+        game.load.image('nombres', 'assets/images/nombres_creditos.png');
         game.load.image('titulo', 'assets/images/titulo_menu.png');
         game.load.image('raqueta', 'assets/images/raqueta.png');
         game.load.image('raquetaBlue', 'assets/images/raqueta_azul.png');
@@ -16,8 +25,6 @@ Ping.preloadState.prototype = {
         game.load.image('raquetaRed', 'assets/images/raqueta_roja.png');
         game.load.image('raquetaGreen', 'assets/images/raqueta_verde.png');
         game.load.image('bg', 'assets/images/bg.png');
-    	game.load.image('cat', 'assets/images/cat.png');
-        game.load.image('catcher', 'assets/images/catcher.png');
         game.load.image('pelota', 'assets/images/pelota.png');
         game.load.image('porteria', 'assets/images/porteria.png');
         game.load.image('powerUp0', 'assets/images/PWUP_barraGrande.png');
