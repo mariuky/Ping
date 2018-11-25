@@ -2,10 +2,10 @@
 var pjs = [];
 //array de power ups
 var powerUps = [];
-
 var lastTouchId;
 var upgradeTimer;
-
+//VAriable para el sestado del juego
+var gameState;
 //array de pelotas
 var balls = [];
 //velocidad inicial de la bola
@@ -159,7 +159,8 @@ function ball() {
 
 //prototipo jugador
 function pj(_id, _sprite) {
-
+	this.upKey = game.input.keyboard.addKey(Phaser.KeyCode.UP);
+    this.downKey = game.input.keyboard.addKey(Phaser.KeyCode.DOWN);
     //el jugador tiene una direccion y un id gracias al cual se determina que input tiene
     this.dir = "NONE";
     this.id = _id;
@@ -171,16 +172,14 @@ function pj(_id, _sprite) {
         this.mySprite = game.add.sprite(game.world.centerX - game.world.centerX * 0.83, game.world.centerY, _sprite);
         this.mySprite.scale.setTo(0.5, 0.5);
         this.mySprite.anchor.setTo(0.5, 0.5);
-        this.upKey = game.input.keyboard.addKey(Phaser.KeyCode.W);
-        this.downKey = game.input.keyboard.addKey(Phaser.KeyCode.S);
+        
     }
 
     if (this.id == 1) {
         this.mySprite = game.add.sprite(game.world.centerX + game.world.centerX * 0.83, game.world.centerY, _sprite);
         this.mySprite.scale.setTo(0.5, 0.5);
         this.mySprite.anchor.setTo(0.5, 0.5);
-        this.upKey = game.input.keyboard.addKey(Phaser.KeyCode.UP);
-        this.downKey = game.input.keyboard.addKey(Phaser.KeyCode.DOWN);
+        
     }
 
     //establecemos las propiedades fisicas
@@ -193,13 +192,25 @@ function pj(_id, _sprite) {
 pj.prototype.handleEvents = function () {
 
     this.dir = "NONE";
-
-    if (this.upKey.isDown)
-        this.dir = "UP";
-    if (this.downKey.isDown)
-        this.dir = "DOWN";
-
-    this.move();
+    if(this.upKey.isDown){
+        if(Ping.player.id === 1){
+        	pjs[0].dir= "UP";
+        } else {
+        	pjs[1].dir= "UP";
+        }    	
+    }
+    if(this.downKey.isDown){
+        if(Ping.player.id === 1){
+        	pjs[0].dir= "DOWN";
+        } else {
+        	pjs[1].dir= "DOWN";
+        }    	
+    }
+    if(Ping.player.id === 1){
+        	pjs[0].move();
+        } else {
+        	pjs[1].move();
+        }
 }
 //funcion del jugador que aplica la direccion actual para mover al mismo
 pj.prototype.move = function () {
@@ -415,7 +426,7 @@ Ping.levelState.prototype = {
     },
 
     create: function () {
-
+        
         //añadimos y configuramos el sonido
         music = game.add.audio('music', 1, true);
         music.play();
@@ -436,6 +447,9 @@ Ping.levelState.prototype = {
         game.time.events.add(Phaser.Timer.SECOND * 3, go, this);
         //Loop que crea cada cierto tiempo un power up
         game.time.events.loop(Phaser.Timer.SECOND * game.rnd.integerInRange(3, 5), spawnPowerUp, this);
+        //Creamos el gameState (online)
+        gameState = new State();
+        gameState.createState();
     },
 
     update: function () {
@@ -449,6 +463,90 @@ Ping.levelState.prototype = {
         //llamamos al update de nuestros jugadores
         pjs[0].handleEvents();
         pjs[1].handleEvents();
+        gameState.updateState();
 
     }
+}
+function State(){
+	
+	this.createState = function(){
+		var op;
+		if(Ping.player.id === 1){
+			Ping.player.y = pjs[0].mySprite.position.y;
+			op = 2;
+		} else {
+			Ping.player.y = pjs[1].mySprite.position.y;
+			op = 1;
+		}
+		
+		Ping.otherPlayer = {
+				id: op,
+				y: 0
+		}
+		
+		if(Ping.player.id === 1){
+			Ping.otherPlayer.y =  pjs[1].mySprite.position.y;
+		} else {
+			Ping.otherPlayer.y =  pjs[0].mySprite.position.y;
+		}
+		
+		updatePlayer(Ping.otherPlayer);
+		
+	}
+	
+	this.updateState = function(){
+			
+			if(Ping.player.id === 1){
+				Ping.player.y =  pjs[0].mySprite.position.y;
+			} else {
+				Ping.player.y =  pjs[1].mySprite.position.y;
+			}
+			updatePlayer(Ping.player);
+		//Actualizamos posicion del otro jugador y puntuacion
+		getPlayer(function(oPlayer){
+			if(Ping.otherPlayer.id === 1){
+				 pjs[0].mySprite.position.y = oPlayer.y;
+				Ping.otherPlayer.y = oPlayer.y;
+				
+			} else {
+				 pjs[1].mySprite.position.y = oPlayer.y;
+				Ping.otherPlayer.y = oPlayer.y;
+			}
+		},Ping.otherPlayer.id);
+		
+		/*
+		if(destruirGato){
+			//Destruimos gato en local y server
+			cat.destroy();
+			//deleteCat(Ping.cat);
+			
+			//Pasamos nuestra puntuación al server
+			Ping.player.puntuacion += 1;
+			jugQueDestruyoGato = 0;
+				
+			
+			//Actualizamos gato en local y server
+			updateCat(function(newCat){
+				Ping.cat.posicionX = newCat.posicionX;
+				Ping.cat.posicionY = newCat.posicionY;
+				cat = game.add.sprite(Ping.cat.posicionX, Ping.cat.posicionY, 'cat');
+				game.physics.enable(cat, Phaser.Physics.ARCADE);
+			});
+			*/
+			updatePlayer(Ping.player);
+			/*
+			destruirGato = false;
+		}
+		updatePlayer(Ping.player);
+		if(cat){
+			getCat(function(serverCat){
+				Ping.cat.posicionX = serverCat.posicionX;
+				Ping.cat.posicionY = serverCat.posicionY;
+				cat.x = serverCat.posicionX;
+				cat.y = serverCat.posicionY;
+			});
+		}
+		//Pasamos al estado ending si la puntuacion es 3
+	    if(Ping.player.puntuacion === 3 || Ping.otherPlayer.puntuacion === 3) { game.state.start('endingState'); }*/
+	}
 }
