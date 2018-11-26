@@ -6,10 +6,14 @@
 window.onbeforeunload = function(){
     if(game.state.current === 'matchingState'){
         if(Ping.player != undefined){ deletePlayer(Ping.player.id); delete Ping.player; }
+        if(Ping.ball != undefined){ deleteBall(Ping.ball.id); delete Ping.ball; }
     }
     if(game.state.current === 'levelState'){
         if(Ping.player != undefined){
             deletePlayer(Ping.player.id); delete Ping.player;
+        }
+        if(Ping.ball != undefined){
+            deleteBall(Ping.ball.id); delete Ping.ball;
         }
     }
 }
@@ -21,7 +25,7 @@ window.onbeforeunload = function(){
 function createPlayer(callback, player) {
     $.ajax({
         method: "POST",
-        url: 'http://localhost:8080/game',
+        url: '/game',
         data: JSON.stringify(player),
         processData: false,
         headers: {
@@ -36,7 +40,7 @@ function createPlayer(callback, player) {
 function numberPlayers(callback){
     $.ajax({
         method: "GET",
-        url: 'http://localhost:8080/game',
+        url: '/game',
         //data: JSON.stringify(user),
         processData: false,
         headers: {
@@ -51,7 +55,7 @@ function numberPlayers(callback){
 function getPlayer(callback, id){
     $.ajax({
         method: "GET",
-        url: 'http://localhost:8080/game/' + id,
+        url: '/game/' + id,
         //data: JSON.stringify(user),
         processData: false,
         headers: {
@@ -66,7 +70,7 @@ function getPlayer(callback, id){
 function updatePlayer(player) {
     $.ajax({
         method: 'PUT',
-        url: 'http://localhost:8080/game/' + player.id,
+        url: '/game/' + player.id,
         data: JSON.stringify(player),
         processData: false,
         headers: {
@@ -80,8 +84,77 @@ function updatePlayer(player) {
 function deletePlayer(playerId) {
     $.ajax({
         method: 'DELETE',
-        url: 'http://localhost:8080/game/' + playerId
+        url: '/game/' + playerId
     }).done(function (player) {
         console.log("Deleted player " + playerId)
+    })
+}
+
+
+function createBall(callback, ball) {
+    $.ajax({
+        method: "POST",
+        url: '/balls',
+        data: JSON.stringify(ball),
+        processData: false,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).done(function (ball) {
+        console.log("Ball created: " + JSON.stringify(ball));
+        callback(ball);
+    })
+}
+
+function numberBall(callback){
+    $.ajax({
+        method: "GET",
+        url: '/balls',
+        //data: JSON.stringify(user),
+        processData: false,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).done(function (numBalls) {
+        console.log("Info Received" + JSON.stringify(numBalls));
+        callback(numBalls);
+    })
+}
+
+function getBall(callback, id){
+    $.ajax({
+        method: "GET",
+        url: '/balls/' + id,
+        //data: JSON.stringify(user),
+        processData: false,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).done(function (ball) {
+        console.log("Info Received" + JSON.stringify(ball));
+        callback(ball);
+    })
+}
+
+function updateBall(ball) {
+    $.ajax({
+        method: 'PUT',
+        url: '/balls/' + ball.id,
+        data: JSON.stringify(ball),
+        processData: false,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).done(function (ball) {
+        console.log("Updated ball: " + JSON.stringify(ball))
+    })
+}
+
+function deletePlayer(ballId) {
+    $.ajax({
+        method: 'DELETE',
+        url: '/balls/' + ballId
+    }).done(function (ball) {
+        console.log("Deleted ball " + ballId)
     })
 }

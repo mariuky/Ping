@@ -226,6 +226,7 @@ pj.prototype.move = function () {
 
 //funcion para añadir una bola al campo de juego
 addBall = function () {
+
     balls.push(new ball());
     balls[balls.length - 1].particleEmitter.start(false, 100, 10);
 }
@@ -260,9 +261,7 @@ function shake() {
 
 //revisamos las colisiones
 reviewCollisions = function () {
-    var diff = 0; //diferencia en la coordenada "y" entre objetos que colisionan
-
-    //Primero revisamos cuando la bola toca la porteria para añadir puntos y resetear el juego
+    var diff = 0; //diferencia en la coordenada "y" entre objetos que  la bola toca la porteria para añadir puntos y resetear el juego
     for (var i = 0; i < balls.length; i++) {
         if (game.physics.arcade.collide(porterias[0].mySprite, balls[i].mySprite)) {
             if (porterias[0].escudo == true) {
@@ -420,36 +419,89 @@ Ping.levelState = function (game) {
 }
 
 Ping.levelState.prototype = {
+    init: function() {
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@2 ENTRO A LEVEL STATE");
+    },
     preload: function () {
         //Dependiendo de que color hallamos elegido así será nuestra raqueta. Por defecto es blanca.
         game.load.image('raqueta', color);
     },
 
     create: function () {
+        if(hacerCreate==0){
+            //añadimos y configuramos el sonido
+            music = game.add.audio('music', 1, true);
+            music.play();
+
+            //bool que nos ayuda a ir incrementando la dificultad del juego mediante un timer
+            upgradeTimer = true;
+            //añadimos a los arrays de jugador y bola sus correspondientes elementos
+            pjs.push(new pj(0, 'raqueta'));
+            pjs.push(new pj(1, 'raqueta'));
+            addBall();
+            Ping.onlineBalls = {
+                id: 0
+            };
+            if (Ping.onlineBalls != undefined) {
+                createBall(function(ballId){
+                    Ping.onlineBalls.id = ballId;
+                }, Ping.onlineBalls);
+            }
+
+            //añadimos las porterias
+            porterias.push(new porteria(0));
+            porterias.push(new porteria(1));
+            game.stage.backgroundColor = "#000000";
+            pj1_puntos = game.add.text(35, 20, pjs[0].points, style);
+            pj2_puntos = game.add.text(750, 20, pjs[1].points, style);
+            game.time.events.add(Phaser.Timer.SECOND * 3, go, this);
+            //Loop que crea cada cierto tiempo un power up
+            game.time.events.loop(Phaser.Timer.SECOND * game.rnd.integerInRange(3, 5), spawnPowerUp, this);
+            //Creamos el gameState (online)
+            hacerCreate=1;
+            var op;
+            var opBall;
+        if(Ping.player.id === 1){
+            Ping.player.y = pjs[0].mySprite.position.y;
+            op = 2;
+        } else {
+            Ping.player.y = pjs[1].mySprite.position.y;
+            op = 1;
+        }
+        if(Ping.onlineBalls.id === 1){
+            opBall = 2;
+        } else {
+            opBall = 1;
+        }
+        if(Ping.player.id === 1){
+            Ping.onlineBalls.posBallx = balls[0].mySprite.position.x;
+            Ping.onlineBalls.posBally = balls[0].mySprite.position.y;
+            Ping.onlineBalls.velBallx = balls[0].mySprite.body.velocity.x;
+            Ping.onlineBalls.velBally = balls[0].mySprite.body.velocity.y;
+
+        }
+        if(Ping.player.id === 1)
+            updateBall(Ping.onlineBalls);
+        Ping.otherPlayer = {
+                id: op,
+                y: 0
+        }
+        Ping.otherBall = {
+                id: opBall,
+                posBallx: 400,
+                posBally: 300
+        }
         
-        //añadimos y configuramos el sonido
-        music = game.add.audio('music', 1, true);
-        music.play();
-
-        //bool que nos ayuda a ir incrementando la dificultad del juego mediante un timer
-        upgradeTimer = true;
-        //añadimos a los arrays de jugador y bola sus correspondientes elementos
-        pjs.push(new pj(0, 'raqueta'));
-        pjs.push(new pj(1, 'raqueta'));
-        addBall();
-
-        //añadimos las porterias
-        porterias.push(new porteria(0));
-        porterias.push(new porteria(1));
-        game.stage.backgroundColor = "#000000";
-        pj1_puntos = game.add.text(35, 20, pjs[0].points, style);
-        pj2_puntos = game.add.text(750, 20, pjs[1].points, style);
-        game.time.events.add(Phaser.Timer.SECOND * 3, go, this);
-        //Loop que crea cada cierto tiempo un power up
-        game.time.events.loop(Phaser.Timer.SECOND * game.rnd.integerInRange(3, 5), spawnPowerUp, this);
-        //Creamos el gameState (online)
-        gameState = new State();
-        gameState.createState();
+        if(Ping.player.id === 1){
+            Ping.otherPlayer.y =  pjs[1].mySprite.position.y;
+        } else {
+            Ping.otherPlayer.y =  pjs[0].mySprite.position.y;
+        }
+        if(Ping.player.id === 1)
+            updateBall(Ping.onlineBalls);
+        updatePlayer(Ping.otherPlayer);
+        updateBall(Ping.otherBall);
+        }
     },
 
     update: function () {
@@ -463,90 +515,49 @@ Ping.levelState.prototype = {
         //llamamos al update de nuestros jugadores
         pjs[0].handleEvents();
         pjs[1].handleEvents();
-        gameState.updateState();
-
+        if(Ping.player.id === 1){
+                Ping.player.y =  pjs[0].mySprite.position.y;
+            } else {
+                Ping.player.y =  pjs[1].mySprite.position.y;
+            }
+            updatePlayer(Ping.player);
+        //Actualizamos posicion del otro jugador y puntuacion
+        getPlayer(function(oPlayer){
+            if(Ping.otherPlayer.id === 1){
+                 pjs[0].mySprite.position.y = oPlayer.y;
+                Ping.otherPlayer.y = oPlayer.y;
+                
+            } else {
+                 pjs[1].mySprite.position.y = oPlayer.y;
+                Ping.otherPlayer.y = oPlayer.y;
+            }
+        },Ping.otherPlayer.id);
+        updatePlayer(Ping.player);
+        if(Ping.player.id === 1){
+                Ping.onlineBalls.posBallx = balls[0].mySprite.position.x;
+                Ping.onlineBalls.posBally = balls[0].mySprite.position.y;
+                Ping.onlineBalls.velBallx = balls[0].mySprite.body.velocity.x;
+                Ping.onlineBalls.velBally = balls[0].mySprite.body.velocity.y;
+        }
+        if(Ping.player.id === 1)
+            updateBall(Ping.onlineBalls);
+        if(Ping.player.id !== 1){
+            getBall(function(oBall){
+                if(Ping.player.id === 1){  
+                } else {
+                    balls[0].mySprite.position.x = oBall.posBallx;
+                    balls[0].mySprite.position.y = oBall.posBally;
+                    balls[0].mySprite.body.velocity.x = oBall.velBallx;
+                    balls[0].mySprite.body.velocity.y = oBall.velBally;
+                    Ping.onlineBalls.posBallx = oBall.posBallx;
+                    Ping.onlineBalls.posBally = oBall.posBally;
+                    Ping.onlineBalls.velBallx = oBall.velBallx;
+                    Ping.onlineBalls.velBally = oBall.velBally;
+                    }
+            },2);
+        }
+        if(Ping.player.id === 1)
+            updateBall(Ping.onlineBalls);
+        
     }
-}
-function State(){
-	
-	this.createState = function(){
-		var op;
-		if(Ping.player.id === 1){
-			Ping.player.y = pjs[0].mySprite.position.y;
-			op = 2;
-		} else {
-			Ping.player.y = pjs[1].mySprite.position.y;
-			op = 1;
-		}
-		
-		Ping.otherPlayer = {
-				id: op,
-				y: 0
-		}
-		
-		if(Ping.player.id === 1){
-			Ping.otherPlayer.y =  pjs[1].mySprite.position.y;
-		} else {
-			Ping.otherPlayer.y =  pjs[0].mySprite.position.y;
-		}
-		
-		updatePlayer(Ping.otherPlayer);
-		
-	}
-	
-	this.updateState = function(){
-			
-			if(Ping.player.id === 1){
-				Ping.player.y =  pjs[0].mySprite.position.y;
-			} else {
-				Ping.player.y =  pjs[1].mySprite.position.y;
-			}
-			updatePlayer(Ping.player);
-		//Actualizamos posicion del otro jugador y puntuacion
-		getPlayer(function(oPlayer){
-			if(Ping.otherPlayer.id === 1){
-				 pjs[0].mySprite.position.y = oPlayer.y;
-				Ping.otherPlayer.y = oPlayer.y;
-				
-			} else {
-				 pjs[1].mySprite.position.y = oPlayer.y;
-				Ping.otherPlayer.y = oPlayer.y;
-			}
-		},Ping.otherPlayer.id);
-		
-		/*
-		if(destruirGato){
-			//Destruimos gato en local y server
-			cat.destroy();
-			//deleteCat(Ping.cat);
-			
-			//Pasamos nuestra puntuación al server
-			Ping.player.puntuacion += 1;
-			jugQueDestruyoGato = 0;
-				
-			
-			//Actualizamos gato en local y server
-			updateCat(function(newCat){
-				Ping.cat.posicionX = newCat.posicionX;
-				Ping.cat.posicionY = newCat.posicionY;
-				cat = game.add.sprite(Ping.cat.posicionX, Ping.cat.posicionY, 'cat');
-				game.physics.enable(cat, Phaser.Physics.ARCADE);
-			});
-			*/
-			updatePlayer(Ping.player);
-			/*
-			destruirGato = false;
-		}
-		updatePlayer(Ping.player);
-		if(cat){
-			getCat(function(serverCat){
-				Ping.cat.posicionX = serverCat.posicionX;
-				Ping.cat.posicionY = serverCat.posicionY;
-				cat.x = serverCat.posicionX;
-				cat.y = serverCat.posicionY;
-			});
-		}
-		//Pasamos al estado ending si la puntuacion es 3
-	    if(Ping.player.puntuacion === 3 || Ping.otherPlayer.puntuacion === 3) { game.state.start('endingState'); }*/
-	}
 }

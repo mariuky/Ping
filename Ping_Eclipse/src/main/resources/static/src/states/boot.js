@@ -14,6 +14,7 @@ Ping.bootState.prototype = {
     create: function() {
          game.physics.startSystem(Phaser.Physics.ARCADE);
     	 game.state.start('preloadState')
+    	 game.stage.disableVisibilyChange=true;
 		 //Prueba Github
     },
 
