@@ -33,6 +33,7 @@ Ping.preloadState.prototype = {
         game.load.image('powerUp3', 'assets/images/PWUP_velocidadBola.png');
         game.load.image('powerUp4', 'assets/images/PWUP_cambioDireccion.png');
         game.load.image('powerUp5', 'assets/images/PWUP_escudo.png');
+        game.load.spritesheet('countdown', 'assets/images/countdown_spritesheet.png', 200, 200);
         game.load.spritesheet('jugar', 'assets/images/jugar_spritesheet.png', 300, 71);
         game.load.spritesheet('creditos', 'assets/images/creditos_spritesheet.png', 300, 71);
         game.load.spritesheet('salir', 'assets/images/salir_spritesheet.png', 200, 71);

@@ -17,11 +17,11 @@ window.onbeforeunload = function(){
 /*
  * ADMINISTRACIÓN PETICIONES JUGADOR
  */
-var url = window.location.href + '/game';
+
 function createPlayer(callback, player) {
     $.ajax({
         method: "POST",
-        url: url,
+        url: 'http://localhost:8080/game',
         data: JSON.stringify(player),
         processData: false,
         headers: {
@@ -36,7 +36,7 @@ function createPlayer(callback, player) {
 function numberPlayers(callback){
     $.ajax({
         method: "GET",
-        url: url,
+        url: 'http://localhost:8080/game',
         //data: JSON.stringify(user),
         processData: false,
         headers: {
@@ -51,7 +51,7 @@ function numberPlayers(callback){
 function getPlayer(callback, id){
     $.ajax({
         method: "GET",
-        url: url + id,
+        url: 'http://localhost:8080/game/' + id,
         //data: JSON.stringify(user),
         processData: false,
         headers: {
@@ -66,7 +66,7 @@ function getPlayer(callback, id){
 function updatePlayer(player) {
     $.ajax({
         method: 'PUT',
-        url: url + player.id,
+        url: 'http://localhost:8080/game/' + player.id,
         data: JSON.stringify(player),
         processData: false,
         headers: {
@@ -80,7 +80,7 @@ function updatePlayer(player) {
 function deletePlayer(playerId) {
     $.ajax({
         method: 'DELETE',
-        url: url + playerId
+        url: 'http://localhost:8080/game/' + playerId
     }).done(function (player) {
         console.log("Deleted player " + playerId)
     })
