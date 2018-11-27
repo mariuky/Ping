@@ -25,11 +25,7 @@ window.onbeforeunload = function(){
 function createPlayer(callback, player) {
     $.ajax({
         method: "POST",
-<<<<<<< HEAD
         url: '/game',
-=======
-        url: 'http://localhost:8080/game',
->>>>>>> a7e3d61d62d374cf39ed4745be40abe54bc58eae
         data: JSON.stringify(player),
         processData: false,
         headers: {
@@ -44,11 +40,7 @@ function createPlayer(callback, player) {
 function numberPlayers(callback){
     $.ajax({
         method: "GET",
-<<<<<<< HEAD
         url: '/game',
-=======
-        url: 'http://localhost:8080/game',
->>>>>>> a7e3d61d62d374cf39ed4745be40abe54bc58eae
         //data: JSON.stringify(user),
         processData: false,
         headers: {
@@ -63,11 +55,7 @@ function numberPlayers(callback){
 function getPlayer(callback, id){
     $.ajax({
         method: "GET",
-<<<<<<< HEAD
         url: '/game/' + id,
-=======
-        url: 'http://localhost:8080/game/' + id,
->>>>>>> a7e3d61d62d374cf39ed4745be40abe54bc58eae
         //data: JSON.stringify(user),
         processData: false,
         headers: {
@@ -82,11 +70,7 @@ function getPlayer(callback, id){
 function updatePlayer(player) {
     $.ajax({
         method: 'PUT',
-<<<<<<< HEAD
         url: '/game/' + player.id,
-=======
-        url: 'http://localhost:8080/game/' + player.id,
->>>>>>> a7e3d61d62d374cf39ed4745be40abe54bc58eae
         data: JSON.stringify(player),
         processData: false,
         headers: {
@@ -100,11 +84,7 @@ function updatePlayer(player) {
 function deletePlayer(playerId) {
     $.ajax({
         method: 'DELETE',
-<<<<<<< HEAD
         url: '/game/' + playerId
-=======
-        url: 'http://localhost:8080/game/' + playerId
->>>>>>> a7e3d61d62d374cf39ed4745be40abe54bc58eae
     }).done(function (player) {
         console.log("Deleted player " + playerId)
     })
