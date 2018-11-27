@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class GameController {
 	Map<Long, Player> players = new ConcurrentHashMap<>();
 	Map<Long, Ball> balls = new ConcurrentHashMap<>(); 
+	Map<Long, Estado> estados = new ConcurrentHashMap<>(); 
 	AtomicLong nextId = new AtomicLong(0);
 	AtomicLong nextIdBall = new AtomicLong(0);
+	AtomicLong nextIdEstado = new AtomicLong(0);
 
 	@GetMapping(value = "/game")
 	public int numberPlayers() {
@@ -125,6 +127,54 @@ public class GameController {
 		if (savedball != null) {
 			balls.remove(savedball.getId());
 			return new ResponseEntity<>(savedball, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PostMapping(value = "/estado")
+	@ResponseStatus(HttpStatus.CREATED)
+	public long newEstado(@RequestBody Estado estado) {
+		long id = nextIdEstado.incrementAndGet();
+		estado.setId(id);
+		estados.put(estado.getId(), estado);
+		
+		return estado.getId();
+	}
+	
+	@GetMapping(value = "/estado/{id}")
+	public ResponseEntity<Estado> getEstado(@PathVariable long id) {
+		
+		Estado savedEstado = estados.get(id);
+		
+		if (savedEstado != null) {
+			return new ResponseEntity<>(savedEstado, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PutMapping(value = "/estado/{id}")
+	public ResponseEntity<Estado> updateEstados(@PathVariable long id, @RequestBody Estado estadoUpdated) {
+		
+		Estado savedEstado = estados.get(estadoUpdated.getId());
+		
+		if (savedEstado != null) {
+			estados.put(id, savedEstado);
+			return new ResponseEntity<>(savedEstado, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@DeleteMapping(value = "/estado/{id}")
+	public ResponseEntity<Estado> borraEstado(@PathVariable long id) {
+		
+		Estado savedEstados = estados.get(id);
+		
+		if (savedEstados != null) {
+			estados.remove(savedEstados.getId());
+			return new ResponseEntity<>(savedEstados, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

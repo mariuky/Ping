@@ -150,11 +150,64 @@ function updateBall(ball) {
     })
 }
 
-function deletePlayer(ballId) {
+function deleteBall(ballId) {
     $.ajax({
         method: 'DELETE',
         url: '/balls/' + ballId
     }).done(function (ball) {
         console.log("Deleted ball " + ballId)
+    })
+}
+
+function createEstado(callback, estado) {
+    $.ajax({
+        method: "POST",
+        url: '/estado',
+        data: JSON.stringify(estado),
+        processData: false,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).done(function (estado) {
+        console.log("Estado created: " + JSON.stringify(estado));
+        callback(estado);
+    })
+}
+
+function getEstado(callback, id){
+    $.ajax({
+        method: "GET",
+        url: '/estado/' + id,
+        //data: JSON.stringify(user),
+        processData: false,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).done(function (estado) {
+        console.log("Info Received" + JSON.stringify(estado));
+        callback(estado);
+    })
+}
+
+function updateEstado(estado) {
+    $.ajax({
+        method: 'PUT',
+        url: '/estado/' + estado.id,
+        data: JSON.stringify(estado),
+        processData: false,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).done(function (estado) {
+        console.log("Updated estado: " + JSON.stringify(estado))
+    })
+}
+
+function deleteEstado(estadoId) {
+    $.ajax({
+        method: 'DELETE',
+        url: '/estado/' + estadoId
+    }).done(function (estado) {
+        console.log("Deleted Estado " + estadoId)
     })
 }

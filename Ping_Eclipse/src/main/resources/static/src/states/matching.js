@@ -105,10 +105,13 @@ Ping.matchingState.prototype = {
     // Por eso el comprobador de >1 y que en el MENÚ revise si hay un jugador sobrante creado para eliminar.
     update: function () {
         this.getNumPlayers(function (numPlayers) {
-            if (numPlayers === 2) {
-                console.log ('##### COMIENZA EL JUEGO #####');
-                game.state.start('levelState');
-            }
+            if(entrarJuego===0){
+                if (numPlayers === 2) {
+                    console.log ('##### COMIENZA EL JUEGO #####');
+                    entrarJuego=1;
+                    game.state.start('levelState');
+                }
+           }
         });
     }, 
     

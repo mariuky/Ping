@@ -2,7 +2,7 @@
 var pjs = [];
 //array de power ups
 var powerUps = [];
-var lastTouchId;
+var lastTouchId=0;
 var upgradeTimer;
 //VAriable para el sestado del juego
 var gameState;
@@ -24,7 +24,7 @@ var cualBola = 0;
 var velocidadx = 0;
 var velocidady = 0;
 var music;
-
+var resetear=0;
 var sounds;
 
 var winner;
@@ -159,7 +159,7 @@ function ball() {
 
 //prototipo jugador
 function pj(_id, _sprite) {
-	this.upKey = game.input.keyboard.addKey(Phaser.KeyCode.UP);
+    this.upKey = game.input.keyboard.addKey(Phaser.KeyCode.UP);
     this.downKey = game.input.keyboard.addKey(Phaser.KeyCode.DOWN);
     //el jugador tiene una direccion y un id gracias al cual se determina que input tiene
     this.dir = "NONE";
@@ -194,22 +194,22 @@ pj.prototype.handleEvents = function () {
     this.dir = "NONE";
     if(this.upKey.isDown){
         if(Ping.player.id === 1){
-        	pjs[0].dir= "UP";
+            pjs[0].dir= "UP";
         } else {
-        	pjs[1].dir= "UP";
-        }    	
+            pjs[1].dir= "UP";
+        }       
     }
     if(this.downKey.isDown){
         if(Ping.player.id === 1){
-        	pjs[0].dir= "DOWN";
+            pjs[0].dir= "DOWN";
         } else {
-        	pjs[1].dir= "DOWN";
-        }    	
+            pjs[1].dir= "DOWN";
+        }       
     }
     if(Ping.player.id === 1){
-        	pjs[0].move();
+            pjs[0].move();
         } else {
-        	pjs[1].move();
+            pjs[1].move();
         }
 }
 //funcion del jugador que aplica la direccion actual para mover al mismo
@@ -447,6 +447,14 @@ Ping.levelState.prototype = {
                     Ping.onlineBalls.id = ballId;
                 }, Ping.onlineBalls);
             }
+            Ping.estadoOnline = {
+                id: 0
+            };
+            if (Ping.estadoOnline != undefined) {
+                createEstado(function(estadoId){
+                    Ping.estadoOnline.id = estadoId;
+                }, Ping.estadoOnline);
+            }
 
             //añadimos las porterias
             porterias.push(new porteria(0));
@@ -461,11 +469,14 @@ Ping.levelState.prototype = {
             hacerCreate=1;
             var op;
             var opBall;
+            var opEstado;
         if(Ping.player.id === 1){
             Ping.player.y = pjs[0].mySprite.position.y;
+            Ping.player.puntuacion = pjs[0].points;
             op = 2;
         } else {
             Ping.player.y = pjs[1].mySprite.position.y;
+            Ping.player.puntuacion = pjs[1].points;
             op = 1;
         }
         if(Ping.onlineBalls.id === 1){
@@ -473,34 +484,50 @@ Ping.levelState.prototype = {
         } else {
             opBall = 1;
         }
+        if(Ping.estadoOnline.id === 1){
+            opEstado = 2;
+        } else {
+            opEstado = 1;
+        }
+
+
         if(Ping.player.id === 1){
             Ping.onlineBalls.posBallx = balls[0].mySprite.position.x;
             Ping.onlineBalls.posBally = balls[0].mySprite.position.y;
             Ping.onlineBalls.velBallx = balls[0].mySprite.body.velocity.x;
             Ping.onlineBalls.velBally = balls[0].mySprite.body.velocity.y;
-
-        }
-        if(Ping.player.id === 1)
+            Ping.estadoOnline.lastTouch = lastTouchId;
+            Ping.estadoOnline.resetOnline = 0;
             updateBall(Ping.onlineBalls);
+            updateEstado(Ping.estadoOnline);
+        }
+            
         Ping.otherPlayer = {
                 id: op,
-                y: 0
+                y: 0, 
+                puntuacion: 0
         }
         Ping.otherBall = {
                 id: opBall,
                 posBallx: 400,
                 posBally: 300
         }
+        Ping.otherEstado = {
+                id: opEstado,
+                lastTouchId: 0,
+                resetOnline: 0
+        }
         
         if(Ping.player.id === 1){
             Ping.otherPlayer.y =  pjs[1].mySprite.position.y;
+            Ping.otherPlayer.puntuacion = pjs[1].points;
         } else {
             Ping.otherPlayer.y =  pjs[0].mySprite.position.y;
+            Ping.otherPlayer.puntuacion = pjs[0].points;
         }
-        if(Ping.player.id === 1)
-            updateBall(Ping.onlineBalls);
         updatePlayer(Ping.otherPlayer);
         updateBall(Ping.otherBall);
+        updateEstado(Ping.otherEstado);
         }
     },
 
@@ -517,18 +544,22 @@ Ping.levelState.prototype = {
         pjs[1].handleEvents();
         if(Ping.player.id === 1){
                 Ping.player.y =  pjs[0].mySprite.position.y;
+                Ping.player.puntuacion = pjs[0].points;
             } else {
                 Ping.player.y =  pjs[1].mySprite.position.y;
+                Ping.player.puntuacion = pjs[1].points;
             }
             updatePlayer(Ping.player);
         //Actualizamos posicion del otro jugador y puntuacion
         getPlayer(function(oPlayer){
             if(Ping.otherPlayer.id === 1){
                  pjs[0].mySprite.position.y = oPlayer.y;
+                 pjs[0].points = oPlayer.puntuacion;
                 Ping.otherPlayer.y = oPlayer.y;
                 
             } else {
                  pjs[1].mySprite.position.y = oPlayer.y;
+                 pjs[1].points = oPlayer.puntuacion;
                 Ping.otherPlayer.y = oPlayer.y;
             }
         },Ping.otherPlayer.id);
@@ -538,9 +569,12 @@ Ping.levelState.prototype = {
                 Ping.onlineBalls.posBally = balls[0].mySprite.position.y;
                 Ping.onlineBalls.velBallx = balls[0].mySprite.body.velocity.x;
                 Ping.onlineBalls.velBally = balls[0].mySprite.body.velocity.y;
+                Ping.estadoOnline.lastTouch = lastTouchId;
+                Ping.estadoOnline.resetOnline = resetear;
+                updateBall(Ping.onlineBalls);
+                updateEstado(Ping.estadoOnline);
         }
-        if(Ping.player.id === 1)
-            updateBall(Ping.onlineBalls);
+            
         if(Ping.player.id !== 1){
             getBall(function(oBall){
                 if(Ping.player.id === 1){  
@@ -555,9 +589,18 @@ Ping.levelState.prototype = {
                     Ping.onlineBalls.velBally = oBall.velBally;
                     }
             },2);
+            getEstado(function(oEstado){
+                if(Ping.player.id === 1){  
+                } else {
+                    lastTouchId = oEstado.lastTouch;
+                    resetear = oEstado.resetOnline;
+                    Ping.estadoOnline.lastTouch = oEstado.lastTouch;
+                    Ping.estadoOnline.resetOnline = oEstado.resetOnline;
+                    }
+            },2);
         }
-        if(Ping.player.id === 1)
-            updateBall(Ping.onlineBalls);
+        /*if(Ping.player.id === 1)
+            updateBall(Ping.onlineBalls);*/
         
     }
 }

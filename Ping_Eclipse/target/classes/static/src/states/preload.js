@@ -42,6 +42,8 @@ Ping.preloadState.prototype = {
         Ping.otherPlayer;
         Ping.onlineBalls;
         Ping.otherBall;
+        Ping.estadoOnline;
+        Ping.otherEstado;
         Ping.randomN = {
                 idPWUP: 0,
                 posPWUPx: 0,

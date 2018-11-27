@@ -1,6 +1,7 @@
 Ping.menuState = function(game) {
 }
 var hacerCreate=0;
+var entrarJuego=0;
 Ping.menuState.prototype = {
 
     preload: function() {
