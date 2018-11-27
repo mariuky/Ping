@@ -414,6 +414,10 @@ Ping.levelState.prototype = {
 
     create: function () {
         background = game.add.tileSprite(0, 0, 800, 600, 'fondo');
+        this.countdown = this.add.sprite(475, 200, 'countdown');
+        this.countdown.anchor.set(0.5, 0.5);
+        this.countdown.animations.add('countdownAnimation');
+        this.countdown.animations.play('countdownAnimation', 1, false, true);
         //añadimos y configuramos el sonido
         music = game.add.audio('music', 1, true);
         music.play();
