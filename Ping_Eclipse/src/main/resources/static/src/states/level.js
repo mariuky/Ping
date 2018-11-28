@@ -385,11 +385,9 @@ function comprobarGanador() {
     if ((pjs[0].points == 10) || (pjs[1].points == 10)) {
         music.pause();
         if (pjs[0].points == 10) {
-            game.add.text(140, 280, 'GANA EL JUGADOR 1', { font: '50px Arial', fill: '#ffffff' });
             winner = 1;
         }
         else if (pjs[1].points == 10) {
-            game.add.text(140, 280, 'GANA EL JUGADOR 2', { font: '50px Arial', fill: '#ffffff' });
             winner = 2;
         }
         game.state.start('endingState');
@@ -429,6 +427,11 @@ Ping.levelState.prototype = {
 
     create: function () {
         if(hacerCreate==0){
+            background = game.add.tileSprite(0, 0, 800, 600, 'fondo');
+            this.countdown = this.add.sprite(475, 200, 'countdown');
+            this.countdown.anchor.set(0.5, 0.5);
+            this.countdown.animations.add('countdownAnimation');
+            this.countdown.animations.play('countdownAnimation', 1, false, true);
             //añadimos y configuramos el sonido
             music = game.add.audio('music', 1, true);
             music.play();
@@ -532,6 +535,7 @@ Ping.levelState.prototype = {
     },
 
     update: function () {
+        background.tilePosition.x += 0.25;
         comprobarGanador();
         reviewCollisions();
         if (upgradeTimer == true) {

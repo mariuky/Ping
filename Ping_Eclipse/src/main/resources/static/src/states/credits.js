@@ -8,11 +8,10 @@ Ping.creditsState.prototype = {
     },
 
     create: function() {
-        game.stage.backgroundColor = "#000000";
-    	var titulo= game.add.text(300, 20, 'Ping', {font: '100px Arial', fill: '#ffffff'});
-        var nombre1=game.add.text(170, 180, 'Mario Peña Jiménez', {font: '50px Arial', fill: '#ffffff'});
-        var nombre2=game.add.text(140, 280, 'Jaime Bárzano Enrique', {font: '50px Arial', fill: '#ffffff'});
-        var nombre3=game.add.text(130, 380, 'Rafael Sauceda Velasco', {font: '50px Arial', fill: '#ffffff'});
+        background = game.add.tileSprite(0, 0, 800, 600, 'fondo');
+        var nombres= game.add.sprite(120, 170, 'nombres');
+        nombres.scale.setTo(0.8, 0.8);
+        var titulo= game.add.sprite(250, 20, 'titulo');
         var volver_boton = game.add.button(330, 500, 'volver', this.menuOnClick, this, 1, 0, 0);
         volver_boton.scale.setTo(0.7, 0.7);
         var fullscreen_boton = game.add.button(760, 560, 'fullscreen', this.fullscreen, this, 1, 0, 0);
@@ -27,7 +26,7 @@ Ping.creditsState.prototype = {
     },
     
     update: function() {
-        
+        background.tilePosition.y += 0.75;
     },
     fullscreen: function() {
         if (game.scale.isFullScreen)

@@ -11,9 +11,10 @@ Ping.customizeState.prototype = {
     },
 
     create: function() {
-    	var text = "Color";
+        background = game.add.tileSprite(0, 0, 800, 600, 'fondo');
+        textoColor = game.add.sprite(340, 225, 'textoColor');
+        textoColor.scale.setTo(0.6, 0.6);
     	var style = { font: "50px Arial", fill: "#ffffff", align: "center" };
-    	var color_texto = game.add.text(340, 225, text, style);
         var jugar_boton = game.add.button(515, 500, 'jugar', this.levelOnClick, this, 1, 0, 0);
         var volver_boton = game.add.button(115, 500, 'volver', this.menuOnClick, this, 1, 0, 0);
         //Dependiendo en cual clickes asi sera tu raqueta
@@ -34,6 +35,7 @@ Ping.customizeState.prototype = {
     },
 
     update: function() {
+        background.tilePosition.y -= 0.75;
         this.drawPlayer();
     },
     menuOnClick: function() {
