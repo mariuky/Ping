@@ -160,7 +160,7 @@ public class GameController {
 		Estado savedEstado = estados.get(estadoUpdated.getId());
 		
 		if (savedEstado != null) {
-			estados.put(id, savedEstado);
+			estados.put(id, estadoUpdated);
 			return new ResponseEntity<>(savedEstado, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -164,7 +164,7 @@ function pj(_id, _sprite) {
     //el jugador tiene una direccion y un id gracias al cual se determina que input tiene
     this.dir = "NONE";
     this.id = _id;
-    this.points = 0;
+    this.points = 5;
     this.velo = 500;
     this.halfSpritePlayer = 62.5;//mitad de lo que mide en y el sprite del jugador
     //determinamos el input
@@ -329,8 +329,15 @@ reviewCollisions = function () {
             }
         }
 
-        //Calcula la colisión de la bola con los power ups existentes en pantalla
-        for (var e = 0; e < powerUps.length; e++) {
+        
+        
+
+    }
+}
+//Calcula la colisión de la bola con los power ups existentes en pantalla
+reviewPowerUps =function(){
+	for (var i = 0; i < balls.length; i++) {
+		for (var e = 0; e < powerUps.length; e++) {
             if (game.physics.arcade.overlap(balls[i].mySprite, powerUps[e].mySprite)) {
                 powerUps[e].activate();
                 powerUps[e].mySprite.destroy();
@@ -338,10 +345,8 @@ reviewCollisions = function () {
                 break;
             }
         }
-
-    }
+	}
 }
-
 //Función que hace que aparezcan power-ups aleatorios
 spawnPowerUp = function () {
     powerUps.push(new powerUp(game.rnd.integerInRange(0, 5)));
@@ -349,6 +354,9 @@ spawnPowerUp = function () {
 
 //Resetea el juego. Lleva la bola al centro y la para
 function reset() {
+	if(Ping.player.id===1){
+		resetear=1;
+	}
     cualBola = 0;
     for (var a = balls.length; a > 1; a--) {
         balls.length;
@@ -385,11 +393,9 @@ function comprobarGanador() {
     if ((pjs[0].points == 10) || (pjs[1].points == 10)) {
         music.pause();
         if (pjs[0].points == 10) {
-            game.add.text(140, 280, 'GANA EL JUGADOR 1', { font: '50px Arial', fill: '#ffffff' });
             winner = 1;
         }
         else if (pjs[1].points == 10) {
-            game.add.text(140, 280, 'GANA EL JUGADOR 2', { font: '50px Arial', fill: '#ffffff' });
             winner = 2;
         }
         game.state.start('endingState');
@@ -429,6 +435,11 @@ Ping.levelState.prototype = {
 
     create: function () {
         if(hacerCreate==0){
+            background = game.add.tileSprite(0, 0, 800, 600, 'fondo');
+            this.countdown = this.add.sprite(475, 200, 'countdown');
+            this.countdown.anchor.set(0.5, 0.5);
+            this.countdown.animations.add('countdownAnimation');
+            this.countdown.animations.play('countdownAnimation', 1, false, true);
             //añadimos y configuramos el sonido
             music = game.add.audio('music', 1, true);
             music.play();
@@ -442,19 +453,27 @@ Ping.levelState.prototype = {
             Ping.onlineBalls = {
                 id: 0
             };
-            if (Ping.onlineBalls != undefined) {
-                createBall(function(ballId){
-                    Ping.onlineBalls.id = ballId;
-                }, Ping.onlineBalls);
-            }
             Ping.estadoOnline = {
-                id: 0
-            };
-            if (Ping.estadoOnline != undefined) {
-                createEstado(function(estadoId){
-                    Ping.estadoOnline.id = estadoId;
-                }, Ping.estadoOnline);
-            }
+                	id: 1,
+                	lastTouch: 0,
+                	resetOnline: 0,
+                	punt1: 0,
+                	punt2: 0
+            	};
+            if(Ping.player.id===1){
+           		if (Ping.onlineBalls != undefined) {
+                	createBall(function(ballId){
+                    	Ping.onlineBalls.id = ballId;
+                	}, Ping.onlineBalls);
+            	}
+            	
+            	if (Ping.estadoOnline != undefined) {
+               		createEstado(function(estadoId){
+                    	Ping.estadoOnline.id = estadoId;
+                    	console.log("Crear estado###################################");
+                	}, Ping.estadoOnline);
+            	}
+        	}
 
             //añadimos las porterias
             porterias.push(new porteria(0));
@@ -468,18 +487,16 @@ Ping.levelState.prototype = {
             //Creamos el gameState (online)
             hacerCreate=1;
             var op;
-            var opBall;
-            var opEstado;
+            /*var opBall;
+            var opEstado;*/
         if(Ping.player.id === 1){
             Ping.player.y = pjs[0].mySprite.position.y;
-            Ping.player.puntuacion = pjs[0].points;
             op = 2;
         } else {
             Ping.player.y = pjs[1].mySprite.position.y;
-            Ping.player.puntuacion = pjs[1].points;
             op = 1;
         }
-        if(Ping.onlineBalls.id === 1){
+       /* if(Ping.onlineBalls.id === 1){
             opBall = 2;
         } else {
             opBall = 1;
@@ -488,7 +505,7 @@ Ping.levelState.prototype = {
             opEstado = 2;
         } else {
             opEstado = 1;
-        }
+        }*/
 
 
         if(Ping.player.id === 1){
@@ -497,17 +514,20 @@ Ping.levelState.prototype = {
             Ping.onlineBalls.velBallx = balls[0].mySprite.body.velocity.x;
             Ping.onlineBalls.velBally = balls[0].mySprite.body.velocity.y;
             Ping.estadoOnline.lastTouch = lastTouchId;
+            Ping.estadoOnline.punt1= pjs[0].points;
+            Ping.estadoOnline.punt2= pjs[1].points;
             Ping.estadoOnline.resetOnline = 0;
             updateBall(Ping.onlineBalls);
+            console.log("Casi updateadno estado###################################");
             updateEstado(Ping.estadoOnline);
+            console.log("Epdate estado###################################");
         }
             
         Ping.otherPlayer = {
                 id: op,
-                y: 0, 
-                puntuacion: 0
+                y: 0 
         }
-        Ping.otherBall = {
+        /*Ping.otherBall = {
                 id: opBall,
                 posBallx: 400,
                 posBally: 300
@@ -516,24 +536,65 @@ Ping.levelState.prototype = {
                 id: opEstado,
                 lastTouchId: 0,
                 resetOnline: 0
-        }
+        }*/
         
         if(Ping.player.id === 1){
             Ping.otherPlayer.y =  pjs[1].mySprite.position.y;
-            Ping.otherPlayer.puntuacion = pjs[1].points;
         } else {
             Ping.otherPlayer.y =  pjs[0].mySprite.position.y;
-            Ping.otherPlayer.puntuacion = pjs[0].points;
         }
         updatePlayer(Ping.otherPlayer);
-        updateBall(Ping.otherBall);
-        updateEstado(Ping.otherEstado);
+        /*updateBall(Ping.otherBall);
+        updateEstado(Ping.otherEstado);*/
         }
     },
 
     update: function () {
+    	getBall(function(oBall){
+            if(Ping.player.id === 1){  
+            } else {
+                balls[0].mySprite.position.x = oBall.posBallx;
+                balls[0].mySprite.position.y = oBall.posBally;
+                balls[0].mySprite.body.velocity.x = oBall.velBallx;
+                balls[0].mySprite.body.velocity.y = oBall.velBally;
+                /*Ping.onlineBalls.posBallx = oBall.posBallx;
+                Ping.onlineBalls.posBally = oBall.posBally;
+                Ping.onlineBalls.velBallx = oBall.velBallx;
+                Ping.onlineBalls.velBally = oBall.velBally;*/
+            }
+        },1);
+    	getEstado(function(oEstado){
+            if(Ping.player.id === 1){  
+            	if(resetear===0)
+            		console.log("Que te follen#############################################")
+                resetear = oEstado.resetOnline;
+                if(resetear===0)
+            		console.log("Que te follen#############################################")
+                Ping.estadoOnline.resetOnline = oEstado.resetOnline;
+			} else {
+                lastTouchId = oEstado.lastTouch;
+                resetear = oEstado.resetOnline;
+                pjs[0].points = oEstado.punt1;
+                pjs[1].points = oEstado.punt2;
+                if(resetear===1){
+                    reset();
+                    resetear=0;
+                }
+                Ping.estadoOnline.lastTouch = oEstado.lastTouch;
+                Ping.estadoOnline.resetOnline = resetear
+                Ping.estadoOnline.punt1 = oEstado.punt1;
+                Ping.estadoOnline.punt2 = oEstado.punt2;
+                updateEstado(Ping.estadoOnline);
+            }
+        },1);
+    	if(resetear===0)
+            		console.log("Que te follen#############################################")
+        background.tilePosition.x += 0.25;
         comprobarGanador();
-        reviewCollisions();
+         
+        if(Ping.player.id ===1)
+        	reviewCollisions();
+        reviewPowerUps();
         if (upgradeTimer == true) {
             game.time.events.add(Phaser.Timer.SECOND * 5, upgradeVel, this)
             upgradeTimer = false;
@@ -544,63 +605,46 @@ Ping.levelState.prototype = {
         pjs[1].handleEvents();
         if(Ping.player.id === 1){
                 Ping.player.y =  pjs[0].mySprite.position.y;
-                Ping.player.puntuacion = pjs[0].points;
             } else {
                 Ping.player.y =  pjs[1].mySprite.position.y;
-                Ping.player.puntuacion = pjs[1].points;
             }
             updatePlayer(Ping.player);
         //Actualizamos posicion del otro jugador y puntuacion
         getPlayer(function(oPlayer){
             if(Ping.otherPlayer.id === 1){
-                 pjs[0].mySprite.position.y = oPlayer.y;
-                 pjs[0].points = oPlayer.puntuacion;
+                pjs[0].mySprite.position.y = oPlayer.y;
                 Ping.otherPlayer.y = oPlayer.y;
                 
             } else {
                  pjs[1].mySprite.position.y = oPlayer.y;
-                 pjs[1].points = oPlayer.puntuacion;
                 Ping.otherPlayer.y = oPlayer.y;
             }
         },Ping.otherPlayer.id);
         updatePlayer(Ping.player);
+        if(resetear===0)
+            		console.log("Que te follen#############################################")
         if(Ping.player.id === 1){
                 Ping.onlineBalls.posBallx = balls[0].mySprite.position.x;
                 Ping.onlineBalls.posBally = balls[0].mySprite.position.y;
                 Ping.onlineBalls.velBallx = balls[0].mySprite.body.velocity.x;
                 Ping.onlineBalls.velBally = balls[0].mySprite.body.velocity.y;
                 Ping.estadoOnline.lastTouch = lastTouchId;
+                Ping.estadoOnline.punt1= pjs[0].points;
+            	Ping.estadoOnline.punt2= pjs[1].points;
                 Ping.estadoOnline.resetOnline = resetear;
                 updateBall(Ping.onlineBalls);
                 updateEstado(Ping.estadoOnline);
+                
         }
+          
+        if(resetear===0)
+            		console.log("Que te follen#############################################")
+        
+        
+        if(resetear===0)
+            		console.log("Que te follen#############################################")
             
-        if(Ping.player.id !== 1){
-            getBall(function(oBall){
-                if(Ping.player.id === 1){  
-                } else {
-                    balls[0].mySprite.position.x = oBall.posBallx;
-                    balls[0].mySprite.position.y = oBall.posBally;
-                    balls[0].mySprite.body.velocity.x = oBall.velBallx;
-                    balls[0].mySprite.body.velocity.y = oBall.velBally;
-                    Ping.onlineBalls.posBallx = oBall.posBallx;
-                    Ping.onlineBalls.posBally = oBall.posBally;
-                    Ping.onlineBalls.velBallx = oBall.velBallx;
-                    Ping.onlineBalls.velBally = oBall.velBally;
-                    }
-            },2);
-            getEstado(function(oEstado){
-                if(Ping.player.id === 1){  
-                } else {
-                    lastTouchId = oEstado.lastTouch;
-                    resetear = oEstado.resetOnline;
-                    Ping.estadoOnline.lastTouch = oEstado.lastTouch;
-                    Ping.estadoOnline.resetOnline = oEstado.resetOnline;
-                    }
-            },2);
-        }
-        /*if(Ping.player.id === 1)
-            updateBall(Ping.onlineBalls);*/
+        
         
     }
 }

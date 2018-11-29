@@ -4,17 +4,11 @@ public class Player {
 	private long id;
 	private int y;
 	private int color;
-	private int puntuacion;
 	
 	Player() {
 		
 	}
-	public int getPuntuacion() {
-		return puntuacion;
-	}
-	public void setPuntuacion(int puntuacion) {
-		this.puntuacion = puntuacion;
-	}
+	
 	public int getColor() {
 		return color;
 	}

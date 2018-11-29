@@ -32,7 +32,7 @@ function createPlayer(callback, player) {
             "Content-Type": "application/json"
         }
     }).done(function (player) {
-        console.log("Player created: " + JSON.stringify(player));
+        ////console.log("Player created: " + JSON.stringify(player));
         callback(player);
     })
 }
@@ -47,7 +47,7 @@ function numberPlayers(callback){
             "Content-Type": "application/json"
         }
     }).done(function (numPlayers) {
-        console.log("Info Received" + JSON.stringify(numPlayers));
+        ////console.log("Info Received" + JSON.stringify(numPlayers));
         callback(numPlayers);
     })
 }
@@ -62,7 +62,7 @@ function getPlayer(callback, id){
             "Content-Type": "application/json"
         }
     }).done(function (player) {
-        console.log("Info Received" + JSON.stringify(player));
+        ////console.log("Player Received" + JSON.stringify(player));
         callback(player);
     })
 }
@@ -77,7 +77,7 @@ function updatePlayer(player) {
             "Content-Type": "application/json"
         }
     }).done(function (player) {
-        console.log("Updated player: " + JSON.stringify(player))
+        ////console.log("Updated player: " + JSON.stringify(player))
     })
 }
 
@@ -86,7 +86,7 @@ function deletePlayer(playerId) {
         method: 'DELETE',
         url: '/game/' + playerId
     }).done(function (player) {
-        console.log("Deleted player " + playerId)
+        //console.log("Deleted player " + playerId)
     })
 }
 
@@ -101,7 +101,7 @@ function createBall(callback, ball) {
             "Content-Type": "application/json"
         }
     }).done(function (ball) {
-        console.log("Ball created: " + JSON.stringify(ball));
+        ////console.log("Ball created: " + JSON.stringify(ball));
         callback(ball);
     })
 }
@@ -116,7 +116,7 @@ function numberBall(callback){
             "Content-Type": "application/json"
         }
     }).done(function (numBalls) {
-        console.log("Info Received" + JSON.stringify(numBalls));
+        ////console.log("Info Received" + JSON.stringify(numBalls));
         callback(numBalls);
     })
 }
@@ -131,7 +131,7 @@ function getBall(callback, id){
             "Content-Type": "application/json"
         }
     }).done(function (ball) {
-        console.log("Info Received" + JSON.stringify(ball));
+        //console.log("Ball Received" + JSON.stringify(ball));
         callback(ball);
     })
 }
@@ -146,7 +146,7 @@ function updateBall(ball) {
             "Content-Type": "application/json"
         }
     }).done(function (ball) {
-        console.log("Updated ball: " + JSON.stringify(ball))
+        //console.log("Updated ball: " + JSON.stringify(ball))
     })
 }
 
@@ -155,7 +155,7 @@ function deleteBall(ballId) {
         method: 'DELETE',
         url: '/balls/' + ballId
     }).done(function (ball) {
-        console.log("Deleted ball " + ballId)
+        //console.log("Deleted ball " + ballId)
     })
 }
 
@@ -184,7 +184,7 @@ function getEstado(callback, id){
             "Content-Type": "application/json"
         }
     }).done(function (estado) {
-        console.log("Info Received" + JSON.stringify(estado));
+        console.log("Estado Received" + JSON.stringify(estado));
         callback(estado);
     })
 }

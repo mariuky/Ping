@@ -89,7 +89,7 @@ Ping.matchingState.prototype = {
         spr_text = game.add.text(game.world.centerX-100, 50, text, style);
         
         Ping.player = {
-                id: 0
+                id: 0,
         };
         
         if (Ping.player != undefined) {
