@@ -8,11 +8,53 @@ public class Estado {
 	private int resetOnline;
 	private int punt1;
 	private int punt2;
+	private int powerId = -1;
+	private int powerY;
+	private int powerX;
 	
+
 	Estado() {
 		
 	}
+
 	
+	public int getPowerId() {
+		return powerId;
+	}
+
+
+
+	public void setPowerId(int powerId) {
+		this.powerId = powerId;
+	}
+
+
+
+	public int getPowerY() {
+		return powerY;
+	}
+
+
+
+	public void setPowerY(int powerY) {
+		this.powerY = powerY;
+	}
+
+
+
+	public int getPowerX() {
+		return powerX;
+	}
+
+
+
+	public void setPowerX(int powerX) {
+		this.powerX = powerX;
+	}
+
+
+
+
 	
 	public int getPunt1() {
 		return punt1;
