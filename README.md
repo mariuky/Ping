@@ -17,7 +17,7 @@
 
 1. **Jugabilidad**  
   Respecto a la jugabilidad del juego, nos basaremos en el juego original. Los dos jugadores podrán moverse hacia arriba y hacia abajo con el fin de golpear a la bola para que pase al campo enemigo. El jugador que consiga que la bola atraviese la pared lateral donde se encuentre su oponente, recibirá un punto. Quien alcance una puntuación de 10 puntos ganará la partida.  
-Los jugadores tendrán forma de rectángulo al igual que en el Pong, y contarán con varios power-ups, los cuales aparecerán en el campo. Los jugadores podrán cogerlos para facilitar la partida a su favor. En resumen, la jugabilidad sería similar a la del juego base pero añadiendo una serie de novedades que queremos que lo haga más atractivo y divertido. En principio el juego contará con una sola pantalla y será 1 jugador contra 1 jugador.  
+Los jugadores tendrán forma de rectángulo al igual que en el Pong, y contarán con varios power-ups, los cuales aparecerán en el campo. Los jugadores podrán cogerlos para facilitar la partida a su favor. En resumen, la jugabilidad sería similar a la del juego base pero añadiendo una serie de novedades que queremos que lo haga más atractivo y divertido. En principio el juego contará con una sola pantalla y será 1 jugador contra 1 jugador.
 
 2. **Flujo de juego**  
   * Introducción al juego  
@@ -33,7 +33,7 @@ Los jugadores tendrán forma de rectángulo al igual que en el Pong, y contarán
        La partida finalizará cuando un jugador logre vencer al otro, lo cual se dará después de que alguien logre alcanzar 10 puntos. La        música parará y aparecerá una pantalla en la que se indica qué jugador ha ganado, solo habrá un botón para salir del juego de            momento.  
 
 3. **Control de jugador**  
-  El movimiento de los personajes, al igual que el juego original, está limitado a moverse hacia arriba o hacia abajo. Para ello se utilizarán dos teclas (en principio W, S) las cuales servirán para mover al jugador arriba y abajo respectivamente.  
+  El movimiento de los personajes, al igual que el juego original, está limitado a moverse hacia arriba o hacia abajo. Para ello se utilizarán dos teclas (flechas de dirección arriba y abajo) las cuales servirán para mover al jugador arriba y abajo respectivamente.  
 
 4. **Interacción entre elementos**  
   Las colisiones se producirán de la siguiente manera:  
@@ -48,17 +48,12 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
 
    * Aumento del tamaño de la barra.
    * Escudo: aparece un escudo detrás del jugador que lo haya cogido y hace que este tenga una oportunidad más, ya que al chocar la bola    con el escudo rebotará una vez como si fuera una pared cualquiera.
-   * "Doble bola": El jugador que lo active hará que aparezca otra bola extra, que el jugador contrario tendrá que parar al igual que la    original.
    * Disminución del tamaño de la barra para el jugador contrario.
    * Aumento de la velocidad de la(s) bola(s).
    * Cambio de dirección vertical de la(s) bola(s).
   
 6. **Matchmaking**  
-   Respecto al algoritmo de matchmaking de nuestro juego vamos a incluir las siguientes características:
- * Se implementará que los jugadores de la partida sean preferiblemente del misma zona, con el fin de que no haya problemas de conexión    que entorpezcan las partidas.
- * Se implementará un sistema que calcule la habilidad del jugador. Para ello se tendrá en cuenta las partidas ganadas del jugador las      cuales se guardarán en un fichero externo.  
- 
-   En base a esas dos cosas se crearán las partidas de Ping.
+   Respecto al algoritmo de matchmaking de nuestro juego, al entrar el primer jugador a la sala de espera, permanecerá allí hasta que un segundo jugador entre al juego y les lleve a ambos a la pantalla de juego donde empezará la partida.
 
 
 # Interfaz
@@ -76,6 +71,7 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
     * Botón de jugar, al pulsarlo te lleva al menú de personalización.
     * Botón de créditos, al pulsarlo te lleva a la pantalla de créditos
     * Botón de salir, al pulsarlo te lleva al sistema operativo.
+    * Botón de pantalla completa, si no estaba a pantalla completa se agrandará y viceversa.
   
 3. **Menú de personalización**
 
@@ -85,6 +81,7 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
     * Color, para elegir el color de la raqueta del jugador.
     * Botón de jugar, al pulsarlo te lleva la pantalla de juego.
     * Botón de volver, al pulsarlo te lleva la pantalla del menú principal.
+    * Botón de pantalla completa, si no estaba a pantalla completa se agrandará y viceversa.
     
 4. **Interfaz de usuario durante partida**
 
@@ -111,8 +108,9 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
    En esta pantalla se encuentran los siguientes elementos:
     * Panel, con los nombres de los desarrolladores.
     * Botón de volver, al pulsarlo te lleva la pantalla del menú principal.
+    * Botón de pantalla completa, si no estaba a pantalla completa se agrandará y viceversa.
 
-6. **Sistema de comunicación**
+6. **Sistema de comunicación (sin implementar todavía)**
 
    Hemos decidido que no incluiremos chat, ya que en un juego tan frenético como Ping, los jugadores no tendrían tiempo para chatear        entre sí durante la partida, lo cual le restaría importancia a esta función. Sin embargo vamos a incluir un sistema de comunicación      por emoticonos predefinidos, los cuales son más dinámicos y visuales. Los emoticonos aparecerán entre la puntuación y el nombre del      jugador, y cada jugador los podrá activar, en principio, mediante el teclado.
 
