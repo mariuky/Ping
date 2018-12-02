@@ -70,7 +70,6 @@ public class GameController {
 	public ResponseEntity<Player> borraJugador(@PathVariable long id) {
 		
 		Player savedPlayer = players.get(id);
-		
 		if (savedPlayer != null) {
 			players.remove(savedPlayer.getId());
 			return new ResponseEntity<>(savedPlayer, HttpStatus.OK);
@@ -123,7 +122,6 @@ public class GameController {
 	public ResponseEntity<Ball> borraBall(@PathVariable long id) {
 
 		Ball savedball = balls.get(id);
-
 		if (savedball != null) {
 			balls.remove(savedball.getId());
 			return new ResponseEntity<>(savedball, HttpStatus.OK);
@@ -171,7 +169,6 @@ public class GameController {
 	public ResponseEntity<Estado> borraEstado(@PathVariable long id) {
 		
 		Estado savedEstados = estados.get(id);
-		
 		if (savedEstados != null) {
 			estados.remove(savedEstados.getId());
 			return new ResponseEntity<>(savedEstados, HttpStatus.OK);

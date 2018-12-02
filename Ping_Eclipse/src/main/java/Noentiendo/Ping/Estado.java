@@ -11,13 +11,22 @@ public class Estado {
 	private int powerId = -1;
 	private int powerY;
 	private int powerX;
+	private int spawn;
 	
 
 	Estado() {
 		
 	}
+	public int getSpawn() {
+		return spawn;
+	}
 
-	
+
+	public void setSpawn(int spawn) {
+		this.spawn = spawn;
+	}
+
+
 	public int getPowerId() {
 		return powerId;
 	}

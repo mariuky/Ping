@@ -51,16 +51,7 @@ Ping.preloadState.prototype = {
         Ping.player;
         Ping.otherPlayer;
         Ping.onlineBalls;
-        Ping.otherBall;
         Ping.estadoOnline;
-        Ping.otherEstado;
-        Ping.randomN = {
-                idPWUP: 0,
-                posPWUPx: 0,
-                posPWUPy: 0,
-                velInicialX: 0,
-                velInicialY: 0
-        }
     	game.state.start('menuState')
     },
 
