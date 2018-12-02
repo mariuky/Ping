@@ -114,6 +114,9 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
 
    Hemos decidido que no incluiremos chat, ya que en un juego tan frenético como Ping, los jugadores no tendrían tiempo para chatear        entre sí durante la partida, lo cual le restaría importancia a esta función. Sin embargo vamos a incluir un sistema de comunicación      por emoticonos predefinidos, los cuales son más dinámicos y visuales. Los emoticonos aparecerán entre la puntuación y el nombre del      jugador, y cada jugador los podrá activar, en principio, mediante el teclado.
 
+# Diagrama de clases de la aplicación (API Rest)
+![diagramaclases](https://user-images.githubusercontent.com/43405665/49343396-bcd66900-f668-11e8-8007-8d6ddb383292.png)
+
 # Arte  
 El estilo artístico evoca a los clásicos arcade como Arkanoid. Sobrio y bidimensional pero con una identidad
 definida dando la información necesaria a los jugadores sin llegar a enturbiar el entorno de juego. 
