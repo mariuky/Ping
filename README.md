@@ -117,6 +117,11 @@ Los Power Ups aparecen de manera aleatoria en el campo de juego, quedan afectado
 # Diagrama de clases de la aplicación (API Rest)
 ![diagramaclases](https://user-images.githubusercontent.com/43405665/49343396-bcd66900-f668-11e8-8007-8d6ddb383292.png)
 
+# Instrucciones de ejecución de la aplicación
+* Abrir la aplicación Spring Tool Suite y abrir el proyecto en la misma.
+* Click derecho en App.java y elegir “Run as Java Application”.
+* Si todo ha ido bien, lo siguiente es abrir el navegador Google Chrome y escribir en la URL “localhost:8080” y debería abrirse el juego.
+
 # Arte  
 El estilo artístico evoca a los clásicos arcade como Arkanoid. Sobrio y bidimensional pero con una identidad
 definida dando la información necesaria a los jugadores sin llegar a enturbiar el entorno de juego. 
