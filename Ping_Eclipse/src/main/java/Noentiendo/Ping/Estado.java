@@ -108,5 +108,11 @@ public class Estado {
 	public void setResetOnline(int resetOnline) {
 		this.resetOnline = resetOnline;
 	}
+	@Override
+	public String toString() {
+		return "{\"id\":" + id + ",\"lastTouch\":" + lastTouch + ",\"resetOnline\":" + resetOnline + ",\"punt1\":" + punt1
+				+ ",\"punt2\":" + punt2 + ",\"powerId\":" + powerId + ",\"powerY\":" + powerY + ",\"powerX\":" + powerX
+				+ ",\"spawn\":" + spawn + "}";
+	}
 	
 }

@@ -4,7 +4,7 @@ var pjs = [];
 var powerUps = [];
 var lastTouchId=0;
 var upgradeTimer;
-//VAriable para el sestado del juego
+//Variable para el sestado del juego
 var gameState;
 //array de pelotas
 var balls = [];
@@ -21,22 +21,27 @@ var puntos_pj2 = "0";
 var style = { font: "30px Arial", fill: "#ffffff", align: "center" };
 //Que bola ha tocado el power up
 var cualBola = 0;
+//Velocidad de la bola
 var velocidadx = 0;
 var velocidady = 0;
+//musica
 var music;
+//Variable para saber si resetear
 var resetear=0;
+//Sonidos
 var sounds;
-
+//Quien es el ganador
 var winner;
-
+//Posiciones y que power up
 var powerUpId=-1;
 var powerPosX;
 var powerPosY;
-
+//Para saber cuando spawnea un power up en el jugador 2
 var spawn2=0;
 
 
-//prototipo porteria
+
+//prototipo porteria. Recibe un id que es un int para saber donde posicionarla. Puede ser 0 o 1
 function porteria(_id) {
     this.escudo = false;
     //Porteria del jugador 1 o 2
@@ -50,7 +55,9 @@ function porteria(_id) {
     this.mySprite.body.immovable = true;
     this.mySprite.visible = false;
 }
-//Definimos los identificadores de los distintos power ups del juego y les asignamos un sprite
+
+//Definimos los identificadores de los distintos power ups del juego y les asignamos un sprite. Recibe un id que va desde el 0 hasta el 4 para saber que power up crear. 
+//Tambien recibe la posicion para saber donde crearlo. 
 function powerUp(_id, powerX, powerY) {
     this.pjAfected = lastTouchId;
     //Para saber si hay algun power up activo
@@ -126,7 +133,7 @@ powerUp.prototype.activate = function () {
         game.time.events.add(Phaser.Timer.SECOND * 40, this.deActivate, this);
     }
 }
-//Desactiva los Power ups activos actualmente
+//Desactiva los Power ups activos actualmente o uno en especifico.
 powerUp.prototype.deActivate = function () {
     if ((this.id == 0) || (this.id == 1)) {
         pjs[this.pjAfected].mySprite.scale.setTo(0.5, 0.5);
@@ -139,10 +146,11 @@ powerUp.prototype.deActivate = function () {
     }
 }
 
-//prototipo bola
+//prototipo bola. 
 function ball() {
-
+    //Variable para utilizar un power up
     this.fastball = false;
+
     this.halfSpriteBall = 12.5; //mitad de lo que mide en y el sprite de la bola
 
     //ball.mySprite es el sprite de phaser, como siempre es el mismo lo determinamos desde aqui y añadimos las caracteristicas fisicas
@@ -166,7 +174,7 @@ function ball() {
     this.particleEmitter.setYSpeed(0, 0);
 }
 
-//prototipo jugador
+//prototipo jugador. REcibe un id( 0 o 1) para saber que jugador es y posicionarlo. Recibe un sprite para pintarlo de dicho color
 function pj(_id, _sprite) {
     this.upKey = game.input.keyboard.addKey(Phaser.KeyCode.UP);
     this.downKey = game.input.keyboard.addKey(Phaser.KeyCode.DOWN);
@@ -202,20 +210,20 @@ pj.prototype.handleEvents = function () {
 
     this.dir = "NONE";
     if(this.upKey.isDown){
-        if(Ping.player.id === 1){
+        if(ID === 1){
             pjs[0].dir= "UP";
         } else {
             pjs[1].dir= "UP";
         }       
     }
     if(this.downKey.isDown){
-        if(Ping.player.id === 1){
+        if(ID === 1){
             pjs[0].dir= "DOWN";
         } else {
             pjs[1].dir= "DOWN";
         }       
     }
-    if(Ping.player.id === 1){
+    if(ID === 1){
             pjs[0].move();
         } else {
             pjs[1].move();
@@ -345,8 +353,8 @@ reviewCollisions = function () {
 }
 //Calcula la colisión de la bola con los power ups existentes en pantalla
 reviewPowerUps =function(){
-	for (var i = 0; i < balls.length; i++) {
-		for (var e = 0; e < powerUps.length; e++) {
+    for (var i = 0; i < balls.length; i++) {
+        for (var e = 0; e < powerUps.length; e++) {
             if (game.physics.arcade.overlap(balls[i].mySprite, powerUps[e].mySprite)) {
                 powerUps[e].activate();
                 powerUps[e].mySprite.destroy();
@@ -354,9 +362,9 @@ reviewPowerUps =function(){
                 break;
             }
         }
-	}
+    }
 }
-//Función que hace que aparezcan power-ups aleatorios
+//Función que hace que aparezcan power-ups aleatorios en el jugador 1. Despues se sube el estado para que lo haga el jugador 2
 spawnPowerUp = function () {
     if(spawn2 ===0){
         powerUpId = game.rnd.integerInRange(0, 4);
@@ -379,7 +387,7 @@ spawnPowerUpPlayer2 = function () {
         spawn2= 0;
 }
 
-//Resetea el juego. Lleva la bola al centro y la para
+//Resetea el juego. Lleva la bola al centro y la para. Borrar los diferentes powerups
 function reset() {
     if(Ping.player.id===1){
         resetear=1;
@@ -415,7 +423,7 @@ function reset() {
     pj2_puntos = game.add.text(750, 20, pjs[1].points, style);
 }
 
-//Función que comprueba constantemente si algín jugador ha llegado a la puntuación máxima (10 puntos)
+//Función que comprueba constantemente si algín jugador ha llegado a la puntuación máxima (10 puntos) y sube el estado
 function comprobarGanador() {
     if ((pjs[0].points == 10) || (pjs[1].points == 10)) {
         music.pause();
@@ -440,7 +448,7 @@ function comprobarGanador() {
 //Se pone de nuevo en movimiento la bola
 function go(){
     direccAleatoria();
-    balls[0].mySprite.body.velocity.setTo(velBolaX, game.rnd.integerInRange(-150, 150))
+    balls[0].mySprite.body.velocity.setTo(0, game.rnd.integerInRange(0, 0))
 }
 
 //Se calcula aleatoriamente la dirección en x de la velocidad de la bola al principio de cada punto
@@ -463,15 +471,42 @@ Ping.levelState = function (game) {
 Ping.levelState.prototype = {
     init: function() {
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@2 ENTRO A LEVEL STATE");
+        console.log(ID);
+       
     },
     preload: function () {
-        //Dependiendo de que color hallamos elegido así será nuestra raqueta. Por defecto es blanca.
-        game.load.image('raqueta', color);
+        
+        
+        
+        
     },
 
     create: function () {
-        if(hacerCreate==0){
 
+        //If para asegurarse de que el create solo se hace una vez
+        if(hacerCreate==0){
+            switch(numeroColor){
+            case 0:
+                color2= 'assets/images/raqueta.png';
+                break;
+            case 1:
+                color2='assets/images/raqueta_azul.png';
+                break;
+            case 2:
+                color2='assets/images/raqueta_roja.png';
+                break;
+            case 3:
+                color2='assets/images/raqueta_amarilla.png';
+                break;
+            case 4:
+                color2='assets/images/raqueta_verde.png';
+                break;
+        }
+        //Dependiendo de que color hallamos elegido así será nuestra raqueta. Por defecto es blanca.
+        game.load.image('raqueta1', color1);
+        game.load.image('raqueta2', color2);
+
+        
             hacerCreate=1;
             
             background = game.add.tileSprite(0, 0, 800, 600, 'fondo');
@@ -491,40 +526,13 @@ Ping.levelState.prototype = {
             upgradeTimer = true;
 
             //añadimos a los arrays de jugador y bola sus correspondientes elementos
-            pjs.push(new pj(0, 'raqueta'));
-            pjs.push(new pj(1, 'raqueta'));
+                pjs.push(new pj(0, 'raqueta'));
+                pjs.push(new pj(1, 'raqueta'));
+
+
+            //El jugador 1 crea en el servidor una bola y un estado
             addBall();
-            Ping.onlineBalls = {
-                id: 0
-            };
-            Ping.estadoOnline = {
-                id: 1,
-                lastTouch: 0,
-                resetOnline: 0,
-                punt1: 0,
-                punt2: 0,
-                powerId: -1,
-                powerX: 0,
-                powerY: 0,
-                spawn: 0
-            };
-
-
-            if(Ping.player.id===1){
-                if (Ping.onlineBalls != undefined) {
-                    createBall(function(ballId){
-                        Ping.onlineBalls.id = ballId;
-                    }, Ping.onlineBalls);
-                }
-                
-                if (Ping.estadoOnline != undefined) {
-                    createEstado(function(estadoId){
-                        Ping.estadoOnline.id = estadoId;
-                        console.log("Crear estado###################################");
-                    }, Ping.estadoOnline);
-                }
-            }
-
+//##################################################################################################################################################################
 
             //añadimos las porterias
             porterias.push(new porteria(0));
@@ -538,20 +546,20 @@ Ping.levelState.prototype = {
             game.time.events.add(Phaser.Timer.SECOND * 3, go, this);
 
             //Loop que crea cada cierto tiempo un power up
-            if (Ping.player.id === 1)
-              game.time.events.loop(Phaser.Timer.SECOND * game.rnd.integerInRange(7, 15), spawnPowerUp, this);
+              //game.time.events.loop(Phaser.Timer.SECOND * game.rnd.integerInRange(7, 15), spawnPowerUp, this);
             
-            
-            var op;
+
+            //Se asignan datos a la estructura de datos
+            /*var op;
             if(Ping.player.id === 1){
                 Ping.player.y = pjs[0].mySprite.position.y;
                 op = 2;
             } else {
                 Ping.player.y = pjs[1].mySprite.position.y;
                 op = 1;
-            }
-       
-            if(Ping.player.id === 1){
+            }*/
+            //Se asignan los datos a las estructutras de datos de la bola y el estado y se suben al servidor @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            /*if(Ping.player.id === 1){
                 Ping.onlineBalls.posBallx = balls[0].mySprite.position.x;
                 Ping.onlineBalls.posBally = balls[0].mySprite.position.y;
                 Ping.onlineBalls.velBallx = balls[0].mySprite.body.velocity.x;
@@ -565,29 +573,66 @@ Ping.levelState.prototype = {
                 Ping.estadoOnline.powerId = -1;
                 Ping.estadoOnline.spawn = 0;
                 updateBall(Ping.onlineBalls);
-                console.log("Casi updateadno estado###################################");
                 updateEstado(Ping.estadoOnline);
-                console.log("Epdate estado###################################");
-            }
-            
-            Ping.otherPlayer = {
+            }*/
+            //Estructura de datos para el oponente
+            /*Ping.otherPlayer = {
                 id: op,
                 y: 0 
-            }
-        
-            if(Ping.player.id === 1){
+            }*/
+            //Se le asignan datos a la estructura de datos y se suben al servidor
+            /*if(Ping.player.id === 1){
                 Ping.otherPlayer.y =  pjs[1].mySprite.position.y;
             } else {
                 Ping.otherPlayer.y =  pjs[0].mySprite.position.y;
-            }
-            updatePlayer(Ping.otherPlayer);
+            }*/
+            //updatePlayer(Ping.otherPlayer);
         }
+        
     },
 
     update: function () {
-        
+        data = {
+                type: 'GET_PLAYER',
+                id: 1
+            }
+            ws.send(JSON.stringify(data))
+            console.log("get player 1");
+        data = {
+                type: 'GET_PLAYER',
+                id: 2
+            }
+            ws.send(JSON.stringify(data))
+            console.log("get player 2");
+        ws.onmessage = function (message) {
+
+            var msg = JSON.parse(message.data)
+
+            console.log('INFO RECIBIDA ' + msg.type)
+
+            switch (msg.type) {
+                case "GIVE_PLAYER":
+                    if(ID===1){
+                        if(msg.player.id!==1){
+                            pjs[1].id=msg.player.id;
+                            pjs[1].mySprite.position.y=msg.player.y;
+                            console.log("give player 2" + pjs[1].mySprite.position.y);
+                        }
+                    }else{
+                        if(msg.player.id===1){
+                            pjs[0].id=msg.player.id;
+                            pjs[0].mySprite.position.y=msg.player.y;
+                            console.log("REcibe: "+ msg.player.y);
+                            console.log("give player 1" + pjs[0].mySprite.position.y);
+                        }
+                    }
+                        
+                    break;
+                
+            }
+        }
         //Actualizamos posicion del otro jugador y puntuacion
-        getPlayer(function(oPlayer){
+        /*getPlayer(function(oPlayer){
             if(Ping.otherPlayer.id === 1){
                 pjs[0].mySprite.position.y = oPlayer.y;
                 Ping.otherPlayer.y = oPlayer.y;
@@ -596,10 +641,10 @@ Ping.levelState.prototype = {
                  pjs[1].mySprite.position.y = oPlayer.y;
                 Ping.otherPlayer.y = oPlayer.y;
             }
-        },Ping.otherPlayer.id);
+        },Ping.otherPlayer.id);*/
 
         //El jugador 2 obtiene la posicion de la bola
-        getBall(function(oBall){
+        /*getBall(function(oBall){
             if(Ping.player.id === 1){  
             } else {
                 balls[0].mySprite.position.x = oBall.posBallx;
@@ -607,12 +652,11 @@ Ping.levelState.prototype = {
                 balls[0].mySprite.body.velocity.x = oBall.velBallx;
                 balls[0].mySprite.body.velocity.y = oBall.velBally;
             }
-        },1);
-    	
-        if(resetear===1)
-        	console.log("###################################################################################"+ resetear);
-    	//El jugador 1 obtiene el partes del estado del servidor
-        getEstado(function(oEstado){
+        },1);*/
+        
+        //El jugador 1 obtiene el partes del estado del servidor
+        //El jugador 2 obtiene todo el estado del servidor
+        /*getEstado(function(oEstado){
             if(Ping.player.id === 1){  
                 resetear = oEstado.resetOnline;
                 spawn2 = oEstado.spawn;                 
@@ -629,28 +673,31 @@ Ping.levelState.prototype = {
                 spawn2 = oEstado.spawn;
                 
             }
-        },1);
-        if(resetear===1)
-        	console.log("###################################################################################"+ resetear);
+        },1);*/
+        //llamamos al update de nuestros jugadores/ Mover jugadores
+        
+        pjs[0].handleEvents();
+        pjs[1].handleEvents();
+
         //Se comprueba si hay un ganador
         comprobarGanador();
 
         //Movimiento del fondo
         background.tilePosition.x += 0.25;
-        
-        if(Ping.player.id !== 1){
-        	if(spawn2===1){
-	            spawnPowerUpPlayer2();
-        	}
-        	if(resetear===1){
-	            reset();
-            	resetear=0;
-        	}
-        }
+        //Comprobar si el jugador 2 tiene que spawnear otro power up o si tiene que resetear
+        /*if(Ping.player.id !== 1){
+            if(spawn2===1){
+                spawnPowerUpPlayer2();
+            }
+            if(resetear===1){
+                reset();
+                resetear=0;
+            }
+        }*/
 
         //El jugador 1 revisa las colisiones con raquetas y bordes 
-        if(Ping.player.id ===1)
-        	reviewCollisions();
+        //if(Ping.player.id ===1)
+            reviewCollisions();
 
         //Ambos revisan la colision con los powerups
         reviewPowerUps();
@@ -665,31 +712,39 @@ Ping.levelState.prototype = {
         //Actualizar Particulas
         updateParticles();
         
-        //llamamos al update de nuestros jugadores/ Mover jugadores
         
-        pjs[0].handleEvents();
-        pjs[1].handleEvents();
                        
 
-        /*if(powerUpId != -1 && spawn2===1){
-            powerUps.push(new powerUp(powerUpId, powerPosX, powerPosY));
-            spawn2 = 0;
-            if(Ping.player.id !== 1)
-                spawn2=1;
-        }*/
-        
-
         //Subir la posicion de los jugadores
-        if(Ping.player.id === 1){
+        /*if(Ping.player.id === 1){
             Ping.player.y =  pjs[0].mySprite.position.y;
         } else {
             Ping.player.y =  pjs[1].mySprite.position.y;
         }
-        updatePlayer(Ping.player);
-        if(resetear===1)
-        	console.log("###################################################################################"+ resetear);
+        updatePlayer(Ping.player);*/
+        if(ID===1){
+           data = {
+                type: 'UPDATE_PLAYER',
+                id: 1,
+                y: pjs[0].mySprite.position.y
+            }
+            ws.send(JSON.stringify(data))
+            console.log("send player 1" + pjs[0].mySprite.position.y); 
+        } else{
+            data = {
+                type: 'UPDATE_PLAYER',
+                id: 2,
+                y: pjs[1].mySprite.position.y
+            }
+            ws.send(JSON.stringify(data))
+            console.log("send player 2");
+        }
+        
+        
+
         //El jugador 1 sube el estado online y la bola
-       if(Ping.player.id === 1){
+        //El jugador sube el estado online
+       /*if(Ping.player.id === 1){
                 Ping.onlineBalls.posBallx = balls[0].mySprite.position.x;
                 Ping.onlineBalls.posBally = balls[0].mySprite.position.y;
                 Ping.onlineBalls.velBallx = balls[0].mySprite.body.velocity.x;
@@ -706,7 +761,7 @@ Ping.levelState.prototype = {
                 updateEstado(Ping.estadoOnline);
                 
         }else{
-        		Ping.estadoOnline.lastTouch = lastTouchId;
+                Ping.estadoOnline.lastTouch = lastTouchId;
                 Ping.estadoOnline.resetOnline = resetear
                 Ping.estadoOnline.punt1 = pjs[0].points;
                 Ping.estadoOnline.punt2 = pjs[1].points;
@@ -715,8 +770,6 @@ Ping.levelState.prototype = {
                 Ping.estadoOnline.powerId = powerUpId;
                 Ping.estadoOnline.spawn = spawn2;
                 updateEstado(Ping.estadoOnline);
-        }
-        if(resetear===1)
-        	console.log("###################################################################################"+ resetear);           
+        } */        
     }
 }

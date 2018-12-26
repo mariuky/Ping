@@ -30,7 +30,7 @@ public class Player {
 	}
 	@Override
 	public String toString() {
-		return "Player [id=" + id + ", y=" + y + ", color=" + color + "]";
+		return "{\"id\":" + id + ",\"y\":" + y + ",\"color\":" + color + "}";
 	}
 	
 }

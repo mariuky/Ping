@@ -48,6 +48,10 @@ public class Ball {
 	public void setVelBally(int velBally) {
 		this.velBally = velBally;
 	}
-	
+	@Override
+	public String toString() {
+		return "{\"id\":" + id + ",\"posBallx\":" + posBallx + ",\"posBally\":" + posBally + ",\"velBallx\":" + velBallx
+				+ ",\"velBally\":" + velBally + "]";
+	}
 	
 }

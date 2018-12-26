@@ -19,7 +19,7 @@ Ping.preloadState.prototype = {
         game.load.image('textoColor', 'assets/images/color_texto.png');
         game.load.image('nombres', 'assets/images/nombres_creditos.png');
         game.load.image('titulo', 'assets/images/titulo_menu.png');
-        game.load.image('raqueta', 'assets/images/raqueta.png');
+        game.load.image('raqueta', 'assets/images/raqueta1.png');
         game.load.image('raquetaBlue', 'assets/images/raqueta_azul.png');
         game.load.image('raquetaYellow', 'assets/images/raqueta_amarilla.png');
         game.load.image('raquetaRed', 'assets/images/raqueta_roja.png');
