@@ -46,12 +46,6 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 			case "CREATE_PLAYER":
 				
 					Player player = gameController.newPlayer();
-/*
-					ObjectNode jsonPlayer = mapper.createObjectNode();
-					jsonPlayer.put("id", player.getId());
-					jsonPlayer.put("y", player.getY());
-					jsonPlayer.put("color", player.getColor());*/
-					
 					if (gameController.numberPlayers() == 2) {
 						jsonSend.put("type", "JUGAR");
 					}else {
@@ -60,52 +54,65 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 					
 					jsonSend.putPOJO("player", player);
 					System.out.println("Jugador creado: " + session.getId());
-					
-				
-					
-				
 				break;
+			
 			case "UPDATE_PLAYER":
 				gameController.updatePlayer(nodeGet.get("id").asLong(), nodeGet.get("y").asInt());
+				jsonSend.put("type", "UPDATED_PLAYER");
 				break;
+			
 			case "GET_PLAYER":
 				Player savedPlayer = gameController.getPlayer(nodeGet.get("id").asLong());
+				
 				jsonSend.put("type", "GIVE_PLAYER");
 				jsonSend.putPOJO("player", savedPlayer);
 				break;
+			
 			case "CREATE_ESTADO":
 				Estado estado = gameController.newEstado();
-				
-				/*ObjectNode jsonEstado = mapper.createObjectNode();
-				jsonEstado.put("id", estado.getId());
-				jsonEstado.put("lastTouch", estado.getLastTouch());
-				jsonEstado.put("resetOnline", estado.getResetOnline());
-				jsonEstado.put("punt1", estado.getPunt1());
-				jsonEstado.put("punt2", estado.getPunt2());
-				jsonEstado.put("powerId", estado.getPowerId());
-				jsonEstado.put("powerY", estado.getPowerY());
-				jsonEstado.put("powerX", estado.getPowerX());
-				jsonEstado.put("spawn", estado.getSpawn());*/
-				
-				jsonSend.put("type", "ESTADO_CREATED");
-				jsonSend.putPOJO("estado", estado);
-				
+				jsonSend.put("type", "CREATED_ESTADO");
 				break;
+			
+			case "UPDATE_ESTADO":
+				System.out.println("Estado updateado");
+				System.out.println("Estado updateado: "+ nodeGet.get("punt2").asInt());
+				System.out.println("Estado updateado: "+ nodeGet.get("punt1").asInt());
+				gameController.updateEstado(nodeGet.get("id").asLong(), 
+						nodeGet.get("lastTouch").asInt(), nodeGet.get("resetOnline").asInt(), 
+						nodeGet.get("punt1").asInt(), nodeGet.get("punt2").asInt(), 
+						nodeGet.get("powerId").asInt(), nodeGet.get("powerY").asInt(), 
+						nodeGet.get("powerX").asInt(), nodeGet.get("spawn").asInt());
+				System.out.println("Ha llamado a la funcion");
+				jsonSend.put("type", "UPDATED_ESTADO");
+				break;
+			
+			case "GET_ESTADO":
+				Estado savedEstado = gameController.getEstado(nodeGet.get("id").asLong());
+				
+				jsonSend.put("type", "GIVE_ESTADO");
+				jsonSend.putPOJO("estado", savedEstado);
+				break;
+			
+				
 			case "CREATE_BALL":
 				Ball ball = gameController.newBall();
-				/*ObjectNode jsonBall = mapper.createObjectNode();
-
-				jsonBall.put("id", ball.getId());
-				jsonBall.put("posBallx", ball.getPosBallx());
-				jsonBall.put("posBally", ball.getPosBally());
-				jsonBall.put("velBallx", ball.getVelBallx());
-				jsonBall.put("velBally", ball.getVelBally());*/
-				
-				jsonSend.put("type", "BALL_CREATED");
-				jsonSend.putPOJO("ball", ball);
+				jsonSend.put("type", "CREATED_BALL");
 				
 				break;
-
+				
+			case "UPDATE_BALL":
+				gameController.updateBall(nodeGet.get("id").asLong(), 
+						nodeGet.get("posBallx").asInt(), nodeGet.get("posBally").asInt(), 
+						nodeGet.get("velBallx").asInt(), nodeGet.get("velBally").asInt());
+				jsonSend.put("type", "UPDATED_BALL");
+				break;
+			
+			case "GET_BALL":
+				Ball savedBall = gameController.getBall(nodeGet.get("id").asLong());
+				
+				jsonSend.put("type", "GIVE_BALL");
+				jsonSend.putPOJO("ball", savedBall);
+				break;
 			default:
 				break;
 			}

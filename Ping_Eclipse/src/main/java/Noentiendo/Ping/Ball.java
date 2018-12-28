@@ -51,7 +51,7 @@ public class Ball {
 	@Override
 	public String toString() {
 		return "{\"id\":" + id + ",\"posBallx\":" + posBallx + ",\"posBally\":" + posBally + ",\"velBallx\":" + velBallx
-				+ ",\"velBally\":" + velBally + "]";
+				+ ",\"velBally\":" + velBally + "}";
 	}
 	
 }

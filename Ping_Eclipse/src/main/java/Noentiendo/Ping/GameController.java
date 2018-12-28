@@ -25,6 +25,7 @@ public class GameController {
 		player.setY(300);
 		player.setColor(0);
 		players.put(player.getId(), player);
+		System.out.println("Ha entrado a la funcion");
 		return player;
 	}
 	
@@ -67,13 +68,17 @@ public class GameController {
 	}
 	
 	
-	
-	public void updateBall(long id,Ball ballUpdated) {
+	public void updateBall(long id, int posBallx, int posBally, 
+			int velBallx, int velBally) {
 
-		Ball savedball = balls.get(ballUpdated.getId());
+		Ball savedball = balls.get(id);
+		savedball.setPosBallx(posBallx);
+		savedball.setPosBally(posBally);
+		savedball.setVelBallx(velBallx);
+		savedball.setVelBally(velBally);
 
 		if (savedball != null)
-			balls.put(id, ballUpdated);
+			balls.put(id, savedball);
 	}
 	
 	public void deleteBall(long id) {
@@ -103,13 +108,24 @@ public class GameController {
 				return savedEstado;
 	}
 	
-	
-	public void updateEstado(long id, Estado estadoUpdated) {
-		
-		Estado savedEstado = estados.get(estadoUpdated.getId());
+	public void updateEstado(long id, int lastTouch, int resetOnline,
+			int punt1, int punt2, 
+			int powerId, int powerY, 
+			int powerX, int spawn) {
+		System.out.println("Ha entrado a la funcion");
+		Estado savedEstado = estados.get(id);
+		savedEstado.setLastTouch(lastTouch);
+		savedEstado.setResetOnline(resetOnline);
+		savedEstado.setPunt1(punt1);
+		savedEstado.setPunt2(punt2);
+		savedEstado.setPowerId(powerId);
+		savedEstado.setPowerY(powerY);
+		savedEstado.setPowerX(powerX);
+		savedEstado.setSpawn(spawn);
+		System.out.println("Ha hecho la funcion");
 		
 		if (savedEstado != null)
-			estados.put(id, estadoUpdated);
+			estados.put(id, savedEstado);
 	}
 	
 	public void deleteEstado(long id) {

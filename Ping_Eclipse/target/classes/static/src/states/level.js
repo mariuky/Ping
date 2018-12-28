@@ -34,8 +34,8 @@ var sounds;
 var winner;
 //Posiciones y que power up
 var powerUpId=-1;
-var powerPosX;
-var powerPosY;
+var powerPosX=-1;
+var powerPosY=-1;
 //Para saber cuando spawnea un power up en el jugador 2
 var spawn2=0;
 
@@ -372,11 +372,20 @@ spawnPowerUp = function () {
         powerPosY = game.rnd.integerInRange(150, 350);
         powerUps.push(new powerUp(powerUpId, powerPosX, powerPosY));
         spawn2= 1;
-        Ping.estadoOnline.powerId = powerUpId;
-        Ping.estadoOnline.powerX = powerPosX;
-        Ping.estadoOnline.powerY = powerPosY;
-        Ping.estadoOnline.spawn = spawn2;
-        updateEstado(Ping.estadoOnline);
+        console.log("Cosas de cosear mazo1@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        data = {
+                type: 'UPDATE_ESTADO',
+                id: 1,
+                lastTouch: lastTouchId,
+                resetOnline: resetear,
+                punt1: pjs[0].points,
+                punt2: pjs[1].points,
+                powerId: powerUpId,
+                powerY: powerPosY,
+                powerX: powerPosX,
+                spawn: spawn2
+            }
+        ws.send(JSON.stringify(data))
 
     }
 }
@@ -389,7 +398,7 @@ spawnPowerUpPlayer2 = function () {
 
 //Resetea el juego. Lleva la bola al centro y la para. Borrar los diferentes powerups
 function reset() {
-    if(Ping.player.id===1){
+    if(ID===1){
         resetear=1;
     }
     cualBola = 0;
@@ -433,22 +442,27 @@ function comprobarGanador() {
         else if (pjs[1].points == 10) {
             winner = 2;
         }
-        Ping.estadoOnline.lastTouch = lastTouchId;
-        Ping.estadoOnline.resetOnline = resetear
-        Ping.estadoOnline.punt1 = pjs[0].points;
-        Ping.estadoOnline.punt2 = pjs[1].points;
-        Ping.estadoOnline.powerX = powerPosX;
-        Ping.estadoOnline.powerY = powerPosY;
-        Ping.estadoOnline.powerId = powerUpId;
-        Ping.estadoOnline.spawn = spawn2;
-        updateEstado(Ping.estadoOnline);
+        console.log("Cosas de cosear mazo2@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        data = {
+                type: 'UPDATE_ESTADO',
+                id: 1,
+                lastTouch: lastTouchId,
+                resetOnline: resetear,
+                punt1: pjs[0].points,
+                punt2: pjs[1].points,
+                powerId: powerUpId,
+                powerY: powerPosY,
+                powerX: powerPosX,
+                spawn: spawn2
+            }
+        ws.send(JSON.stringify(data))
         game.state.start('endingState');
     }
 }
 //Se pone de nuevo en movimiento la bola
 function go(){
     direccAleatoria();
-    balls[0].mySprite.body.velocity.setTo(0, game.rnd.integerInRange(0, 0))
+    balls[0].mySprite.body.velocity.setTo(150, game.rnd.integerInRange(-270, 270));
 }
 
 //Se calcula aleatoriamente la dirección en x de la velocidad de la bola al principio de cada punto
@@ -532,6 +546,14 @@ Ping.levelState.prototype = {
 
             //El jugador 1 crea en el servidor una bola y un estado
             addBall();
+            data = {
+                type: 'CREATE_ESTADO'
+            }
+            ws.send(JSON.stringify(data))
+            data = {
+                type: 'CREATE_BALL'
+            }
+            ws.send(JSON.stringify(data))
 //##################################################################################################################################################################
 
             //añadimos las porterias
@@ -542,11 +564,11 @@ Ping.levelState.prototype = {
 
             pj1_puntos = game.add.text(35, 20, pjs[0].points, style);
             pj2_puntos = game.add.text(750, 20, pjs[1].points, style);
-
-            game.time.events.add(Phaser.Timer.SECOND * 3, go, this);
+            if(ID===1)
+                game.time.events.add(Phaser.Timer.SECOND * 3, go, this);
 
             //Loop que crea cada cierto tiempo un power up
-              //game.time.events.loop(Phaser.Timer.SECOND * game.rnd.integerInRange(7, 15), spawnPowerUp, this);
+              game.time.events.loop(Phaser.Timer.SECOND * game.rnd.integerInRange(7, 15), spawnPowerUp, this);
             
 
             //Se asignan datos a la estructura de datos
@@ -597,13 +619,22 @@ Ping.levelState.prototype = {
                 id: 1
             }
             ws.send(JSON.stringify(data))
-            console.log("get player 1");
+        
         data = {
                 type: 'GET_PLAYER',
                 id: 2
             }
             ws.send(JSON.stringify(data))
-            console.log("get player 2");
+        data = {
+                type: 'GET_BALL',
+                id: 1
+            }
+            ws.send(JSON.stringify(data))
+        data = {
+                type: 'GET_ESTADO',
+                id: 1
+            }
+            ws.send(JSON.stringify(data))
         ws.onmessage = function (message) {
 
             var msg = JSON.parse(message.data)
@@ -616,17 +647,37 @@ Ping.levelState.prototype = {
                         if(msg.player.id!==1){
                             pjs[1].id=msg.player.id;
                             pjs[1].mySprite.position.y=msg.player.y;
-                            console.log("give player 2" + pjs[1].mySprite.position.y);
                         }
                     }else{
                         if(msg.player.id===1){
                             pjs[0].id=msg.player.id;
                             pjs[0].mySprite.position.y=msg.player.y;
-                            console.log("REcibe: "+ msg.player.y);
-                            console.log("give player 1" + pjs[0].mySprite.position.y);
                         }
                     }
                         
+                    break;
+                case "GIVE_ESTADO":
+                    if(ID===1){
+                        resetear=msg.estado.resetOnline;
+                        spawn2 = msg.estado.spawn;
+                    }else{
+                        lastTouchId=msg.estado.lastTouch;
+                        resetear=msg.estado.resetOnline;
+                        pjs[0].points= msg.estado.punt1;
+                        pjs[1].points= msg.estado.punt2;
+                        powerPosX = msg.estado.powerX;
+                        powerPosY = msg.estado.powerY;;
+                        powerUpId = msg.estado.powerId;;
+                        spawn2 = msg.estado.spawn;
+                    }
+                    break;
+                case "GIVE_BALL":
+                    if(ID!==1){
+                        balls[0].mySprite.position.x = msg.ball.posBallx;
+                        balls[0].mySprite.position.y = msg.ball.posBally;
+                        balls[0].mySprite.body.velocity.x = msg.ball.velBallx;
+                        balls[0].mySprite.body.velocity.y = msg.ball.velBally;
+                    }
                     break;
                 
             }
@@ -684,8 +735,9 @@ Ping.levelState.prototype = {
 
         //Movimiento del fondo
         background.tilePosition.x += 0.25;
+        
         //Comprobar si el jugador 2 tiene que spawnear otro power up o si tiene que resetear
-        /*if(Ping.player.id !== 1){
+        if(ID !== 1){
             if(spawn2===1){
                 spawnPowerUpPlayer2();
             }
@@ -693,10 +745,10 @@ Ping.levelState.prototype = {
                 reset();
                 resetear=0;
             }
-        }*/
+        }
 
         //El jugador 1 revisa las colisiones con raquetas y bordes 
-        //if(Ping.player.id ===1)
+        if(ID ===1)
             reviewCollisions();
 
         //Ambos revisan la colision con los powerups
@@ -729,7 +781,6 @@ Ping.levelState.prototype = {
                 y: pjs[0].mySprite.position.y
             }
             ws.send(JSON.stringify(data))
-            console.log("send player 1" + pjs[0].mySprite.position.y); 
         } else{
             data = {
                 type: 'UPDATE_PLAYER',
@@ -737,13 +788,68 @@ Ping.levelState.prototype = {
                 y: pjs[1].mySprite.position.y
             }
             ws.send(JSON.stringify(data))
-            console.log("send player 2");
         }
         
         
 
         //El jugador 1 sube el estado online y la bola
         //El jugador sube el estado online
+        if(ID===1){
+            /*console.log("Cosas de cosear mazo id1@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            console.log(lastTouchId);
+            console.log(resetear);
+            console.log(pjs[0].points);
+            console.log(pjs[1].points);
+            console.log(powerUpId);
+            console.log(powerPosY);
+            console.log(powerPosX);
+            console.log(spawn2);*/
+            data = {
+                type: 'UPDATE_ESTADO',
+                id: 1,
+                lastTouch: lastTouchId,
+                resetOnline: resetear,
+                punt1: pjs[0].points,
+                punt2: pjs[1].points,
+                powerId: powerUpId,
+                powerY: powerPosY,
+                powerX: powerPosX,
+                spawn: spawn2
+            }
+            ws.send(JSON.stringify(data))
+            data = {
+                type: 'UPDATE_BALL',
+                id: 1,
+                posBallx: balls[0].mySprite.position.x,
+                posBally: balls[0].mySprite.position.y,
+                velBallx: balls[0].mySprite.body.velocity.x,
+                velBally: balls[0].mySprite.body.velocity.y
+            }
+            ws.send(JSON.stringify(data))
+        }else{
+            /*console.log("Cosas de cosear mazo@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            console.log(lastTouchId);
+            console.log(resetear);
+            console.log(pjs[0].points);
+            console.log(pjs[1].points);
+            console.log(powerUpId);
+            console.log(powerPosY);
+            console.log(powerPosX);
+            console.log(spawn2);*/
+            data = {
+                type: 'UPDATE_ESTADO',
+                id: 1,
+                lastTouch: lastTouchId,
+                resetOnline: resetear,
+                punt1: pjs[0].points,
+                punt2: pjs[1].points,
+                powerId: powerUpId,
+                powerY: powerPosY,
+                powerX: powerPosX,
+                spawn: spawn2
+            }
+            ws.send(JSON.stringify(data))
+        }
        /*if(Ping.player.id === 1){
                 Ping.onlineBalls.posBallx = balls[0].mySprite.position.x;
                 Ping.onlineBalls.posBally = balls[0].mySprite.position.y;
