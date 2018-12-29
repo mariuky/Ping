@@ -1,18 +1,27 @@
 package Noentiendo.Ping;
 
-//import java.io.IOException;
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+@SpringBootApplication
+@EnableWebSocket
 public class WebsocketGameHandler extends TextWebSocketHandler {
 
 	private Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
@@ -74,15 +83,12 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 				break;
 			
 			case "UPDATE_ESTADO":
-				System.out.println("Estado updateado");
-				System.out.println("Estado updateado: "+ nodeGet.get("punt2").asInt());
-				System.out.println("Estado updateado: "+ nodeGet.get("punt1").asInt());
+				
 				gameController.updateEstado(nodeGet.get("id").asLong(), 
 						nodeGet.get("lastTouch").asInt(), nodeGet.get("resetOnline").asInt(), 
 						nodeGet.get("punt1").asInt(), nodeGet.get("punt2").asInt(), 
 						nodeGet.get("powerId").asInt(), nodeGet.get("powerY").asInt(), 
 						nodeGet.get("powerX").asInt(), nodeGet.get("spawn").asInt());
-				System.out.println("Ha llamado a la funcion");
 				jsonSend.put("type", "UPDATED_ESTADO");
 				break;
 			
@@ -117,7 +123,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 				break;
 			}
 			for(WebSocketSession participant : sessions.values()) {
-			
+				
 					participant.sendMessage(new TextMessage(jsonSend.toString()));
 					System.out.println("Mensaje enviado a: " + session.getId());
 				

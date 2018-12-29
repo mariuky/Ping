@@ -25,7 +25,6 @@ public class GameController {
 		player.setY(300);
 		player.setColor(0);
 		players.put(player.getId(), player);
-		System.out.println("Ha entrado a la funcion");
 		return player;
 	}
 	
@@ -112,7 +111,6 @@ public class GameController {
 			int punt1, int punt2, 
 			int powerId, int powerY, 
 			int powerX, int spawn) {
-		System.out.println("Ha entrado a la funcion");
 		Estado savedEstado = estados.get(id);
 		savedEstado.setLastTouch(lastTouch);
 		savedEstado.setResetOnline(resetOnline);
@@ -122,7 +120,6 @@ public class GameController {
 		savedEstado.setPowerY(powerY);
 		savedEstado.setPowerX(powerX);
 		savedEstado.setSpawn(spawn);
-		System.out.println("Ha hecho la funcion");
 		
 		if (savedEstado != null)
 			estados.put(id, savedEstado);

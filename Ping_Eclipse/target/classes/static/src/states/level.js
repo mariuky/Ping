@@ -63,10 +63,10 @@ function powerUp(_id, powerX, powerY) {
     //Para saber si hay algun power up activo
     this.active = false;
     this.id = _id;
-    if (this.id == 0){
+    if (this.id == 0){//Power up 0: dobla tamaño vertical del jugador que lo coge
         this.mySprite = game.add.sprite(powerX, powerY, 'powerUp0');
     }
-    else if (this.id == 1){
+    else if (this.id == 1){//Power up 1: disminuye verticalmente a la mitad al jugador contrario al que lo coge
         this.mySprite = game.add.sprite(powerX, powerY,  'powerUp1');
     }
     /*else if (this.id == 2){
@@ -568,6 +568,7 @@ Ping.levelState.prototype = {
                 game.time.events.add(Phaser.Timer.SECOND * 3, go, this);
 
             //Loop que crea cada cierto tiempo un power up
+            if(ID===1)
               game.time.events.loop(Phaser.Timer.SECOND * game.rnd.integerInRange(7, 15), spawnPowerUp, this);
             
 

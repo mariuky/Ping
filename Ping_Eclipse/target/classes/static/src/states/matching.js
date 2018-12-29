@@ -27,7 +27,7 @@ Ping.matchingState.prototype = {
         spr_text = game.add.text(game.world.centerX-100, 50, text, style);
         
         
-        ws = new WebSocket('ws://192.168.1.128:8080/ping');
+        ws = new WebSocket('ws://' + window.location.host + '/ping');
         console.log('Ha entrado a cosas')
         
         console.log('Paso1')
