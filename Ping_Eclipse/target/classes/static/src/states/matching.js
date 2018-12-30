@@ -22,9 +22,18 @@ Ping.matchingState.prototype = {
     // ya que this.getNumPlayers puede haberse ejecutado en su totalidad (a falta del DONE) y Phaser
     // sigue con la ejecución de PRELOAD y de CREATE. ¡¡¡ Esa es una de las claves.!!!
     create: function () {
-        text = "Esperando jugadores..\nJugadores en lobby: 1"
+        background = game.add.tileSprite(0, 0, 800, 600, 'fondo');
+        textoEsperando = game.add.sprite(50, 20, 'textoEsperando');
+        //Se crea la animación para la sala de espera
+        this.esperando = this.add.sprite(400, 350, 'esperando');
+        this.esperando.anchor.set(0.5, 0.5);
+        this.esperando.scale.setTo(0.8, 0.8);
+        this.esperando.animations.add('espera');
+        this.esperando.animations.play('espera', 3, true);
+
+        /*text = "Esperando jugadores..\nJugadores en lobby: 1"
         style = { font: "20px Times New Roman", fill: "#FFFFFF", align: "center" };
-        spr_text = game.add.text(game.world.centerX-100, 50, text, style);
+        spr_text = game.add.text(game.world.centerX-100, 50, text, style);*/
         
         
         ws = new WebSocket('ws://' + window.location.host + '/ping');
@@ -50,6 +59,7 @@ Ping.matchingState.prototype = {
     // que antes de haber comprobado si más de 1 jugador ya conectado, llega aquí y te dice que hay ya 2.
     // Por eso el comprobador de >1 y que en el MENÚ revise si hay un jugador sobrante creado para eliminar.
     update: function () {
+       background.tilePosition.x += 1;
        console.log('update')
     ws.onopen = function (event) {
             data = {

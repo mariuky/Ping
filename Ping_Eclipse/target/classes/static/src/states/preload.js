@@ -16,6 +16,7 @@ Ping.preloadState.prototype = {
         //Se cargan los demás assets
         game.load.image('textoGanador', 'assets/images/ganador_texto.png');
         game.load.image('textoGanador2', 'assets/images/ganador_.png');
+        game.load.image('textoEsperando', 'assets/images/esperando_texto.png');
         game.load.image('textoColor', 'assets/images/color_texto.png');
         game.load.image('nombres', 'assets/images/nombres_creditos.png');
         game.load.image('titulo', 'assets/images/titulo_menu.png');
@@ -33,6 +34,7 @@ Ping.preloadState.prototype = {
         game.load.image('powerUp3', 'assets/images/PWUP_velocidadBola.png');
         game.load.image('powerUp4', 'assets/images/PWUP_cambioDireccion.png');
         game.load.image('powerUp5', 'assets/images/PWUP_escudo.png');
+        game.load.spritesheet('esperando', 'assets/images/esperandoJugador_spritesheet.png', 601, 300, 4);
         game.load.spritesheet('countdown', 'assets/images/countdown_spritesheet.png', 200, 200);
         game.load.spritesheet('jugar', 'assets/images/jugar_spritesheet.png', 300, 71);
         game.load.spritesheet('creditos', 'assets/images/creditos_spritesheet.png', 300, 71);
