@@ -3,7 +3,7 @@ package Noentiendo.Ping;
 
 public class Ball {
 	private long id;
-	
+	//clase bola con posicion y velocidad
 
 	private int posBallx, posBally;
 	private int velBallx, velBally;

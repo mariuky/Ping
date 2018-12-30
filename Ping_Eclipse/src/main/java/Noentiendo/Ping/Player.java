@@ -4,7 +4,7 @@ public class Player {
 	private long id;
 	private int y;
 	private int color;
-	
+	//clase jugador con id,color de la pala y posicion Y.
 	Player() {
 		
 	}

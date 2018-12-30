@@ -111,12 +111,7 @@ powerUp.prototype.activate = function () {
         //desactivar a los 15 segundos
         game.time.events.add(Phaser.Timer.SECOND * 15, this.deActivate, this);
     }
-    /*if (this.id == 2) { //Power up 2: añade una segunda bola al escenario
-        addBall();
-        velocidadx = balls[cualBola].mySprite.body.velocity.x;
-        velocidady = balls[cualBola].mySprite.body.velocity.y;
-        balls[balls.length - 1].mySprite.body.velocity.setTo(velocidadx, velocidady);
-    }*/
+    
     if (this.id == 2) { //Power up 3: la(s) bola(s) va(n) el doble de rápido
         if (balls[cualBola].fastball == false) {
             balls[cualBola].fastball = true;
@@ -372,7 +367,6 @@ spawnPowerUp = function () {
         powerPosY = game.rnd.integerInRange(150, 350);
         powerUps.push(new powerUp(powerUpId, powerPosX, powerPosY));
         spawn2= 1;
-        console.log("Cosas de cosear mazo1@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         data = {
                 type: 'UPDATE_ESTADO',
                 id: 1,
@@ -442,7 +436,6 @@ function comprobarGanador() {
         else if (pjs[1].points == 10) {
             winner = 2;
         }
-        console.log("Cosas de cosear mazo2@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         data = {
                 type: 'UPDATE_ESTADO',
                 id: 1,
@@ -484,7 +477,6 @@ Ping.levelState = function (game) {
 
 Ping.levelState.prototype = {
     init: function() {
-        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@2 ENTRO A LEVEL STATE");
         console.log(ID);
        
     },
@@ -570,51 +562,13 @@ Ping.levelState.prototype = {
             //Loop que crea cada cierto tiempo un power up
             if(ID===1)
               game.time.events.loop(Phaser.Timer.SECOND * game.rnd.integerInRange(7, 15), spawnPowerUp, this);
-            
-
-            //Se asignan datos a la estructura de datos
-            /*var op;
-            if(Ping.player.id === 1){
-                Ping.player.y = pjs[0].mySprite.position.y;
-                op = 2;
-            } else {
-                Ping.player.y = pjs[1].mySprite.position.y;
-                op = 1;
-            }*/
-            //Se asignan los datos a las estructutras de datos de la bola y el estado y se suben al servidor @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            /*if(Ping.player.id === 1){
-                Ping.onlineBalls.posBallx = balls[0].mySprite.position.x;
-                Ping.onlineBalls.posBally = balls[0].mySprite.position.y;
-                Ping.onlineBalls.velBallx = balls[0].mySprite.body.velocity.x;
-                Ping.onlineBalls.velBally = balls[0].mySprite.body.velocity.y;
-                Ping.estadoOnline.lastTouch = lastTouchId;
-                Ping.estadoOnline.punt1= pjs[0].points;
-                Ping.estadoOnline.punt2= pjs[1].points;
-                Ping.estadoOnline.resetOnline = 0;
-                Ping.estadoOnline.powerY = 0;
-                Ping.estadoOnline.powerX = 0;
-                Ping.estadoOnline.powerId = -1;
-                Ping.estadoOnline.spawn = 0;
-                updateBall(Ping.onlineBalls);
-                updateEstado(Ping.estadoOnline);
-            }*/
-            //Estructura de datos para el oponente
-            /*Ping.otherPlayer = {
-                id: op,
-                y: 0 
-            }*/
-            //Se le asignan datos a la estructura de datos y se suben al servidor
-            /*if(Ping.player.id === 1){
-                Ping.otherPlayer.y =  pjs[1].mySprite.position.y;
-            } else {
-                Ping.otherPlayer.y =  pjs[0].mySprite.position.y;
-            }*/
-            //updatePlayer(Ping.otherPlayer);
+           
         }
         
     },
 
     update: function () {
+    	//GETs y envios
         data = {
                 type: 'GET_PLAYER',
                 id: 1
@@ -683,49 +637,6 @@ Ping.levelState.prototype = {
                 
             }
         }
-        //Actualizamos posicion del otro jugador y puntuacion
-        /*getPlayer(function(oPlayer){
-            if(Ping.otherPlayer.id === 1){
-                pjs[0].mySprite.position.y = oPlayer.y;
-                Ping.otherPlayer.y = oPlayer.y;
-                
-            } else {
-                 pjs[1].mySprite.position.y = oPlayer.y;
-                Ping.otherPlayer.y = oPlayer.y;
-            }
-        },Ping.otherPlayer.id);*/
-
-        //El jugador 2 obtiene la posicion de la bola
-        /*getBall(function(oBall){
-            if(Ping.player.id === 1){  
-            } else {
-                balls[0].mySprite.position.x = oBall.posBallx;
-                balls[0].mySprite.position.y = oBall.posBally;
-                balls[0].mySprite.body.velocity.x = oBall.velBallx;
-                balls[0].mySprite.body.velocity.y = oBall.velBally;
-            }
-        },1);*/
-        
-        //El jugador 1 obtiene el partes del estado del servidor
-        //El jugador 2 obtiene todo el estado del servidor
-        /*getEstado(function(oEstado){
-            if(Ping.player.id === 1){  
-                resetear = oEstado.resetOnline;
-                spawn2 = oEstado.spawn;                 
-                Ping.estadoOnline.resetOnline = oEstado.resetOnline;
-                Ping.estadoOnline.spawn = oEstado.spawn;
-            } else {
-                lastTouchId = oEstado.lastTouch;
-                resetear = oEstado.resetOnline;
-                pjs[0].points = oEstado.punt1;
-                pjs[1].points = oEstado.punt2;
-                powerPosX = oEstado.powerX;
-                powerPosY = oEstado.powerY;
-                powerUpId = oEstado.powerId;
-                spawn2 = oEstado.spawn;
-                
-            }
-        },1);*/
         //llamamos al update de nuestros jugadores/ Mover jugadores
         
         pjs[0].handleEvents();
@@ -764,17 +675,7 @@ Ping.levelState.prototype = {
 
         //Actualizar Particulas
         updateParticles();
-        
-        
-                       
-
-        //Subir la posicion de los jugadores
-        /*if(Ping.player.id === 1){
-            Ping.player.y =  pjs[0].mySprite.position.y;
-        } else {
-            Ping.player.y =  pjs[1].mySprite.position.y;
-        }
-        updatePlayer(Ping.player);*/
+     
         if(ID===1){
            data = {
                 type: 'UPDATE_PLAYER',
@@ -796,15 +697,7 @@ Ping.levelState.prototype = {
         //El jugador 1 sube el estado online y la bola
         //El jugador sube el estado online
         if(ID===1){
-            /*console.log("Cosas de cosear mazo id1@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-            console.log(lastTouchId);
-            console.log(resetear);
-            console.log(pjs[0].points);
-            console.log(pjs[1].points);
-            console.log(powerUpId);
-            console.log(powerPosY);
-            console.log(powerPosX);
-            console.log(spawn2);*/
+           
             data = {
                 type: 'UPDATE_ESTADO',
                 id: 1,
@@ -828,15 +721,7 @@ Ping.levelState.prototype = {
             }
             ws.send(JSON.stringify(data))
         }else{
-            /*console.log("Cosas de cosear mazo@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            console.log(lastTouchId);
-            console.log(resetear);
-            console.log(pjs[0].points);
-            console.log(pjs[1].points);
-            console.log(powerUpId);
-            console.log(powerPosY);
-            console.log(powerPosX);
-            console.log(spawn2);*/
+           
             data = {
                 type: 'UPDATE_ESTADO',
                 id: 1,
@@ -851,32 +736,6 @@ Ping.levelState.prototype = {
             }
             ws.send(JSON.stringify(data))
         }
-       /*if(Ping.player.id === 1){
-                Ping.onlineBalls.posBallx = balls[0].mySprite.position.x;
-                Ping.onlineBalls.posBally = balls[0].mySprite.position.y;
-                Ping.onlineBalls.velBallx = balls[0].mySprite.body.velocity.x;
-                Ping.onlineBalls.velBally = balls[0].mySprite.body.velocity.y;
-                Ping.estadoOnline.lastTouch = lastTouchId;
-                Ping.estadoOnline.punt1= pjs[0].points;
-                Ping.estadoOnline.punt2= pjs[1].points;
-                Ping.estadoOnline.resetOnline = resetear;
-                Ping.estadoOnline.powerX = powerPosX;
-                Ping.estadoOnline.powerY = powerPosY;
-                Ping.estadoOnline.powerId = powerUpId;
-                Ping.estadoOnline.spawn = spawn2;
-                updateBall(Ping.onlineBalls);
-                updateEstado(Ping.estadoOnline);
-                
-        }else{
-                Ping.estadoOnline.lastTouch = lastTouchId;
-                Ping.estadoOnline.resetOnline = resetear
-                Ping.estadoOnline.punt1 = pjs[0].points;
-                Ping.estadoOnline.punt2 = pjs[1].points;
-                Ping.estadoOnline.powerX = powerPosX;
-                Ping.estadoOnline.powerY = powerPosY;
-                Ping.estadoOnline.powerId = powerUpId;
-                Ping.estadoOnline.spawn = spawn2;
-                updateEstado(Ping.estadoOnline);
-        } */        
+      
     }
 }

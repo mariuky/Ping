@@ -2,7 +2,7 @@ package Noentiendo.Ping;
 
 public class Estado {
 	private long id;
-	
+	//Estado donde guardamos puntuaciones, powerups activos en jugadores y variables de reset y ultimo jugador en tocar la bola
 
 	private int lastTouch;
 	private int resetOnline;

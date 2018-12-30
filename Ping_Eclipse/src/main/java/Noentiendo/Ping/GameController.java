@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class GameController {
-	
+	//Controlador de los jugadores (posicion e id) y la bola (posicion e id porque podemos crear varias)
 	Map<Long, Player> players = new ConcurrentHashMap<>();
 	Map<Long, Ball> balls = new ConcurrentHashMap<>(); 
 	Map<Long, Estado> estados = new ConcurrentHashMap<>(); 
